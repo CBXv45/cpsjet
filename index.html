@@ -187,6 +187,7 @@
             <h2 style="color:var(--primary); font-family:var(--font-head); margin:0;">GAMER LOGIN</h2>
             <p style="color:#666; margin-top:10px;">Skorlarını kaydetmek ve sıralamaya girmek için.</p>
             <input type="text" class="modal-input" id="inp-username" placeholder="KULLANICI ADI">
+            <input type="password" class="modal-input" id="inp-password" placeholder="ŞİFRE">
             <button class="btn-submit" onclick="Core.Auth.login()">SİSTEME GİRİŞ YAP</button>
         </div>
     </div>
@@ -503,7 +504,19 @@
                 },
                 login() {
                     const n = document.getElementById('inp-username').value;
-                    if(n) { const u = {n:n, r:'PRO'}; localStorage.setItem('cps_u7', JSON.stringify(u)); this.load(u); Core.UI.closeModal('modal-login'); }
+                    const p = document.getElementById('inp-password').value;
+                    const dogruSifre = "cpsjet"; // ŞİFRE BURADA BELİRLENİYOR
+
+                    if (n && p === dogruSifre) {
+                        const u = {n: n, r: 'PRO'};
+                        localStorage.setItem('cps_u7', JSON.stringify(u));
+                        this.load(u);
+                        Core.UI.closeModal('modal-login');
+                    } else if (p !== dogruSifre) {
+                        alert("Hatalı şifre girdiniz!");
+                    } else {
+                        alert("Lütfen tüm alanları doldurun.");
+                    }
                 },
                 load(u) {
                     document.getElementById('guest-panel').style.display='none';
@@ -749,18 +762,4 @@
 
     </script>
 </body>
-    <div class="modal-overlay" id="modal-login">
-    <div class="modal-content">
-        <span class="close-modal" onclick="Core.UI.closeModal('modal-login')">&times;</span>
-        <h2 style="color:var(--primary); font-family:var(--font-head); margin:0;">GAMER LOGIN</h2>
-        <p style="color:#666; margin-top:10px;">Skorlarını kaydetmek için giriş yap.</p>
-        
-        <input type="text" class="modal-input" id="inp-username" placeholder="KULLANICI ADI">
-        
-        <input type="password" class="modal-input" id="inp-password" placeholder="ŞİFRE">
-        
-        <button class="btn-submit" onclick="Core.Auth.login()">SİSTEME GİRİŞ YAP</button>
-    </div>
-</div>
 </html>
-
