@@ -7,170 +7,72 @@
     <meta name="google-site-verification" content="HeYiv_G5RkJl8aBzCff4TWIIejDdBZrsMXCVLacUt64" />
 
     <title>CPSJET - Jitter Click & CPS Hız Testi</title>
-    <meta name="description" content="CPSJET ile Jitter Click Testi, Butterfly Click ve CPS hızınızı ölçün. Profesyonel oyuncular için geliştirilmiş en hassas tıklama hızı ve analiz aracı.">
-    <meta name="keywords" content="Jitter Click Test, CPS Testi, Tıklama Hızı Testi, Click Speed Test, Minecraft PvP, Butterfly Click, Drag Click, Mouse Hız Testi, gamer test, mama jet">
+    <meta name="description" content="CPSJET ile Jitter Click Testi, Butterfly Click ve CPS hızınızı ölçün.">
+    <meta name="keywords" content="Jitter Click Test, CPS Testi, Tıklama Hızı Testi, Click Speed Test, Minecraft PvP, Butterfly Click, Drag Click, Mouse Hız Testi">
     <meta name="author" content="Muhammed Hamza Çelik">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* 1. CORE RESET & VARIABLES */
         :root {
-            --primary: #ff8c00; --primary-light: #ffa64d; --primary-dim: #b36200; --primary-glow: rgba(255, 140, 0, 0.4);
-            --secondary: #00e5ff; --secondary-dim: #008c9e;
-            --danger: #ff003c; --success: #00ff9d; --warning: #ffd700; --info: #0099ff;
-            --bg-deep: #050505; --bg-panel: rgba(15, 15, 18, 0.96); --bg-card: rgba(255, 255, 255, 0.02);
+            --primary: #ff8c00; --primary-glow: rgba(255, 140, 0, 0.4);
+            --bg-deep: #050505; --bg-panel: rgba(15, 15, 18, 0.96);
             --border: rgba(255, 255, 255, 0.08);
-            --font-ui: 'Rajdhani', sans-serif; --font-head: 'Orbitron', sans-serif; --font-code: 'Share Tech Mono', monospace;
+            --font-ui: 'Rajdhani', sans-serif; --font-head: 'Orbitron', sans-serif;
             --text-main: #e0e0e0; --text-muted: #888888;
         }
 
-        *, *::before, *::after { box-sizing: border-box; outline: none; user-select: none; -webkit-font-smoothing: antialiased; }
+        *, *::before, *::after { box-sizing: border-box; outline: none; user-select: none; }
         html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: var(--bg-deep); color: var(--text-main); font-family: var(--font-ui); overflow: hidden; display: flex; }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; border-left: 1px solid #222; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; border: 1px solid #000; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
-
-        /* 2. BACKGROUND & ANIMATIONS */
+        
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; }
-        .crt-scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; z-index: 9999; pointer-events: none; opacity: 0.2; }
-        .vignette-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 60%, #000 150%); z-index: 9998; pointer-events: none; }
+        .crt-scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%); background-size: 100% 4px; z-index: 9999; pointer-events: none; opacity: 0.2; }
 
-        /* 3. LAYOUT: SIDEBAR */
-        .sidebar { width: 320px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; backdrop-filter: blur(20px); z-index: 100; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
-        .brand-container { padding: 35px 20px; text-align: center; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, rgba(255,140,0,0.05) 0%, transparent 100%); }
-        .brand-logo { width: 85px; filter: drop-shadow(0 0 15px var(--primary)); transition: 0.4s; cursor: pointer; }
-        .brand-logo:hover { transform: scale(1.1) rotate(-3deg); filter: drop-shadow(0 0 25px var(--primary)); }
-        .brand-name { margin: 15px 0 5px; font-family: var(--font-head); font-size: 28px; font-weight: 900; color: var(--primary); letter-spacing: 4px; text-transform: uppercase; }
-        .brand-version { font-size: 10px; color: #666; letter-spacing: 2px; font-family: var(--font-code); }
+        /* SIDEBAR */
+        .sidebar { width: 320px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; backdrop-filter: blur(20px); z-index: 100; position: relative; }
+        .brand-container { padding: 35px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+        .brand-logo { width: 85px; filter: drop-shadow(0 0 15px var(--primary)); cursor: pointer; transition: 0.4s; }
+        .brand-logo:hover { transform: scale(1.1); }
+        .brand-name { margin: 15px 0 5px; font-family: var(--font-head); font-size: 28px; color: var(--primary); letter-spacing: 4px; text-transform: uppercase; }
 
         .auth-widget { padding: 20px; border-bottom: 1px solid var(--border); }
-        .btn-auth { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-head); font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; }
-        .btn-auth:hover { background: rgba(255,140,0,0.1); box-shadow: 0 0 20px rgba(255,140,0,0.2); color: #fff; border-color: #fff; }
-        .user-profile-card { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        .avatar-circle { width: 45px; height: 45px; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 900; font-size: 22px; border-radius: 8px; box-shadow: 0 0 10px var(--primary-glow); }
-        .user-details h3 { margin: 0; font-size: 16px; color: #fff; font-weight: 700; }
-        .rank-tag { font-size: 10px; color: var(--bg-deep); background: var(--success); padding: 2px 6px; border-radius: 3px; font-weight: 800; display: inline-block; margin-top: 4px; font-family: var(--font-head); }
-        .logout-btn { margin-top: 10px; font-size: 10px; color: #666; text-align: right; cursor: pointer; text-decoration: underline; transition: 0.2s; }
-        .logout-btn:hover { color: var(--danger); }
+        .btn-auth { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-head); cursor: pointer; transition: 0.3s; border-radius: 4px; margin-bottom: 5px; }
+        .btn-auth:hover { background: var(--primary); color: #000; }
+        
+        .user-profile-card { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
+        .avatar-circle { width: 40px; height: 40px; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; border-radius: 50%; }
 
         .nav-scroll { flex: 1; overflow-y: auto; padding: 15px 0; }
-        .nav-group-title { padding: 10px 30px; font-size: 10px; color: #555; font-weight: 800; font-family: var(--font-head); letter-spacing: 1px; margin-top: 10px; }
-        .nav-link { padding: 14px 30px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 15px; font-size: 15px; font-weight: 600; transition: all 0.2s; border-left: 3px solid transparent; text-decoration: none; }
-        .nav-link:hover { background: rgba(255,255,255,0.03); color: #fff; padding-left: 35px; }
-        .nav-link.active { background: linear-gradient(90deg, rgba(255,140,0,0.1), transparent); color: #fff; border-left-color: var(--primary); }
-        .nav-link.active i { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-        .nav-link i { width: 24px; text-align: center; font-size: 16px; }
-        .nav-tag { margin-left: auto; font-size: 9px; padding: 3px 6px; border-radius: 4px; font-weight: 800; font-family: var(--font-head); }
-        .tag-hot { background: var(--danger); color: #fff; } .tag-new { background: var(--secondary); color: #000; } .tag-pro { background: var(--warning); color: #000; }
+        .nav-link { padding: 14px 30px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 15px; text-decoration: none; transition: 0.2s; border-left: 3px solid transparent; }
+        .nav-link:hover, .nav-link.active { background: rgba(255,140,0,0.05); color: #fff; border-left-color: var(--primary); }
 
-        .sidebar-footer { padding: 20px; border-top: 1px solid var(--border); text-align: center; }
-        .server-status { font-family: var(--font-code); font-size: 10px; color: #444; line-height: 1.6; }
-        .status-dot { display: inline-block; width: 6px; height: 6px; background: var(--success); border-radius: 50%; margin-right: 5px; box-shadow: 0 0 5px var(--success); }
-
-        /* 4. MAIN CONTENT */
+        /* MAIN */
         .main-content { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-        .top-header { height: 70px; background: rgba(0,0,0,0.6); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 40px; backdrop-filter: blur(5px); z-index: 50; }
-        .breadcrumbs { font-family: var(--font-code); font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
-        .crumb-active { color: var(--primary); text-shadow: 0 0 10px rgba(255,140,0,0.3); }
-        .header-tools { display: flex; gap: 15px; }
-        .tool-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #aaa; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.02); }
-        .tool-btn:hover { border-color: var(--primary); color: #fff; background: rgba(255,140,0,0.1); transform: translateY(-2px); }
-        
-        .content-scroll { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
-        .tab-panel { display: none; max-width: 1200px; margin: 0 auto; animation: tabFadeIn 0.4s ease-out; padding-bottom: 60px; }
+        .top-header { height: 60px; background: rgba(0,0,0,0.6); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 40px; }
+        .content-scroll { flex: 1; padding: 40px; overflow-y: auto; }
+        .tab-panel { display: none; max-width: 1000px; margin: 0 auto; animation: fadeIn 0.4s; }
         .tab-panel.active { display: block; }
-        @keyframes tabFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 5. GAME UI */
-        .game-intro { text-align: center; margin-bottom: 50px; }
-        .game-title { font-family: var(--font-head); font-size: 48px; color: #fff; margin: 0; font-weight: 900; text-transform: uppercase; background: -webkit-linear-gradient(#fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
-        .game-desc { font-size: 16px; color: #888; margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
-        
-        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 30px; }
-        .dash-card { background: #111; border: 1px solid #333; border-radius: 16px; padding: 30px; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; display: flex; align-items: center; gap: 20px; }
-        .dash-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .dash-card::before { content:''; position:absolute; right:-20px; bottom:-20px; width:100px; height:100px; background:var(--primary); filter:blur(60px); opacity:0.1; transition:0.3s; }
-        .dash-card:hover::before { opacity:0.2; }
-        .card-icon { font-size: 32px; color: var(--primary); }
-        .card-info h3 { margin: 0; font-family: var(--font-head); font-size: 20px; color: #fff; }
-        .card-info p { margin: 5px 0 0; font-size: 13px; color: #666; }
-
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
-        .stat-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 25px; border-radius: 12px; text-align: center; backdrop-filter: blur(5px); }
-        .stat-num { font-family: var(--font-code); font-size: 42px; font-weight: 700; color: #fff; display: block; }
-        .stat-lbl { font-size: 11px; color: var(--primary); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; display: block; }
-
-        /* GAMES STYLES */
-        /* CPS */
-        .cps-time-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .time-btn { background: #111; border: 1px solid #333; color: #666; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: var(--font-code); transition: 0.2s; }
-        .time-btn:hover { color: #fff; border-color: #555; }
-        .time-btn.active { background: var(--primary); color: #000; border-color: var(--primary); font-weight: bold; }
-        #cps-click-area { height: 350px; background: radial-gradient(circle, rgba(255,140,0,0.05) 0%, transparent 60%); border: 2px dashed #444; border-radius: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.1s; position: relative; overflow: hidden; user-select: none; }
-        #cps-click-area:hover { border-color: var(--primary); box-shadow: inset 0 0 50px rgba(255,140,0,0.1); }
-        #cps-click-area:active { transform: scale(0.995); background: rgba(255,140,0,0.15); }
-        .click-prompt { font-family: var(--font-head); font-size: 32px; color: #555; pointer-events: none; }
-        .click-ripple { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.8); transform: scale(0); pointer-events: none; animation: rippleExpand 0.5s linear; }
-        @keyframes rippleExpand { to { transform: scale(5); opacity: 0; } }
-
-        /* AIM */
-        #aim-canvas { height: 500px; background: #080808; border: 1px solid #333; border-radius: 16px; position: relative; cursor: crosshair; overflow: hidden; box-shadow: inset 0 0 50px #000; }
-        .aim-target { position: absolute; width: 50px; height: 50px; background: radial-gradient(circle at 30% 30%, #fff 10%, var(--primary) 50%, #000 100%); border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px var(--primary); cursor: pointer; animation: targetAppear 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; }
-        .aim-target:hover { filter: brightness(1.2); }
-        @keyframes targetAppear { from { transform: scale(0); } to { transform: scale(1); } }
-
-        /* VISUAL */
-        .memory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; max-width: 600px; margin: 0 auto; }
-        .mem-tile { aspect-ratio: 1; background: #222; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
-        .mem-tile:hover { background: #333; }
-        .mem-tile.flash { background: #fff; box-shadow: 0 0 20px #fff; border-color: #fff; }
-        .mem-tile.correct { background: var(--success); }
-        .mem-tile.wrong { background: var(--danger); animation: shake 0.3s; }
-        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
-
-        /* CHIMP */
-        .chimp-field { height: 450px; background: #111; border: 1px solid #333; border-radius: 16px; position: relative; }
-        .chimp-num { position: absolute; width: 50px; height: 50px; background: #eee; color: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; font-family: var(--font-head); cursor: pointer; border: 2px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.2s; }
-        .chimp-num:hover { transform: scale(1.1); }
-        .chimp-num.hidden { background: #fff; color: transparent; }
-        .chimp-num.hidden:hover { background: #ddd; }
-
-        /* TYPING */
-        #typing-box { background: #111; padding: 30px; border-radius: 12px; border: 1px solid #333; font-size: 22px; line-height: 1.8; height: 150px; overflow: hidden; color: #666; margin-bottom: 25px; font-family: var(--font-ui); position: relative; }
-        .t-word { margin-right: 12px; display: inline-block; padding: 2px 4px; border-radius: 4px; }
-        .t-word.current { background: #333; color: #fff; text-decoration: underline; }
-        .t-word.correct { color: var(--success); }
-        .t-word.error { color: var(--danger); text-decoration: line-through; }
-        #typing-input { width: 100%; padding: 20px; background: #000; border: 2px solid #333; color: #fff; font-size: 24px; border-radius: 12px; text-align: center; font-family: var(--font-ui); transition: 0.3s; }
-        #typing-input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(255,140,0,0.1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* MODALS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .modal-content { background: #111; border: 1px solid var(--primary); width: 90%; max-width: 450px; padding: 50px; text-align: center; border-radius: 12px; box-shadow: 0 0 50px rgba(255,140,0,0.2); position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 20px; color: #555; cursor: pointer; font-size: 24px; }
-        .close-modal:hover { color: #fff; }
-        .modal-input { width: 100%; padding: 18px; background: #000; border: 1px solid #333; color: #fff; font-size: 18px; text-align: center; border-radius: 8px; margin: 20px 0; font-family: var(--font-ui); }
-        .modal-input:focus { border-color: var(--primary); }
-        .btn-submit { width: 100%; padding: 18px; background: var(--primary); color: #000; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-head); font-size: 16px; }
-        .btn-submit:hover { filter: brightness(1.1); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .modal-content { background: #111; border: 1px solid var(--primary); width: 90%; max-width: 400px; padding: 40px; text-align: center; border-radius: 12px; position: relative; }
+        .modal-input { width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; margin: 10px 0; }
+        .btn-submit { width: 100%; padding: 15px; background: var(--primary); color: #000; font-weight: 900; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; }
 
-        /* TOAST */
-        #toast-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 11000; display: flex; flex-direction: column; gap: 15px; }
-        .toast { background: #181818; border-left: 4px solid var(--primary); color: #fff; padding: 15px 25px; min-width: 280px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 15px; animation: slideIn 0.3s ease-out; font-family: var(--font-ui); font-size: 14px; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
+        /* GAME UI */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 12px; text-align: center; }
+        .stat-num { font-size: 32px; font-weight: 700; color: #fff; display: block; font-family: 'Share Tech Mono'; }
+        #cps-click-area { height: 300px; border: 2px dashed #444; border-radius: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; color: #555; }
+        
         @media (max-width: 1024px) {
-            body { flex-direction: column; overflow: auto; height: auto; }
-            .sidebar { width: 100%; height: 70px; flex-direction: row; padding: 0 20px; align-items: center; justify-content: space-between; position: fixed; top: 0; }
-            .nav-container, .auth-widget, .sidebar-footer { display: none; }
-            .main-content { margin-top: 70px; min-height: 100vh; }
-            .top-header { display: none; }
-            .donate-row, .stats-bar { grid-template-columns: 1fr; }
+            .sidebar { width: 100%; height: 60px; flex-direction: row; position: fixed; top: 0; }
+            .nav-scroll, .auth-widget { display: none; }
+            .main-content { margin-top: 60px; }
         }
     </style>
 </head>
@@ -178,17 +80,21 @@
 
     <canvas id="matrix-canvas"></canvas>
     <div class="crt-scanlines"></div>
-    <div class="vignette-overlay"></div>
-    <div id="toast-wrapper"></div>
 
-    <div class="modal-overlay" id="modal-login">
+    <div class="modal-overlay" id="modal-auth">
         <div class="modal-content">
-            <span class="close-modal" onclick="Core.UI.closeModal('modal-login')">&times;</span>
-            <h2 style="color:var(--primary); font-family:var(--font-head); margin:0;">GAMER LOGIN</h2>
-            <p style="color:#666; margin-top:10px;">Skorlarını kaydetmek ve sıralamaya girmek için.</p>
-            <input type="text" class="modal-input" id="inp-username" placeholder="KULLANICI ADI">
-            <input type="password" class="modal-input" id="inp-password" placeholder="ŞİFRE">
-            <button class="btn-submit" onclick="Core.Auth.login()">SİSTEME GİRİŞ YAP</button>
+            <h2 id="auth-title" style="color:var(--primary); font-family:var(--font-head);">GAMER LOGIN</h2>
+            <p id="auth-desc" style="color:#666; font-size:14px;">Lütfen bilgilerinizi girin.</p>
+            
+            <input type="text" class="modal-input" id="inp-user" placeholder="Kullanıcı Adı">
+            <input type="password" class="modal-input" id="inp-pass" placeholder="Şifre">
+            
+            <button class="btn-submit" id="btn-main-auth" onclick="Core.Auth.handle()">GİRİŞ YAP</button>
+            <p style="margin-top:20px; font-size:12px;">
+                <span id="auth-switch-text">Hesabın yok mu?</span> 
+                <a href="javascript:void(0)" onclick="Core.Auth.switch()" id="auth-link" style="color:var(--primary);">Kayıt Ol</a>
+            </p>
+            <button class="btn-auth" style="margin-top:10px; border:none;" onclick="Core.UI.closeModal('modal-auth')">KAPAT</button>
         </div>
     </div>
 
@@ -196,274 +102,157 @@
         <div class="brand-container">
             <img src="logo.png" alt="CPSJET" class="brand-logo" onclick="Core.Router.go('dashboard')">
             <h1 class="brand-name">CPSJET</h1>
-            <div class="brand-version">OS v7.0 // MAMA JET</div>
         </div>
 
         <div class="auth-widget">
             <div id="guest-panel">
-                <button class="btn-auth" onclick="Core.UI.openModal('modal-login')">PROFİL OLUŞTUR</button>
+                <button class="btn-auth" onclick="Core.Auth.open('login')">GİRİŞ YAP</button>
+                <button class="btn-auth" style="border-color:#555; color:#888;" onclick="Core.Auth.open('register')">KAYIT OL</button>
             </div>
             <div id="user-panel" style="display:none;">
                 <div class="user-profile-card">
                     <div class="avatar-circle" id="u-avatar">?</div>
-                    <div class="user-details">
-                        <h3 id="u-name">PLAYER</h3>
-                        <span class="rank-tag" id="u-rank">ROOKIE</span>
+                    <div>
+                        <h3 id="u-name" style="margin:0; font-size:14px;">PLAYER</h3>
+                        <span style="font-size:10px; color:var(--primary);">RANK: PRO</span>
                     </div>
                 </div>
-                <div class="logout-btn" onclick="Core.Auth.logout()">GÜVENLİ ÇIKIŞ</div>
+                <button class="btn-auth" style="margin-top:10px; font-size:10px; padding:5px;" onclick="Core.Auth.logout()">ÇIKIŞ YAP</button>
             </div>
         </div>
 
-        <nav class="nav-container nav-scroll">
-            <div class="nav-group-title">ANA MENÜ</div>
+        <nav class="nav-scroll">
             <a class="nav-link active" onclick="Core.Router.go('dashboard', this)"><i class="fas fa-home"></i> Dashboard</a>
-            
-            <div class="nav-group-title">TESTLER & OYUNLAR</div>
-            <a class="nav-link" onclick="Core.Router.go('cps', this)"><i class="fas fa-mouse"></i> CPS Testi <span class="nav-tag tag-hot">HOT</span></a>
-            <a class="nav-link" onclick="Core.Router.go('aim', this)"><i class="fas fa-crosshairs"></i> Aim Trainer <span class="nav-tag tag-pro">PRO</span></a>
-            <a class="nav-link" onclick="Core.Router.go('typing', this)"><i class="fas fa-keyboard"></i> Klavye Hızı</a>
-            <a class="nav-link" onclick="Core.Router.go('memory', this)"><i class="fas fa-brain"></i> Hafıza (Verbal)</a>
-            <a class="nav-link" onclick="Core.Router.go('visual', this)"><i class="fas fa-th"></i> Görsel Hafıza <span class="nav-tag tag-new">NEW</span></a>
-            <a class="nav-link" onclick="Core.Router.go('chimp', this)"><i class="fas fa-sort-numeric-down"></i> Chimp Test <span class="nav-tag tag-new">NEW</span></a>
-            <a class="nav-link" onclick="Core.Router.go('reaction', this)"><i class="fas fa-bolt"></i> Refleks Testi</a>
-
-            <div class="nav-group-title">TOPLULUK</div>
+            <a class="nav-link" onclick="Core.Router.go('cps', this)"><i class="fas fa-mouse"></i> CPS Testi</a>
             <a class="nav-link" onclick="Core.Router.go('leaderboard', this)"><i class="fas fa-trophy"></i> Sıralama</a>
             <a class="nav-link" onclick="Core.Router.go('about', this)"><i class="fas fa-info-circle"></i> Hakkımızda</a>
         </nav>
-
-        <div class="sidebar-footer">
-            <div class="server-status">
-                <span class="status-dot"></span> SYSTEM ONLINE <br>
-                PING: 14ms | TR-ISTANBUL
-            </div>
-        </div>
     </aside>
 
     <main class="main-content">
         <header class="top-header">
-            <div class="breadcrumbs">
-                <i class="fas fa-terminal"></i> root <i class="fas fa-chevron-right"></i> system <i class="fas fa-chevron-right"></i> <span id="bread-active" class="crumb-active">DASHBOARD</span>
-            </div>
-            <div class="header-tools">
-                <div class="tool-btn" onclick="Core.Audio.toggle()"><i class="fas fa-volume-up" id="icon-sound"></i></div>
-                <div class="tool-btn"><i class="fas fa-cog"></i></div>
-                <div class="tool-btn"><i class="fas fa-bell"></i></div>
+            <div style="font-family:'Share Tech Mono'; font-size:12px; color:var(--text-muted);">
+                SYSTEM STATUS: <span style="color:#00ff9d;">ONLINE</span>
             </div>
         </header>
 
         <div class="content-scroll">
-            
             <div id="tab-dashboard" class="tab-panel active">
-                <div class="game-intro">
-                    <h2 class="game-title">GAMER HUB</h2>
-                    <p class="game-desc">Reflekslerini test et, geliştir ve liderlik tablosunda yerini al. Mama Jet güvencesiyle profesyonel testler.</p>
-                </div>
-                <div class="dash-grid">
-                    <div class="dash-card" onclick="Core.Router.go('cps')">
-                        <i class="fas fa-mouse card-icon"></i>
-                        <div class="card-info"><h3>CPS Testi</h3><p>Saniyedeki tıklama hızını ölç.</p></div>
-                    </div>
-                    <div class="dash-card" onclick="Core.Router.go('aim')">
-                        <i class="fas fa-crosshairs card-icon"></i>
-                        <div class="card-info"><h3>Aim Trainer</h3><p>Kas hafızası ve isabet eğitimi.</p></div>
-                    </div>
-                    <div class="dash-card" onclick="Core.Router.go('typing')">
-                        <i class="fas fa-keyboard card-icon"></i>
-                        <div class="card-info"><h3>Klavye Hızı</h3><p>Dakikada kaç kelime yazabilirsin?</p></div>
-                    </div>
-                    <div class="dash-card" onclick="Core.Router.go('chimp')">
-                        <i class="fas fa-sort-numeric-down card-icon"></i>
-                        <div class="card-info"><h3>Chimp Test</h3><p>Maymun hafıza testi. Sıralamayı hatırla.</p></div>
-                    </div>
+                <div style="text-align:center; margin-top:50px;">
+                    <h2 class="brand-name" style="font-size:50px;">GAMER HUB</h2>
+                    <p style="color:#888;">Reflekslerini test et, sınırlarını zorla.</p>
                 </div>
             </div>
 
             <div id="tab-cps" class="tab-panel">
-                <div class="game-intro">
-                    <h2 class="game-title">CPS TEST</h2>
-                    <p class="game-desc">Tıklama hızını test et. Süreyi seç ve başla.</p>
-                </div>
-                <div class="cps-time-selector">
-                    <button class="time-btn" onclick="Games.CPS.setMode(1)">1S</button>
-                    <button class="time-btn" onclick="Games.CPS.setMode(3)">3S</button>
-                    <button class="time-btn active" onclick="Games.CPS.setMode(5)">5S</button>
-                    <button class="time-btn" onclick="Games.CPS.setMode(10)">10S</button>
-                    <button class="time-btn" onclick="Games.CPS.setMode(30)">30S</button>
-                    <button class="time-btn" onclick="Games.CPS.setMode(60)">60S</button>
-                </div>
                 <div class="stats-bar">
-                    <div class="stat-item"><span class="stat-num" id="cps-timer">5.00</span><span class="stat-lbl">SÜRE</span></div>
-                    <div class="stat-item"><span class="stat-num" id="cps-score">0.0</span><span class="stat-lbl">CPS</span></div>
-                    <div class="stat-item"><span class="stat-num" id="cps-clicks">0</span><span class="stat-lbl">TIKLAMA</span></div>
+                    <div class="stat-item"><span class="stat-num" id="cps-timer">5.00</span>SÜRE</div>
+                    <div class="stat-item"><span class="stat-num" id="cps-score">0.0</span>CPS</div>
                 </div>
-                <div id="cps-click-area" onmousedown="Games.CPS.click(event)">
-                    <div class="click-prompt">BAŞLAMAK İÇİN TIKLA</div>
-                </div>
-            </div>
-
-            <div id="tab-aim" class="tab-panel">
-                <div class="game-intro"><h2>AIM TRAINER</h2><p>Hedefleri kaçırmadan vur.</p></div>
-                <div class="stats-bar">
-                    <div class="stat-item"><span class="stat-num" id="aim-timer">30.0</span><span class="stat-lbl">KALAN SÜRE</span></div>
-                    <div class="stat-item"><span class="stat-num" id="aim-hits">0</span><span class="stat-lbl">VURUŞ</span></div>
-                    <div class="stat-item"><span class="stat-num" id="aim-avg">0ms</span><span class="stat-lbl">ORT. HIZ</span></div>
-                </div>
-                <div id="aim-canvas" onclick="Games.Aim.start()">
-                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; color:#555; font-size:24px;" id="aim-msg">ALANA TIKLA VE BAŞLA</div>
-                </div>
-            </div>
-
-            <div id="tab-chimp" class="tab-panel">
-                <div class="game-intro"><h2>CHIMP TEST</h2><p>Numaraların yerini ezberle, gizlendiklerinde sırayla tıkla.</p></div>
-                <div style="text-align:center; margin-bottom:20px; font-size:20px;">SEVİYE: <span id="chimp-lvl" style="color:var(--primary); font-weight:bold;">1</span></div>
-                <div class="chimp-field" id="chimp-grid">
-                    <button class="btn-auth" style="width:200px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Chimp.start()">BAŞLAT</button>
-                </div>
-            </div>
-
-            <div id="tab-visual" class="tab-panel">
-                <div class="game-intro"><h2>GÖRSEL HAFIZA</h2><p>Yanan kareleri hatırla ve tekrar et.</p></div>
-                <div style="text-align:center; margin-bottom:20px;">SEVİYE: <span id="vis-lvl" style="color:var(--secondary)">1</span></div>
-                <div class="memory-grid" id="vis-grid">
-                    </div>
-                <div style="text-align:center; margin-top:30px;">
-                    <button class="btn-auth" style="width:200px;" onclick="Games.Visual.start()">TESTİ BAŞLAT</button>
-                </div>
-            </div>
-
-            <div id="tab-memory" class="tab-panel">
-                <div class="game-intro"><h2>SÖZEL HAFIZA</h2><p>Ekrana gelen kelimeyi daha önce gördün mü?</p></div>
-                <div style="background:#111; padding:50px; border-radius:15px; text-align:center; border:1px solid #333;">
-                    <div style="font-size:14px; color:#666; margin-bottom:10px;">CAN: <span id="verb-lives" style="color:var(--danger)">3</span> | SKOR: <span id="verb-score">0</span></div>
-                    <h1 id="verb-word" style="font-size:48px; margin:20px 0; color:#fff;">HAZIR?</h1>
-                    <div style="display:flex; justify-content:center; gap:20px; margin-top:40px;">
-                        <button class="btn-auth" onclick="Games.Verbal.check(true)">GÖRDÜM</button>
-                        <button class="btn-auth" style="border-color:#fff; color:#fff;" onclick="Games.Verbal.check(false)">YENİ KELİME</button>
-                    </div>
-                    <button class="btn-auth" style="margin-top:30px; width:150px; font-size:12px;" onclick="Games.Verbal.start()">BAŞLAT</button>
-                </div>
-            </div>
-
-            <div id="tab-typing" class="tab-panel">
-                <div class="game-intro"><h2>KLAVYE HIZI</h2><p>Kelimeleri hatasız ve hızlı yaz.</p></div>
-                <div class="stats-bar">
-                    <div class="stat-item"><span class="stat-num" id="type-wpm">0</span><span class="stat-lbl">WPM</span></div>
-                    <div class="stat-item"><span class="stat-num" id="type-acc">100%</span><span class="stat-lbl">DOĞRULUK</span></div>
-                    <div class="stat-item"><span class="stat-num" id="type-time">60</span><span class="stat-lbl">SÜRE</span></div>
-                </div>
-                <div id="typing-box"></div>
-                <input type="text" id="typing-input" placeholder="Yazmaya başla..." autocomplete="off">
-                <div style="text-align:center; margin-top:20px;">
-                    <button class="btn-auth" style="width:200px;" onclick="Games.Typing.init()">YENİDEN BAŞLAT</button>
-                </div>
-            </div>
-
-            <div id="tab-reaction" class="tab-panel">
-                <div class="game-intro"><h2>REFLEKS TESTİ</h2><p>Ekran yeşil olduğunda tıkla.</p></div>
-                <div id="react-field" style="height:400px; background:#ce2029; border-radius:15px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onmousedown="Games.Reaction.click()">
-                    <h1 style="color:white; font-size:40px; pointer-events:none;" id="react-text">BEKLE...</h1>
-                </div>
-                <div style="text-align:center; margin-top:20px; font-size:24px;">SONUÇ: <span id="react-res" style="color:var(--primary); font-weight:bold;">0 ms</span></div>
+                <div id="cps-click-area" onmousedown="Games.CPS.click()">TIKLA VE BAŞLA</div>
             </div>
 
             <div id="tab-leaderboard" class="tab-panel">
-                <div class="game-intro"><h2>LİDERLİK TABLOSU</h2></div>
-                <table style="width:100%; border-collapse:collapse;">
-                    <thead style="background:#111; color:#666; font-size:12px;"><tr><th style="padding:15px; text-align:left;">SIRA</th><th style="text-align:left;">OYUNCU</th><th style="text-align:right;">SKOR</th></tr></thead>
-                    <tbody>
-                        <tr style="border-bottom:1px solid #222; color:#fff;"><td style="padding:15px;"><span style="color:#ffd700">#1</span></td><td><b>Muhammed Hamza Çelik</b> (Founder)</td><td style="text-align:right; color:var(--primary)">18.5 CPS</td></tr>
-                        <tr style="border-bottom:1px solid #222; color:#ccc;"><td style="padding:15px;">#2</td><td>ProGamer_TR</td><td style="text-align:right;">14.2 CPS</td></tr>
-                        <tr style="border-bottom:1px solid #222; color:#ccc;"><td style="padding:15px;">#3</td><td>SpeedDemon</td><td style="text-align:right;">13.8 CPS</td></tr>
-                    </tbody>
+                <h2 style="font-family:var(--font-head);">LİDERLİK TABLOSU</h2>
+                <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+                    <tr style="border-bottom:1px solid #333; color:#666; font-size:12px;"><th align="left" style="padding:10px;">SIRA</th><th align="left">OYUNCU</th><th align="right">SKOR</th></tr>
+                    <tr style="color:#fff;"><td style="padding:10px;">#1</td><td>Hamza Çelik</td><td align="right">18.5 CPS</td></tr>
                 </table>
             </div>
 
             <div id="tab-about" class="tab-panel">
-                <div style="max-width:800px; margin:0 auto; padding:50px; background:rgba(255,255,255,0.02); border-radius:20px; text-align:center; line-height:1.8;">
-                    <img src="logo.png" width="80" style="margin-bottom:20px;">
+                <div style="background:rgba(255,255,255,0.02); padding:40px; border-radius:20px; text-align:center;">
                     <h2 style="color:var(--primary);">HAKKIMIZDA</h2>
-                    <p>CPSJET, 2026 yılında <b>Muhammed Hamza Çelik</b> tarafından, Mama Jet teknoloji grubunun bir girişimi olarak kurulmuştur.</p>
-                    <p>Amacımız, Türkiye'deki e-spor potansiyelini artırmak ve oyunculara profesyonel analiz araçları sunmaktır.</p>
-                    
-                    <div style="margin-top:40px; padding-top:30px; border-top:1px solid #333;">
-                        <h3 style="color:var(--primary);">İLETİŞİM & SPONSORLUK</h3>
-                        <p style="color:#e0e0e0; font-size:18px;">
-                            <i class="fas fa-envelope"></i> <b>muhammedhamzacelik87@gmail.com</b><br>
-                            <i class="fab fa-whatsapp"></i> <b>+90 (505) 937 61 29</b>
-                        </p>
+                    <p>CPSJET, Muhammed Hamza Çelik tarafından kurulmuş profesyonel bir oyuncu analiz platformudur.</p>
+                    <div style="margin-top:30px; border-top:1px solid #333; padding-top:20px;">
+                        <h3 style="color:var(--primary);">İLETİŞİM</h3>
+                        <p>muhammedhamzacelik87@gmail.com<br>+90 (505) 937 61 29</p>
                     </div>
-
-                    <div style="margin-top:30px; color:#666; font-size:12px;">© 2026 MAMA JET INC. TÜM HAKLARI SAKLIDIR.</div>
                 </div>
             </div>
-
         </div>
     </main>
 
     <script>
-        /**
-         * ============================================================
-         * CPSJET CORE SYSTEM v7.0 (ULTIMATE EDITION)
-         * Author: Muhammed Hamza Çelik
-         * Features: Audio Engine, Router, 6 Game Engines, Auth, Matrix
-         * ============================================================
-         */
-
         const Core = {
-            state: { sound: true, user: null },
+            mode: 'login', // login or register
             
-            // 1. MATRIX BACKGROUND
-            Matrix: {
-                c: document.getElementById('matrix-canvas'),
-                ctx: null, drops: [], font_size: 14,
-                init() {
-                    this.ctx = this.c.getContext('2d');
-                    this.resize();
-                    window.addEventListener('resize', ()=>this.resize());
-                    const cols = this.c.width / this.font_size;
-                    for(let i=0; i<cols; i++) this.drops[i] = 1;
-                    setInterval(()=>this.draw(), 35);
-                },
-                resize() { this.c.width = window.innerWidth; this.c.height = window.innerHeight; },
-                draw() {
-                    this.ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-                    this.ctx.fillRect(0, 0, this.c.width, this.c.height);
-                    this.ctx.fillStyle = "#ff8c00"; // Mama Jet Orange Matrix
-                    this.ctx.font = this.font_size + "px monospace";
-                    for(let i=0; i<this.drops.length; i++) {
-                        const txt = String.fromCharCode(Math.floor(Math.random()*128));
-                        this.ctx.fillText(txt, i*this.font_size, this.drops[i]*this.font_size);
-                        if(this.drops[i]*this.font_size > this.c.height && Math.random() > 0.975) this.drops[i] = 0;
-                        this.drops[i]++;
+            UI: {
+                openModal(id) { document.getElementById(id).style.display='flex'; },
+                closeModal(id) { document.getElementById(id).style.display='none'; }
+            },
+
+            Auth: {
+                open(mode) {
+                    Core.mode = mode;
+                    const title = document.getElementById('auth-title');
+                    const btn = document.getElementById('btn-main-auth');
+                    const link = document.getElementById('auth-link');
+                    
+                    if(mode === 'register') {
+                        title.innerText = "GAMER REGISTER";
+                        btn.innerText = "HESAP OLUŞTUR";
+                        link.innerText = "Giriş Yap";
+                        document.getElementById('auth-switch-text').innerText = "Zaten hesabın var mı?";
+                    } else {
+                        title.innerText = "GAMER LOGIN";
+                        btn.innerText = "SİSTEME GİR";
+                        link.innerText = "Kayıt Ol";
+                        document.getElementById('auth-switch-text').innerText = "Hesabın yok mu?";
                     }
-                }
-            },
-
-            // 2. AUDIO ENGINE
-            Audio: {
-                ctx: new (window.AudioContext || window.webkitAudioContext)(),
-                toggle() { 
-                    Core.state.sound = !Core.state.sound;
-                    const i = document.getElementById('icon-sound');
-                    i.className = Core.state.sound ? "fas fa-volume-up" : "fas fa-volume-mute";
-                    i.style.color = Core.state.sound ? "#fff" : "#555";
-                    Core.UI.toast(Core.state.sound ? "Ses Açıldı" : "Ses Kapalı");
+                    Core.UI.openModal('modal-auth');
                 },
-                play(freq, type='sine', dur=0.1) {
-                    if(!Core.state.sound) return;
-                    const o = this.ctx.createOscillator();
-                    const g = this.ctx.createGain();
-                    o.type = type; o.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                    g.gain.setValueAtTime(0.05, this.ctx.currentTime);
-                    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
-                    o.connect(g); g.connect(this.ctx.destination);
-                    o.start(); o.stop(this.ctx.currentTime + dur);
+
+                switch() {
+                    this.open(Core.mode === 'login' ? 'register' : 'login');
+                },
+
+                handle() {
+                    const u = document.getElementById('inp-user').value;
+                    const p = document.getElementById('inp-pass').value;
+
+                    if(!u || !p) return alert("Boş alan bırakmayın!");
+
+                    // "Veritabanı" (Local Storage)
+                    let users = JSON.parse(localStorage.getItem('cps_users') || '{}');
+
+                    if(Core.mode === 'register') {
+                        if(users[u]) return alert("Bu kullanıcı adı zaten alınmış!");
+                        users[u] = p;
+                        localStorage.setItem('cps_users', JSON.stringify(users));
+                        alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+                        this.open('login');
+                    } else {
+                        if(users[u] && users[u] === p) {
+                            const session = { name: u };
+                            localStorage.setItem('cps_session', JSON.stringify(session));
+                            this.loadSession(session);
+                            Core.UI.closeModal('modal-auth');
+                        } else {
+                            alert("Hatalı kullanıcı adı veya şifre!");
+                        }
+                    }
+                },
+
+                loadSession(s) {
+                    if(!s) return;
+                    document.getElementById('guest-panel').style.display = 'none';
+                    document.getElementById('user-panel').style.display = 'block';
+                    document.getElementById('u-name').innerText = s.name.toUpperCase();
+                    document.getElementById('u-avatar').innerText = s.name[0].toUpperCase();
+                },
+
+                check() {
+                    const s = localStorage.getItem('cps_session');
+                    if(s) this.loadSession(JSON.parse(s));
+                },
+
+                logout() {
+                    localStorage.removeItem('cps_session');
+                    location.reload();
                 }
             },
 
-            // 3. UI & ROUTER
             Router: {
                 go(id, el) {
                     document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('active'));
@@ -472,294 +261,56 @@
                         document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
                         el.classList.add('active');
                     }
-                    document.getElementById('bread-active').innerText = id.toUpperCase();
-                    Core.Audio.play(600, 'sine', 0.05);
-                    // Reset Games
-                    if(id === 'typing') Games.Typing.init();
-                }
-            },
-            UI: {
-                openModal(id) { document.getElementById(id).style.display='flex'; },
-                closeModal(id) { document.getElementById(id).style.display='none'; },
-                toast(msg) {
-                    const c = document.getElementById('toast-wrapper');
-                    const t = document.createElement('div'); t.className='toast';
-                    t.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
-                    c.appendChild(t); setTimeout(()=>{t.style.opacity='0'; setTimeout(()=>t.remove(),300)}, 3000);
-                }
-            },
-            Utils: {
-                copy(id) {
-                    navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
-                        Core.UI.toast("Kopyalandı!"); Core.Audio.play(1000,'sine',0.1);
-                    });
                 }
             },
 
-            // 4. AUTH
-            Auth: {
-                check() {
-                    const u = localStorage.getItem('cps_u7');
-                    if(u) this.load(JSON.parse(u));
-                },
-                login() {
-                    const n = document.getElementById('inp-username').value;
-                    const p = document.getElementById('inp-password').value;
-                    const dogruSifre = "cpsjet"; // ŞİFRE BURADA BELİRLENİYOR
-
-                    if (n && p === dogruSifre) {
-                        const u = {n: n, r: 'PRO'};
-                        localStorage.setItem('cps_u7', JSON.stringify(u));
-                        this.load(u);
-                        Core.UI.closeModal('modal-login');
-                    } else if (p !== dogruSifre) {
-                        alert("Hatalı şifre girdiniz!");
-                    } else {
-                        alert("Lütfen tüm alanları doldurun.");
-                    }
-                },
-                load(u) {
-                    document.getElementById('guest-panel').style.display='none';
-                    document.getElementById('user-panel').style.display='block';
-                    document.getElementById('u-name').innerText = u.n.toUpperCase();
-                    document.getElementById('u-avatar').innerText = u.n[0].toUpperCase();
-                    Core.UI.toast(`Hoş Geldin, ${u.n}`);
-                },
-                logout() { localStorage.removeItem('cps_u7'); location.reload(); }
-            }
-        };
-
-        /**
-         * ============================================================
-         * GAME ENGINES
-         * ============================================================
-         */
-        const Games = {
-            
-            // 1. CPS TEST (ZAMAN SEÇİCİLİ)
-            CPS: {
-                active: false, score: 0, time: 5, limit: 5, int: null,
-                setMode(t) {
-                    if(this.active) return;
-                    this.limit = t; this.time = t;
-                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-                    event.target.classList.add('active');
-                    document.getElementById('cps-timer').innerText = t.toFixed(2);
-                },
-                click(e) {
-                    if(!this.active && this.time===this.limit) this.start();
-                    if(this.active) {
-                        this.score++;
-                        document.getElementById('cps-score').innerText = (this.score/(this.limit-this.time)).toFixed(1);
-                        document.getElementById('cps-clicks').innerText = this.score;
-                        this.ripple(e); Core.Audio.play(200+(this.score*5),'square',0.05);
-                    }
-                },
-                start() {
-                    this.active = true;
-                    this.int = setInterval(() => {
-                        this.time -= 0.01;
-                        document.getElementById('cps-timer').innerText = Math.max(0, this.time).toFixed(2);
-                        if(this.time<=0) this.end();
-                    }, 10);
-                },
-                end() {
-                    clearInterval(this.int); this.active=false;
-                    Core.UI.toast(`Skor: ${(this.score/this.limit).toFixed(2)} CPS`);
-                    this.reset();
-                },
-                reset() { this.time=this.limit; this.score=0; document.getElementById('cps-timer').innerText=this.limit.toFixed(2); },
-                ripple(e) {
-                    const el = document.getElementById('cps-click-area'); const r = document.createElement('div'); r.className='click-ripple';
-                    r.style.left = (e.clientX - el.getBoundingClientRect().left)+'px'; r.style.top = (e.clientY - el.getBoundingClientRect().top)+'px';
-                    el.appendChild(r); setTimeout(()=>r.remove(),500);
-                }
-            },
-
-            // 2. AIM TRAINER
-            Aim: {
-                active: false, hits: 0, time: 30, int: null,
-                start() {
-                    if(this.active) return; this.active=true; this.hits=0; this.time=30;
-                    document.getElementById('aim-msg').style.display='none'; this.spawn();
-                    this.int = setInterval(()=>{
-                        this.time-=0.1; document.getElementById('aim-timer').innerText=Math.max(0,this.time).toFixed(1);
-                        if(this.time<=0) this.end();
-                    },100);
-                },
-                spawn() {
-                    if(!this.active) return;
-                    const c = document.getElementById('aim-canvas'); c.innerHTML="";
-                    const t = document.createElement('div'); t.className='aim-target';
-                    t.style.left=Math.random()*90+'%'; t.style.top=Math.random()*90+'%';
-                    t.onmousedown=(e)=>{e.stopPropagation(); this.hits++; document.getElementById('aim-hits').innerText=this.hits; Core.Audio.play(800,'sine',0.05); this.spawn();};
-                    c.appendChild(t);
-                },
-                end() {
-                    clearInterval(this.int); this.active=false; document.getElementById('aim-canvas').innerHTML="";
-                    document.getElementById('aim-msg').style.display='block'; alert("Vuruş: "+this.hits);
-                }
-            },
-
-            // 3. CHIMP TEST (FULL LOGIC)
-            Chimp: {
-                lvl: 1, seq: [], idx: 0,
-                start() { this.lvl=1; this.play(); },
-                play() {
-                    document.getElementById('chimp-lvl').innerText=this.lvl;
-                    const g = document.getElementById('chimp-grid'); g.innerHTML="";
-                    this.seq=[]; this.idx=0;
-                    for(let i=1; i<=this.lvl+4; i++) {
-                        const b = document.createElement('div'); b.className='chimp-num';
-                        b.style.left=Math.random()*90+'%'; b.style.top=Math.random()*90+'%';
-                        b.innerText=i; b.dataset.n=i;
-                        b.onmousedown=(e)=>{
-                            const n = parseInt(e.target.dataset.n);
-                            if(n===this.seq[this.idx]) {
-                                this.idx++; e.target.style.display='none'; Core.Audio.play(600,'sine',0.1);
-                                if(this.idx===1) document.querySelectorAll('.chimp-num').forEach(x=>x.classList.add('hidden'));
-                                if(this.idx===this.seq.length) { this.lvl++; setTimeout(()=>this.play(),1000); Core.Audio.play(1000,'square',0.2); }
-                            } else { Core.Audio.play(150,'sawtooth',0.5); alert("Yanlış! Seviye: "+this.lvl); this.start(); }
-                        };
-                        g.appendChild(b); this.seq.push(i);
-                    }
-                }
-            },
-
-            // 4. VERBAL MEMORY
-            Verbal: {
-                dict: ["Kasa", "Mouse", "Klavye", "Ekran", "RAM", "CPU", "GPU", "SSD", "Kablo", "Oyun", "Ping", "FPS", "Lag", "Drop", "Ban", "Kick", "Loot", "Rush", "Camp", "Feed", "Carry", "Gank", "Farm", "Ulti", "Skill", "Buff", "Nerf", "Meta", "Noob", "Pro", "Aim", "Recoil", "Spray", "Tap", "Burst", "Peek", "Hold", "Push", "Rotate", "Flank", "Save", "Eco", "Buy", "Drop", "Plant", "Defuse", "Clutch", "Ace", "Frag", "Kill", "Death", "Assist", "Score", "Rank", "Elo", "Match", "Win", "Lose", "Draw", "GG", "WP", "GL", "HF", "NT", "NS", "Nice", "Toxic", "Report", "Mute", "Block", "Add", "Party", "Lobby", "Queue", "Ready", "Pick", "Ban", "Draft", "Lane", "Top", "Mid", "Bot", "Jungle", "Support", "Tank", "Carry", "Mage", "Heal", "Shield", "Armor", "Magic", "Damage", "Crit", "Stun", "Slow", "Root", "Silence", "Fear", "Taunt", "Charm", "Sleep", "Blind", "Vision", "Ward", "Map", "Baron", "Dragon", "Rift", "Tower", "Inhib", "Nexus", "Core", "Ancient", "Roshan", "Aegis", "Gem", "Rapier", "BKB", "TP", "Flash", "Ignite", "Smite", "Exhaust", "Ghost", "Heal", "Barrier", "Cleanse", "Teleport", "Dot", "Hot", "Aoe", "Cc", "Dps", "Hps", "Mp", "Hp", "Xp", "Lvl", "Gold", "Item", "Shop", "Base", "Spawn", "Respawn"],
-                seen: [], curr: "", score: 0, lives: 3,
-                start() { this.seen=[]; this.score=0; this.lives=3; this.ui(); this.next(); },
-                next() {
-                    const old = this.seen.length>0 && Math.random()<0.4;
-                    this.curr = old ? this.seen[Math.floor(Math.random()*this.seen.length)] : this.dict[Math.floor(Math.random()*this.dict.length)];
-                    document.getElementById('verb-word').innerText = this.curr;
-                },
-                check(s) {
-                    const is = this.seen.includes(this.curr);
-                    if(s===is) { this.score++; if(!is) this.seen.push(this.curr); Core.Audio.play(800,'sine',0.1); }
-                    else { this.lives--; Core.Audio.play(150,'sawtooth',0.3); if(this.lives<=0) { alert("Bitti: "+this.score); return; } }
-                    this.ui(); this.next();
-                },
-                ui() { document.getElementById('verb-score').innerText=this.score; document.getElementById('verb-lives').innerText=this.lives; }
-            },
-
-            // 5. VISUAL MEMORY (NEW)
-            Visual: {
-                lvl: 1, seq: [], userSeq: [],
-                start() { this.lvl=1; this.play(); },
-                play() {
-                    document.getElementById('vis-lvl').innerText = this.lvl;
-                    const g = document.getElementById('vis-grid'); g.innerHTML="";
-                    const size = Math.min(3 + Math.floor(this.lvl/2), 6); // Grid büyür
-                    g.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-                    
-                    const total = size*size;
-                    const activeCount = 2 + this.lvl;
-                    const tiles = [];
-                    
-                    for(let i=0; i<total; i++) {
-                        const d = document.createElement('div'); d.className='mem-tile';
-                        d.dataset.i = i; d.onclick=(e)=>this.click(e.target);
-                        g.appendChild(d); tiles.push(d);
-                    }
-                    
-                    // Pattern oluştur
-                    this.seq = [];
-                    while(this.seq.length < activeCount) {
-                        const r = Math.floor(Math.random()*total);
-                        if(!this.seq.includes(r)) this.seq.push(r);
-                    }
-                    
-                    // Göster
-                    setTimeout(() => {
-                        this.seq.forEach(idx => tiles[idx].classList.add('flash'));
-                        setTimeout(() => {
-                            tiles.forEach(t => t.classList.remove('flash'));
-                            this.userSeq = [];
-                        }, 1000 + (this.lvl*100));
-                    }, 500);
-                },
-                click(el) {
-                    const i = parseInt(el.dataset.i);
-                    if(this.seq.includes(i)) {
-                        if(!this.userSeq.includes(i)) {
-                            el.classList.add('correct'); this.userSeq.push(i); Core.Audio.play(600,'sine',0.1);
-                            if(this.userSeq.length === this.seq.length) {
-                                this.lvl++; Core.Audio.play(1000,'square',0.2); setTimeout(()=>this.play(),1000);
-                            }
-                        }
-                    } else {
-                        el.classList.add('wrong'); Core.Audio.play(150,'sawtooth',0.4); alert("Yanlış! Seviye: "+this.lvl); this.start();
-                    }
-                }
-            },
-
-            // 6. TYPING TEST
-            Typing: {
-                txt: "mama jet hız fps ping oyun klavye mouse ekran kasa ram cpu gpu ssd hdd wifi lan wan tcp udp http https dns ip mac os win linux unix dos cmd bat sh py js cpp cs go val lol dota wow pubg cod bf gta rdr fifa pes nba nfl mlb nhl f1 moto gp nascar rally drift drag race sim rts fps tps rpg mmo moba br royale card board puzzle logic math code data base cloud server client host port socket stream buffer lag bug fix patch update dlc mod hack cheat ban kick mute report toxic nice gg wp gl hf nt ns clutch ace frag kill death assist kda ratio rank elo mmr lp xp lvl gold item shop buy sell trade market economy meta buff nerf op up down left right mid top bot jungle support tank carry healer mage assassin fighter brawler sniper scout medic engineer spy pyro demo heavy soldier reyna jett sage omen sova breach brim viper cypher killjoy skye yoru astra kayo chamber neon fade harbor gekko deadlock iso clove ak47 m4a1 awp deagle glock usp p250 five7 tec9 mac10 mp9 ump p90 bizon galil famas aug sg553 ssg08 scar20 g3sg1 nova xm1014 mag7 sawedoff negev m249 zeus knife grenade flash smoke fire decoy molotov hegrenade c4 defuse kit armor helmet vest zeus",
-                words: [], curr: 0, start: null,
+            Matrix: {
                 init() {
-                    this.words = this.txt.split(' ').sort(()=>0.5-Math.random()).slice(0,40);
-                    const b = document.getElementById('typing-box'); b.innerHTML="";
-                    this.words.forEach((w,i)=>{
-                        const s=document.createElement('span'); s.innerText=w; s.className='t-word'+(i===0?' current':'');
-                        b.appendChild(s);
-                    });
-                    document.getElementById('typing-input').value="";
-                    document.getElementById('typing-input').focus();
-                    this.curr=0; this.start=null;
-                    
-                    document.getElementById('typing-input').oninput=(e)=>{
-                        if(!this.start) this.start=Date.now();
-                        const v = e.target.value;
-                        if(v.endsWith(' ')) {
-                            const w = v.trim(); const target = this.words[this.curr];
-                            const el = document.getElementById('typing-box').children[this.curr];
-                            if(w===target) { el.className='t-word correct'; Core.Audio.play(600,'sine',0.05); }
-                            else { el.className='t-word error'; Core.Audio.play(200,'sawtooth',0.1); }
-                            this.curr++; e.target.value="";
-                            if(this.curr<this.words.length) document.getElementById('typing-box').children[this.curr].className='t-word current';
-                            else {
-                                const min = (Date.now()-this.start)/60000;
-                                const wpm = Math.round(this.words.length/min);
-                                alert("WPM: "+wpm); this.init();
-                            }
-                        }
-                    };
-                }
-            },
-            
-            // 7. REACTION TEST
-            Reaction: {
-                s: 'wait', t: null, startT: 0,
-                click() {
-                    const f = document.getElementById('react-field');
-                    const h = document.getElementById('react-text');
-                    if(this.s==='wait') {
-                        this.s='ready'; f.style.background='#ce2029'; h.innerText='BEKLE...';
-                        this.t = setTimeout(()=>{
-                            this.s='go'; f.style.background='#4caf50'; h.innerText='TIKLA!'; this.startT=Date.now();
-                        }, 2000+Math.random()*3000);
-                    } else if(this.s==='ready') {
-                        clearTimeout(this.t); this.s='wait'; h.innerText='ERKEN BASTIN!'; Core.Audio.play(150,'sawtooth',0.3);
-                    } else if(this.s==='go') {
-                        const ms = Date.now()-this.startT;
-                        this.s='wait'; f.style.background='#222'; h.innerText=ms+' ms';
-                        document.getElementById('react-res').innerText=ms+' ms'; Core.Audio.play(1000,'square',0.2);
-                    }
+                    const c = document.getElementById('matrix-canvas');
+                    const ctx = c.getContext('2d');
+                    c.width = window.innerWidth; c.height = window.innerHeight;
+                    const letters = "01";
+                    const fontSize = 14;
+                    const columns = c.width / fontSize;
+                    const drops = Array(Math.floor(columns)).fill(1);
+
+                    setInterval(() => {
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                        ctx.fillRect(0, 0, c.width, c.height);
+                        ctx.fillStyle = "#ff8c00";
+                        drops.forEach((y, i) => {
+                            const text = letters[Math.floor(Math.random() * letters.length)];
+                            ctx.fillText(text, i * fontSize, y * fontSize);
+                            if (y * fontSize > c.height && Math.random() > 0.975) drops[i] = 0;
+                            drops[i]++;
+                        });
+                    }, 35);
                 }
             }
         };
 
-        // SYSTEM BOOT
-        window.onload = () => {
-            Core.Matrix.init();
-            Core.Auth.check();
-            console.log("CPSJET OS v7.0 LOADED. FOUNDER: MUHAMMED HAMZA ÇELİK");
+        const Games = {
+            CPS: {
+                active: false, score: 0, time: 5,
+                click() {
+                    if(!this.active) {
+                        this.active = true; this.score = 0;
+                        const int = setInterval(() => {
+                            this.time -= 0.01;
+                            document.getElementById('cps-timer').innerText = Math.max(0, this.time).toFixed(2);
+                            if(this.time <= 0) {
+                                clearInterval(int); this.active = false; this.time = 5;
+                                alert("Skorun: " + (this.score/5).toFixed(2) + " CPS");
+                            }
+                        }, 10);
+                    }
+                    this.score++;
+                    document.getElementById('cps-score').innerText = (this.score/(5-this.time+0.01)).toFixed(1);
+                }
+            }
         };
 
+        window.onload = () => { Core.Matrix.init(); Core.Auth.check(); };
     </script>
 </body>
 </html>
