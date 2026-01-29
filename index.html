@@ -3,624 +3,434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mama Jet | Pro Gamer Test</title>
+    <title>CPSJET | Pro Performance Platform</title>
     <style>
-        /* --- GENEL AYARLAR --- */
         :root {
-            --bg-body: #111111;
-            --bg-panel: #181818;
-            --color-orange: #ff8c00;
-            --color-blue: #4a5af5;
-            --color-green: #4caf50;
-            --color-red: #e74c3c;
-            --text-white: #ffffff;
-            --text-gray: #b0b0b0;
+            --bg-body: #0a0a0a;
+            --bg-card: #141414;
+            --accent: #ff8c00; /* Mama Jet Turuncusu */
+            --accent-glow: rgba(255, 140, 0, 0.3);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --success: #28a745;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg-body);
-            color: var(--text-white);
+            color: var(--text-main);
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* --- SIDEBAR (SOL MENÜ) --- */
+        /* --- SIDEBAR --- */
         .sidebar {
-            width: 240px;
-            background-color: var(--bg-panel);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid #333;
-            padding-top: 20px;
-            z-index: 10;
-        }
-
-        /* LOGO ALANI */
-        .logo-title {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 20px 30px;
-            text-align: center;
-        }
-        
-        .logo-title img {
-            width: 80px; 
-            height: auto; 
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.3));
-        }
-
-        .logo-title span {
-            color: var(--color-orange);
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .nav-link {
-            padding: 15px 25px;
-            color: var(--text-gray);
-            cursor: pointer;
-            transition: 0.2s;
-            border-left: 4px solid transparent;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-link:hover {
-            background-color: #252525;
-            color: white;
-        }
-
-        .nav-link.active {
-            background-color: #252525;
-            color: white;
-            border-left: 4px solid var(--color-orange);
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            padding: 20px;
-            border-top: 1px solid #333;
-            text-align: center;
-        }
-
-        /* --- ANA İÇERİK --- */
-        .main-content {
-            flex: 1;
-            padding: 0;
-            position: relative;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
-        }
-
-        /* SEKMELER (TABS) */
-        .tab-content {
-            display: none; /* Varsayılan olarak gizli */
-            height: 100%;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .tab-content.active {
-            display: flex; /* Aktif olan görünür */
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2.panel-title {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 24px;
-            margin-bottom: 30px;
-            opacity: 0.8;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
-        }
-
-        /* --- MOUSE TESTİ STİLLERİ --- */
-        .click-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 30px;
-        }
-        
-        .c-stat {
-            background: #222;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            border-bottom: 4px solid #444;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .c-stat span { display: block; font-size: 32px; font-weight: bold; }
-        .c-stat label { font-size: 12px; text-transform: uppercase; color: #888; letter-spacing: 1px; }
-
-        #click-area {
-            width: 100%;
-            max-width: 500px;
-            height: 250px;
+            width: 260px;
             background: #111;
-            border: 2px dashed #444;
-            border-radius: 15px;
+            border-right: 1px solid #222;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            color: #555;
-            cursor: pointer;
-            transition: 0.1s;
-            user-select: none;
-            margin-bottom: 30px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-        }
-        #click-area:active { background: #161616; border-color: var(--color-orange); color: var(--color-orange); transform: scale(0.98); }
-
-        .time-menu-container {
-            background-color: #181818;
-            padding: 20px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #333;
-        }
-        
-        .time-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            flex-direction: column;
+            padding: 20px 0;
+            flex-shrink: 0;
         }
 
-        .menu-title {
-            color: #b0b0b0;
+        .logo-area {
             text-align: center;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #222;
         }
+        .logo-area img { width: 70px; filter: drop-shadow(0 0 10px var(--accent)); }
+        .logo-area h1 { font-size: 20px; color: var(--accent); margin: 10px 0 0; letter-spacing: 2px; }
 
-        .time-btn {
-            padding: 12px;
-            background-color: #2a2a2a;
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
+        /* PROFİL KARTI */
+        .profile-section { padding: 0 15px 20px; border-bottom: 1px solid #222; margin-bottom: 10px; }
+        .guest-box button { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .guest-box button:hover { background: var(--accent); color: white; }
+
+        .user-box { display: none; background: var(--bg-card); padding: 15px; border-radius: 10px; border: 1px solid #333; }
+        .u-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .avatar { width: 40px; height: 40px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+        .u-names h3 { margin: 0; font-size: 14px; color: white; }
+        .u-names span { font-size: 11px; color: var(--success); }
+        .u-stats { font-size: 11px; color: #666; display: flex; justify-content: space-between; margin-top: 5px; }
+        .logout-btn { font-size: 10px; color: #888; text-decoration: underline; cursor: pointer; margin-top: 5px; display: block; }
+
+        /* MENÜ */
+        .nav-link { padding: 15px 25px; color: var(--text-dim); cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { background: #1a1a1a; color: white; border-left: 4px solid var(--accent); }
+        .sidebar-footer { margin-top: auto; text-align: center; font-size: 11px; color: #444; padding: 20px; }
+
+        /* --- MAIN CONTENT --- */
+        .main { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); }
+        .tab { display: none; width: 100%; max-width: 900px; padding: 20px; text-align: center; animation: slideUp 0.4s ease; overflow-y: auto; max-height: 100vh; }
+        .tab.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; display: inline-block; }
+
+        /* OYUN UI */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: #222; padding: 15px; border-radius: 10px; border-bottom: 3px solid #333; }
+        .stat-card span { font-size: 28px; font-weight: bold; display: block; color: white; }
+        .stat-card label { font-size: 12px; color: #888; text-transform: uppercase; }
+
+        #click-area { height: 200px; border: 2px dashed #444; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; user-select: none; margin-bottom: 20px; transition: 0.1s; background: #111; }
+        #click-area:active { transform: scale(0.98); border-color: var(--accent); color: var(--accent); }
+
+        .typing-area input { width: 80%; padding: 15px; background: #222; border: 1px solid #444; color: white; font-size: 20px; text-align: center; border-radius: 8px; margin-top: 20px; }
+        .word-display { background: #0f0f0f; padding: 20px; border-radius: 10px; height: 80px; overflow: hidden; font-size: 20px; line-height: 1.5; color: #555; border: 1px solid #333; }
+        .word-display .current { background: #333; color: white; border-radius: 4px; padding: 0 5px; }
+        .word-display .correct { color: var(--success); }
+        .word-display .wrong { color: #e74c3c; text-decoration: line-through; }
+
+        /* LİDER TABLOSU */
+        .leaderboard-table { width: 100%; border-collapse: collapse; background: #151515; border-radius: 10px; overflow: hidden; }
+        .leaderboard-table th, .leaderboard-table td { padding: 15px; text-align: left; border-bottom: 1px solid #222; }
+        .leaderboard-table th { background: #222; color: var(--accent); }
+        .rank-1 { color: #ffd700; font-weight: bold; } /* Altın */
+        .rank-2 { color: #c0c0c0; font-weight: bold; } /* Gümüş */
+        .rank-3 { color: #cd7f32; font-weight: bold; } /* Bronz */
+
+        /* HAKKIMIZDA */
+        .about-card { background: #181818; padding: 40px; border-radius: 15px; text-align: left; border-left: 5px solid var(--accent); }
+        .about-card p { line-height: 1.6; color: #ccc; margin-bottom: 15px; }
+
+        /* MODALLAR */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-box { background: #1a1a1a; padding: 30px; border-radius: 15px; border: 1px solid var(--accent); width: 90%; max-width: 350px; text-align: center; box-shadow: 0 0 20px var(--accent-glow); }
+        .modal-box input { width: 100%; padding: 12px; margin: 8px 0; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 5px; box-sizing: border-box; }
+        .btn-primary { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-primary:hover { opacity: 0.9; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            .sidebar { width: 100%; padding: 10px 0; }
+            .main { padding: 20px 0; }
+            .nav-link span { display: inline; }
         }
-        .time-btn:hover { background-color: #3a3a3a; }
-        .time-btn.active {
-            background: linear-gradient(90deg, #ff8c00, #ffba00);
-            color: white;
-            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
-        }
-
-        /* --- KLAVYE TESTİ STİLLERİ --- */
-        .typing-container {
-            width: 100%;
-            max-width: 700px;
-            background: #151525;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            border: 1px solid #4a5af5;
-            text-align: center;
-        }
-
-        .wpm-stats {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-bottom: 30px;
-        }
-
-        .wpm-display { font-size: 60px; font-weight: bold; color: var(--color-blue); text-shadow: 0 0 20px rgba(74, 90, 245, 0.3); }
-        .error-display { font-size: 60px; font-weight: bold; color: var(--color-red); }
-
-        .stat-label { font-size: 14px; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
-
-        .word-box {
-            background: #0f0f15;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 24px;
-            line-height: 1.8;
-            height: 120px;
-            overflow: hidden;
-            color: #555;
-            margin-bottom: 30px;
-            position: relative;
-            font-family: 'Courier New', monospace;
-            text-align: left;
-            border: 1px solid #333;
-        }
-
-        .word-box span { margin-right: 12px; display: inline-block; }
-        .word-box span.current { background: #333; color: white; border-radius: 4px; padding: 0 6px; }
-        .word-box span.correct { color: var(--color-green); }
-        .word-box span.wrong { color: var(--color-red); text-decoration: line-through; }
-
-        #type-input {
-            width: 80%;
-            padding: 15px;
-            background: #222;
-            border: 2px solid #444;
-            color: white;
-            font-size: 22px;
-            border-radius: 8px;
-            outline: none;
-            display: block;
-            margin: 0 auto;
-            text-align: center;
-            transition: 0.2s;
-        }
-        #type-input:focus { border-color: var(--color-blue); background: #1a1a2e; }
-
-        /* --- HAKKIMIZDA SAYFASI STİLLERİ --- */
-        .about-card {
-            background: #181818;
-            padding: 40px;
-            border-radius: 15px;
-            max-width: 700px;
-            width: 100%;
-            text-align: left;
-            border-left: 5px solid var(--color-orange);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .about-title { font-size: 32px; color: white; margin-bottom: 20px; font-weight: bold; }
-        .about-text { color: #ccc; line-height: 1.8; margin-bottom: 20px; font-size: 16px; }
-        .about-highlight { color: var(--color-orange); font-weight: bold; }
-        
-        /* MOBİL UYUM */
-        @media (max-width: 800px) {
-            .sidebar { width: 70px; }
-            .logo-title span, .sidebar-footer p, .nav-link span { display: none; }
-            .logo-title img { width: 50px; }
-            .nav-link { justify-content: center; padding: 20px 0; }
-            .time-buttons { grid-template-columns: 1fr; }
-            .typing-container, .about-card { padding: 20px; width: 90%; }
-            .word-box { font-size: 18px; }
-            .wpm-display, .error-display { font-size: 40px; }
-        }
-
-        /* MODAL */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: #222; padding: 30px; border-radius: 15px; text-align: center; border: 2px solid var(--color-orange); max-width: 400px; width: 90%; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="logo-title">
-            <img src="logo.png" alt="CPSJET Logo">
-            <span>CPSJET</span>
+        <div class="logo-area">
+            <img src="logo.png" alt="CPSJET">
+            <h1>CPSJET</h1>
         </div>
-        
-        <div class="nav-link active" onclick="switchTab('cps', this)">
-            <i>🖱️</i> <span>CPS Testi</span>
+
+        <div class="profile-section">
+            <div id="guest-view" class="guest-box">
+                <p style="font-size:12px; text-align:center; color:#666; margin-bottom:10px;">Skorunu kaydetmek için</p>
+                <button onclick="openModal('login')">👤 GİRİŞ YAP / KAYIT OL</button>
+            </div>
+            <div id="user-view" class="user-box">
+                <div class="u-header">
+                    <div class="avatar" id="u-avatar">H</div>
+                    <div class="u-names">
+                        <h3 id="u-name">Kullanıcı</h3>
+                        <span>● Çevrimiçi</span>
+                    </div>
+                </div>
+                <div class="u-stats">
+                    <span>En İyi CPS: <b id="u-record" style="color:var(--accent)">0</b></span>
+                </div>
+                <span class="logout-btn" onclick="logout()">Çıkış Yap</span>
+            </div>
         </div>
-        <div class="nav-link" onclick="switchTab('keyboard', this)">
-            <i>⌨️</i> <span>Klavye Testi</span>
-        </div>
-        <div class="nav-link" onclick="switchTab('about', this)">
-            <i>ℹ️</i> <span>Hakkımızda</span>
-        </div>
+
+        <div class="nav-link active" onclick="switchTab('cps', this)"><i>🖱️</i> <span>CPS Testi</span></div>
+        <div class="nav-link" onclick="switchTab('keyboard', this)"><i>⌨️</i> <span>Klavye Testi</span></div>
+        <div class="nav-link" onclick="switchTab('leaderboard', this)"><i>🏆</i> <span>Sıralama</span></div>
+        <div class="nav-link" onclick="switchTab('about', this)"><i>ℹ️</i> <span>Hakkımızda</span></div>
 
         <div class="sidebar-footer">
-            <p style="font-size: 11px; color: #666; margin-top:5px;">Powered by Mama Jet</p>
+            Powered by <b>Mama Jet</b> <br> © 2026
         </div>
     </div>
 
-    <div class="main-content">
+    <div class="main">
         
-        <div id="tab-cps" class="tab-content active">
-            <h2 class="panel-title" style="color:var(--color-orange)">🖱️ Mouse Hız Testi</h2>
-
-            <div class="click-stats">
-                <div class="c-stat" style="border-color:var(--color-blue)">
-                    <span id="timer">5.00</span><label>Süre</label>
-                </div>
-                <div class="c-stat" style="border-color:var(--color-orange)">
-                    <span id="cps">0.0</span><label>CPS</label>
-                </div>
-                <div class="c-stat" style="border-color:var(--color-green)">
-                    <span id="score">0</span><label>Skor</label>
-                </div>
+        <div id="tab-cps" class="tab active">
+            <h2>🖱️ Mouse Hız Testi</h2>
+            <div class="stats-row">
+                <div class="stat-card"><span id="timer">5.0</span><label>Süre</label></div>
+                <div class="stat-card" style="border-color:var(--accent)"><span id="cps">0.0</span><label>CPS</label></div>
+                <div class="stat-card"><span id="score">0</span><label>Tıklama</label></div>
             </div>
+            <div id="click-area">TIKLAMAYA BAŞLA</div>
+            <p style="font-size:12px; color:#666;">Süre 5 saniyedir. Rekor kırmak için olabildiğince hızlı tıkla!</p>
+        </div>
 
-            <div id="click-area">
-                TIKLAMAYA BAŞLA
+        <div id="tab-keyboard" class="tab">
+            <h2>⌨️ Klavye Hız Testi</h2>
+            <div class="stats-row">
+                <div class="stat-card" style="border-color:#4a5af5"><span id="wpm">0</span><label>WPM</label></div>
+                <div class="stat-card" style="border-color:#e74c3c"><span id="errors">0</span><label>Hata</label></div>
             </div>
-
-            <div class="time-menu-container">
-                <h3 class="menu-title">SÜRE SEÇİN</h3>
-                <div class="time-buttons">
-                    <button class="time-btn" onclick="setMode(1, this)">1 Saniye</button>
-                    <button class="time-btn" onclick="setMode(2, this)">2 Saniye</button>
-                    <button class="time-btn active" onclick="setMode(5, this)">5 Saniye</button>
-                    <button class="time-btn" onclick="setMode(10, this)">10 Saniye</button>
-                    <button class="time-btn" onclick="setMode(15, this)">15 Saniye</button>
-                    <button class="time-btn" onclick="setMode(30, this)">30 Saniye</button>
-                    <button class="time-btn" onclick="setMode(60, this)">60 Saniye</button>
-                    <button class="time-btn" onclick="setMode(100, this)">100 Saniye</button>
-                </div>
+            <div class="word-display" id="word-box"></div>
+            <div class="typing-area">
+                <input type="text" id="type-input" placeholder="Kelimeleri yaz..." autocomplete="off">
             </div>
         </div>
 
-        <div id="tab-keyboard" class="tab-content">
-            <h2 class="panel-title" style="color:var(--color-blue)">⌨️ Klavye Hız Testi</h2>
-            
-            <div class="typing-container">
-                <div class="wpm-stats">
-                    <div>
-                        <div class="stat-label">WPM (NET PUAN)</div>
-                        <div class="wpm-display" id="wpm-val">0</div>
-                    </div>
-                    <div>
-                        <div class="stat-label">HATALI KELİME</div>
-                        <div class="error-display" id="error-val">0</div>
-                    </div>
-                </div>
-                
-                <div class="word-box" id="word-display">
-                    </div>
-
-                <input type="text" id="type-input" placeholder="Yazmaya başla..." autocomplete="off">
-                
-                <div style="text-align:center; margin-top:20px; color:#555; font-size:14px;">
-                    Kelimeyi yaz ve <b>BOŞLUK (SPACE)</b> tuşuna bas.
-                    <br>Yanlış kelimeler puan kazandırmaz!
-                </div>
-            </div>
+        <div id="tab-leaderboard" class="tab">
+            <h2>🏆 En İyi Oyuncular</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th width="10%">#</th>
+                        <th>Oyuncu</th>
+                        <th>Unvan</th>
+                        <th>Skor (CPS)</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    </tbody>
+            </table>
+            <p style="margin-top:20px; font-size:13px; color:#666;">* Listeye girmek için giriş yapıp test çözmelisin.</p>
         </div>
 
-        <div id="tab-about" class="tab-content">
+        <div id="tab-about" class="tab">
             <div class="about-card">
-                <h2 class="about-title">⚡ CPSJET Kimdir?</h2>
-                <p class="about-text">
-                    CPSJET, dijital dünyanın hızına ayak uydurmak isteyenler için <span class="about-highlight">2026 yılının Ocak ayında</span> yayın hayatına başlamış yeni nesil bir test platformudur.
-                </p>
-                <p class="about-text">
-                    Bu proje, Türkiye'nin yenilikçi markası <b>Mama Jet</b> bünyesinde geliştirilmiş bir teknoloji girişimidir. Şu an için oyunculara (gamer) ve profesyonellere en doğru hız testi araçlarını sunmayı hedeflerken, arka planda çok daha büyük bir vizyona hazırlanmaktadır.
-                </p>
+                <h2>⚡ CPSJET Hakkında</h2>
+                <p>CPSJET, dijital dünyanın hızına ayak uydurmak isteyenler için <b>2026 Ocak</b> ayında kurulmuş profesyonel bir test platformudur.</p>
+                <p>Bu proje, Türkiye'nin yükselen e-ticaret markası <b>Mama Jet</b> bünyesinde geliştirilmiştir. Kurucumuz <b style="color:var(--accent)">Halil İbrahim Çelik</b> vizyonuyla, oyunculara ve profesyonellere reflekslerini ölçme imkanı sunuyoruz.</p>
                 
-                <h3 style="color:white; margin-top:30px; border-bottom:1px solid #444; padding-bottom:10px;">🚀 Vizyonumuz & Gelecek</h3>
-                <p class="about-text">
-                    CPSJET, şu an bir performans ölçüm aracı olarak hizmet verse de nihai hedefi; e-ticaret ve teknoloji dünyasında söz sahibi, geniş kapsamlı bir <span class="about-highlight">dijital ekosistem</span> olmaktır. 
-                </p>
-                <p class="about-text">
-                    Mama Jet güvencesiyle çıktığımız bu yolda, hem oyuncu ekipmanları hem de dijital çözümler sunarak sektörde fark yaratmayı amaçlıyoruz.
-                </p>
+                <h3 style="color:white; margin-top:30px;">🎯 Vizyonumuz</h3>
+                <p>Sadece bir test sitesi değil, geleceğin e-ticaret ve teknoloji ekosisteminin ilk adımıyız.</p>
                 
-                <div style="margin-top:30px; border-top:1px solid #333; padding-top:20px; font-size:14px; color:#888;">
-                    © 2026 CPSJET | Founder: <b>Muhammed Hamza Çelik</b> <br>
-                    Powered by <b>CPSJET</b>
+                <div style="margin-top:30px; border-top:1px solid #333; padding-top:20px; font-size:12px; color:#666;">
+                    © 2026 CPSJET | All Rights Reserved.
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div id="modal">
-        <div class="modal-content">
-            <h2 id="modal-title" style="color:var(--color-orange)">Sonuçlar</h2>
-            <div style="font-size:40px; font-weight:bold; margin:20px 0;" id="modal-score">0</div>
-            <p id="modal-desc" style="color:#aaa;">Harika!</p>
-            <button onclick="document.getElementById('modal').style.display='none'" class="time-btn active" style="margin-top:20px; width:100%;">TAMAM</button>
+    <div id="login-modal" class="modal">
+        <div class="modal-box">
+            <h3 style="color:var(--accent); margin-top:0;">Üye Girişi / Kayıt</h3>
+            <input type="text" id="inp-name" placeholder="Adınız Soyadınız">
+            <input type="email" id="inp-email" placeholder="E-posta Adresi">
+            <input type="tel" id="inp-phone" placeholder="Telefon Numarası">
+            <button class="btn-primary" onclick="handleLogin()">Giriş Yap</button>
+            <p onclick="closeModal('login')" style="cursor:pointer; font-size:12px; color:#666; margin-top:15px;">Vazgeç</p>
+        </div>
+    </div>
+
+    <div id="result-modal" class="modal">
+        <div class="modal-box">
+            <h2 id="res-title">Sonuç</h2>
+            <div style="font-size:40px; font-weight:bold; margin:20px 0; color:white;" id="res-score">0</div>
+            <p id="res-msg" style="color:#aaa; font-size:14px;">Tebrikler!</p>
+            <button class="btn-primary" onclick="closeModal('result')">Tamam</button>
         </div>
     </div>
 
     <script>
-        /* ============================
-           SEKME GEÇİŞ SİSTEMİ
-           ============================ */
-        function switchTab(tabName, linkElement) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById('tab-' + tabName).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            if(linkElement) linkElement.classList.add('active');
+        /* --- GLOBAL STATE --- */
+        let currentUser = null;
+        let cpsRecord = 0;
+
+        /* --- BAŞLANGIÇ --- */
+        window.onload = function() {
+            loadUser();
+            updateLeaderboard();
+            initWords();
+        };
+
+        /* --- SEKME SİSTEMİ --- */
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if(el) el.classList.add('active');
         }
 
-        /* ============================
-           MOUSE (CPS) TEST LOGIC
-           ============================ */
-        let cpsScore = 0;
-        let cpsTime = 5; 
-        let cpsTimeLeft = 5;
-        let cpsActive = false;
-        let cpsInterval;
+        /* --- ÜYELİK SİSTEMİ --- */
+        function openModal(type) { document.getElementById(type + '-modal').style.display = 'flex'; }
+        function closeModal(type) { document.getElementById(type + '-modal').style.display = 'none'; }
 
-        const timerEl = document.getElementById('timer');
-        const scoreEl = document.getElementById('score');
-        const cpsEl = document.getElementById('cps');
-        const clickArea = document.getElementById('click-area');
+        function handleLogin() {
+            const name = document.getElementById('inp-name').value;
+            const email = document.getElementById('inp-email').value;
+            const phone = document.getElementById('inp-phone').value;
 
-        function setMode(seconds, btn) {
-            if(cpsActive) return;
-            cpsTime = seconds;
-            cpsTimeLeft = seconds;
-            timerEl.textContent = seconds.toFixed(2);
-            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            if(name && email) {
+                currentUser = { name, email, phone };
+                localStorage.setItem('cps_user', JSON.stringify(currentUser));
+                loadUser();
+                closeModal('login');
+                updateLeaderboard(); // Giriş yapınca listeyi güncelle
+            } else {
+                alert("Lütfen isim ve e-posta giriniz.");
+            }
         }
 
-        clickArea.addEventListener('mousedown', () => {
-            if(!cpsActive && cpsTimeLeft > 0) startCpsGame();
+        function loadUser() {
+            const stored = localStorage.getItem('cps_user');
+            const storedRecord = localStorage.getItem('cps_record');
+            if(stored) {
+                currentUser = JSON.parse(stored);
+                cpsRecord = storedRecord ? parseFloat(storedRecord) : 0;
+                
+                document.getElementById('guest-view').style.display = 'none';
+                document.getElementById('user-view').style.display = 'block';
+                document.getElementById('u-name').textContent = currentUser.name;
+                document.getElementById('u-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+                document.getElementById('u-record').textContent = cpsRecord;
+            } else {
+                document.getElementById('guest-view').style.display = 'block';
+                document.getElementById('user-view').style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('cps_user');
+            currentUser = null;
+            location.reload();
+        }
+
+        /* --- LİDER TABLOSU MANTIĞI --- */
+        function updateLeaderboard() {
+            const tbody = document.getElementById('leaderboard-body');
+            // Sabit Bot Listesi
+            let players = [
+                { rank: 1, name: "Halil İbrahim Çelik", title: "Founder 👑", score: 14.5 },
+                { rank: 2, name: "ProGamer_TR", title: "Oyuncu", score: 12.2 },
+                { rank: 3, name: "SpeedDemon", title: "Oyuncu", score: 10.8 },
+                { rank: 4, name: "MamaJet_Fan", title: "Üye", score: 9.5 }
+            ];
+
+            // Eğer kullanıcı giriş yapmışsa ve rekoru varsa onu da ekleyelim
+            if(currentUser && cpsRecord > 0) {
+                // Kullanıcıyı listeye ekle ve sırala
+                players.push({ rank: 0, name: currentUser.name, title: "SİZ", score: cpsRecord });
+                players.sort((a, b) => b.score - a.score);
+                // Sıralamayı yeniden numaralandır
+                players.forEach((p, i) => p.rank = i + 1);
+            }
+
+            // Tabloyu Yazdır
+            tbody.innerHTML = "";
+            players.forEach(p => {
+                let rankClass = p.rank === 1 ? 'rank-1' : (p.rank === 2 ? 'rank-2' : (p.rank === 3 ? 'rank-3' : ''));
+                let row = `<tr>
+                    <td class="${rankClass}">#${p.rank}</td>
+                    <td style="font-weight:bold;">${p.name}</td>
+                    <td style="font-size:12px; color:#888;">${p.title}</td>
+                    <td style="color:var(--accent); font-weight:bold;">${p.score} CPS</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        /* --- CPS OYUNU --- */
+        let cpsTime = 5, cpsActive = false, cpsScore = 0, cpsInterval;
+        
+        document.getElementById('click-area').addEventListener('mousedown', () => {
+            if(!cpsActive && cpsTime > 0) {
+                cpsActive = true;
+                document.getElementById('click-area').textContent = "BAS! BAS! BAS!";
+                cpsInterval = setInterval(() => {
+                    cpsTime -= 0.1;
+                    document.getElementById('timer').textContent = Math.max(0, cpsTime).toFixed(1);
+                    document.getElementById('cps').textContent = (cpsScore / (5 - cpsTime)).toFixed(1);
+                    
+                    if(cpsTime <= 0) {
+                        finishCps();
+                    }
+                }, 100);
+            }
             if(cpsActive) {
                 cpsScore++;
-                scoreEl.textContent = cpsScore;
-                clickArea.style.transform = "scale(0.98)";
-                setTimeout(() => clickArea.style.transform = "scale(1)", 50);
+                document.getElementById('score').textContent = cpsScore;
             }
         });
 
-        function startCpsGame() {
-            cpsActive = true;
-            cpsScore = 0;
-            scoreEl.textContent = "0";
-            clickArea.textContent = "HIZLI OL!";
-            clickArea.style.borderColor = "#ff8c00";
-            clickArea.style.color = "white";
-
-            cpsInterval = setInterval(() => {
-                cpsTimeLeft -= 0.01;
-                timerEl.textContent = Math.max(0, cpsTimeLeft).toFixed(2);
-                let elapsed = cpsTime - cpsTimeLeft;
-                if(elapsed > 0.1) cpsEl.textContent = (cpsScore / elapsed).toFixed(1);
-                if(cpsTimeLeft <= 0) endCpsGame();
-            }, 10);
-        }
-
-        function endCpsGame() {
+        function finishCps() {
             clearInterval(cpsInterval);
             cpsActive = false;
-            cpsTimeLeft = cpsTime; 
-            timerEl.textContent = cpsTime.toFixed(2);
-            clickArea.textContent = "TEKRAR";
-            clickArea.style.borderColor = "#444";
-            clickArea.style.color = "#555";
-            showModal("CPS Testi Bitti!", `${(cpsScore / cpsTime).toFixed(2)} CPS`, "Parmakların motor gibi çalışıyor!");
-        }
-
-        /* ============================
-           KEYBOARD (WPM) TEST LOGIC
-           ============================ */
-        const words = [
-            "mama", "jet", "hız", "test", "kedi", "köpek", "ticaret", "online", 
-            "başarı", "kod", "oyun", "sistem", "güçlü", "klavye", "mouse", 
-            "ekran", "internet", "proje", "marka", "grafik", "yazılım", "dünya",
-            "pilot", "uçak", "hızlı", "süper", "harika", "rekor", "lider",
-            "performans", "kalite", "güven", "alışveriş", "sepete", "ekle",
-            "indirim", "fırsat", "kampanya", "destek", "müşteri", "memnuniyet",
-            "kargo", "teslimat", "iade", "stok", "satış", "fatura", "sipariş",
-            "mağaza", "sanal", "pos", "banka", "kart", "kredi", "taksit",
-            "vitrin", "ürün", "hizmet", "sektör", "rakip", "analiz", "bütçe",
-            "reklam", "tanıtım", "sosyal", "medya", "takipçi", "beğeni", "yorum",
-            "içerik", "blog", "video", "görsel", "tasarım", "renk", "uyum",
-            "yönetim", "patron", "girişim", "kurucu", "ceo", "ofis", "çalışan",
-            "ekip", "toplantı", "sunum", "dosya", "belge", "imza", "karar",
-            "hedef", "plan", "strateji", "büyüme", "kazanç", "gelir", "gider",
-            "muhasebe", "finans", "ekonomi", "döviz", "kur", "piyasa", "borsa",
-            "yatırım", "gelecek", "vizyon", "misyon", "değer", "kültür", "sanat",
-            "spor", "futbol", "basketbol", "koşu", "yarış", "zaman", "dakika",
-            "saniye", "saat", "takvim", "hafta", "ay", "yıl", "bugün", "yarın",
-            "sabah", "akşam", "gece", "gündüz", "güneş", "ay", "yıldız",
-            "uzay", "bilim", "teknik", "mühendis", "mimar", "doktor", "uzman",
-            "eğitim", "öğrenci", "okul", "sınav", "ders", "kitap", "defter",
-            "kalem", "silgi", "masa", "sandalye", "bilgisayar", "telefon", "tablet"
-        ];
-        
-        let wordList = [];
-        let currentWordIndex = 0;
-        let correctChars = 0;
-        let errorCount = 0; 
-        let wpmStartTime = null;
-        let wpmInterval;
-
-        const wpmDisplay = document.getElementById('wpm-val');
-        const errorDisplay = document.getElementById('error-val');
-        const wordBox = document.getElementById('word-display');
-        const input = document.getElementById('type-input');
-
-        function initTyping() {
-            wordList = [];
-            for(let i=0; i<60; i++) {
-                wordList.push(words[Math.floor(Math.random() * words.length)]);
+            let finalCps = (cpsScore / 5).toFixed(2);
+            
+            // Rekor Kontrolü
+            if(parseFloat(finalCps) > cpsRecord) {
+                cpsRecord = finalCps;
+                localStorage.setItem('cps_record', cpsRecord);
+                if(currentUser) {
+                    document.getElementById('u-record').textContent = cpsRecord;
+                    updateLeaderboard(); // Listeyi güncelle
+                }
             }
-            renderWords();
+
+            document.getElementById('res-title').textContent = "CPS Testi Bitti";
+            document.getElementById('res-score').textContent = finalCps + " CPS";
+            document.getElementById('res-msg').textContent = currentUser ? "Harika iş çıkardın " + currentUser.name + "!" : "Skorunu kaydetmek için giriş yap!";
+            openModal('result');
+            
+            // Sıfırla
+            cpsTime = 5;
+            cpsScore = 0;
+            document.getElementById('timer').textContent = "5.0";
+            document.getElementById('click-area').textContent = "TEKRAR DENE";
         }
 
-        function renderWords() {
-            wordBox.innerHTML = '';
-            wordList.forEach((word, index) => {
-                const span = document.createElement('span');
-                span.textContent = word;
-                if(index === currentWordIndex) span.className = 'current';
-                wordBox.appendChild(span);
+        /* --- KLAVYE OYUNU --- */
+        const words = ["mama", "jet", "hız", "kod", "web", "pro", "test", "oyun", "güç", "hızlı", "ekran", "klavye", "mouse", "ticaret", "başarı"];
+        let wList = [], wIdx = 0, wStart = null;
+
+        function initWords() {
+            const box = document.getElementById('word-box');
+            box.innerHTML = "";
+            wList = [];
+            for(let i=0; i<30; i++) wList.push(words[Math.floor(Math.random()*words.length)]);
+            
+            wList.forEach((w, i) => {
+                let s = document.createElement('span');
+                s.textContent = w + " ";
+                s.id = "w-" + i;
+                if(i===0) s.className = 'current';
+                box.appendChild(s);
             });
-            const activeSpan = wordBox.children[currentWordIndex];
-            if(activeSpan) wordBox.scrollTop = activeSpan.offsetTop - 20;
         }
 
-        input.addEventListener('input', (e) => {
-            if(!wpmStartTime) {
-                wpmStartTime = Date.now();
-                startWpmTimer();
-            }
-
-            const val = input.value;
-            const currentWord = wordList[currentWordIndex];
-
-            // Space'e basıldı mı?
+        document.getElementById('type-input').addEventListener('input', function() {
+            if(!wStart) wStart = Date.now();
+            let val = this.value;
+            
             if(val.endsWith(' ')) {
-                const typedWord = val.trim();
-                const span = wordBox.children[currentWordIndex];
-                
-                if(typedWord === currentWord) {
-                    span.className = 'correct';
-                    correctChars += currentWord.length + 1; 
+                let typed = val.trim();
+                let target = wList[wIdx];
+                let el = document.getElementById('w-' + wIdx);
+
+                if(typed === target) {
+                    el.className = 'correct';
                 } else {
-                    span.className = 'wrong';
-                    errorCount++;
-                    errorDisplay.textContent = errorCount;
+                    el.className = 'wrong';
+                    document.getElementById('errors').textContent = parseInt(document.getElementById('errors').textContent) + 1;
                 }
 
-                currentWordIndex++;
-                input.value = '';
-                renderWords();
+                wIdx++;
+                this.value = '';
+                
+                if(wIdx < wList.length) {
+                    document.getElementById('w-' + wIdx).className = 'current';
+                } else {
+                    // Oyun bitti (basit versiyon)
+                    let mins = (Date.now() - wStart) / 60000;
+                    let wpm = Math.round((wIdx / mins));
+                    document.getElementById('res-title').textContent = "Klavye Testi";
+                    document.getElementById('res-score').textContent = wpm + " WPM";
+                    document.getElementById('res-msg').textContent = "Parmakların alev alıyor!";
+                    openModal('result');
+                    wIdx = 0; wStart = null; initWords();
+                }
             }
         });
-
-        function startWpmTimer() {
-            wpmInterval = setInterval(() => {
-                const timeInMinutes = (Date.now() - wpmStartTime) / 60000;
-                if(timeInMinutes > 0) {
-                    const wpm = Math.round((correctChars / 5) / timeInMinutes);
-                    wpmDisplay.textContent = wpm;
-                }
-                if(timeInMinutes >= 1) { // 1 Dakika limiti
-                    clearInterval(wpmInterval);
-                    input.disabled = true;
-                    showModal("Klavye Testi Bitti!", wpmDisplay.textContent + " WPM", `Toplam ${errorCount} hatalı kelime.`);
-                }
-            }, 500);
-        }
-
-        /* ORTAK FONKSİYONLAR */
-        function showModal(title, score, desc) {
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-score').textContent = score;
-            document.getElementById('modal-desc').textContent = desc;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        initTyping();
-
     </script>
 </body>
 </html>
-
-
