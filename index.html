@@ -4,958 +4,1320 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CPSJET - Türkiye'nin En Gelişmiş Gamer Test Platformu. Mama Jet güvencesiyle.">
-    <title>CPSJET OS | Ultimate Gamer Ecosystem v3.0</title>
+    <meta name="author" content="Muhammed Hamza Çelik">
+    <title>CPSJET OS | Ultimate Gamer Ecosystem v6.0</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- CSS BAŞLANGICI --- */
+        /* * ==========================================================================
+         * 1. RESET & CORE VARIABLES
+         * ==========================================================================
+         */
         :root {
-            --primary: #ff8c00;
-            --primary-dark: #cc7000;
-            --secondary: #00e5ff;
-            --danger: #ff003c;
-            --success: #00ff9d;
-            --bg-dark: #050505;
-            --bg-panel: rgba(20, 20, 20, 0.85);
+            /* Renk Paleti */
+            --primary: #ff8c00;          /* Mama Jet Turuncusu */
+            --primary-dim: #b36200;
+            --primary-glow: rgba(255, 140, 0, 0.5);
+            
+            --secondary: #00e5ff;        /* Cyber Mavi */
+            --secondary-glow: rgba(0, 229, 255, 0.5);
+            
+            --danger: #ff003c;           /* Hata Kırmızısı */
+            --success: #00ff9d;          /* Başarı Yeşili */
+            --warning: #ffd700;          /* Uyarı Sarısı */
+
+            /* Arka Planlar */
+            --bg-deep: #050505;
+            --bg-panel: rgba(18, 18, 22, 0.95);
+            --bg-card: rgba(255, 255, 255, 0.03);
+            
+            /* Sınırlar ve Metin */
             --border: rgba(255, 255, 255, 0.1);
             --text-main: #e0e0e0;
-            --font-main: 'Rajdhani', sans-serif;
-            --font-tech: 'Orbitron', sans-serif;
+            --text-muted: #888888;
+            
+            /* Font Ailesi */
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-head: 'Orbitron', sans-serif;
             --font-code: 'Share Tech Mono', monospace;
         }
 
-        * { box-sizing: border-box; outline: none; user-select: none; scrollbar-width: thin; scrollbar-color: var(--primary) #111; }
-        
-        body {
+        * {
+            box-sizing: border-box;
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
             margin: 0;
-            background-color: var(--bg-dark);
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
             color: var(--text-main);
-            font-family: var(--font-main);
-            height: 100vh;
+            font-family: var(--font-ui);
             overflow: hidden;
             display: flex;
         }
 
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #fff; }
+        /* Özel Scrollbar Tasarımı */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fff;
+        }
 
-        /* CANVAS BACKGROUND */
+        /* * ==========================================================================
+         * 2. BACKGROUND EFFECTS (CANVAS & OVERLAYS)
+         * ==========================================================================
+         */
         #bg-canvas {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
-            opacity: 0.4;
+            opacity: 0.25;
         }
 
-        /* SCANLINE EFFECT (CRT MONİTÖR EFEKTİ) */
         .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
             background-size: 100% 4px;
-            z-index: 999;
+            z-index: 9998;
             pointer-events: none;
-            opacity: 0.15;
+            opacity: 0.3;
         }
 
-        /* --- SIDEBAR --- */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, #000 150%);
+            z-index: 9997;
+            pointer-events: none;
+        }
+
+        /* * ==========================================================================
+         * 3. BOOT SCREEN (YÜKLEME EKRANI)
+         * ==========================================================================
+         */
+        #boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-code);
+            color: var(--primary);
+        }
+
+        .loader-bar {
+            width: 300px;
+            height: 4px;
+            background: #222;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            animation: loadProgress 2s ease-in-out forwards;
+        }
+
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            40% { width: 30%; }
+            70% { width: 80%; }
+            100% { width: 100%; }
+        }
+
+        /* * ==========================================================================
+         * 4. SIDEBAR NAVIGATION
+         * ==========================================================================
+         */
         .sidebar {
-            width: 280px;
-            background: rgba(10, 10, 12, 0.95);
+            width: 300px;
+            background: var(--bg-panel);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             z-index: 100;
-            transition: 0.3s;
+            transition: transform 0.3s ease;
         }
 
-        .brand {
-            padding: 30px 20px;
+        .brand-section {
+            padding: 40px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(255,140,0,0.1) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(255,140,0,0.05) 0%, transparent 100%);
         }
-        .brand img { width: 60px; filter: drop-shadow(0 0 15px var(--primary)); transition: 0.4s; }
-        .brand img:hover { transform: rotate(180deg) scale(1.1); }
-        .brand h1 { margin: 10px 0 0; font-family: var(--font-tech); font-size: 24px; color: var(--primary); letter-spacing: 4px; }
-        .brand p { font-size: 10px; color: #666; letter-spacing: 2px; margin-top: 5px; }
 
-        .user-panel {
+        .brand-logo {
+            width: 80px;
+            filter: drop-shadow(0 0 20px var(--primary));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .brand-logo:hover {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .brand-title {
+            margin: 15px 0 0;
+            font-family: var(--font-head);
+            font-size: 26px;
+            color: var(--primary);
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px rgba(255,140,0,0.3);
+        }
+
+        .brand-subtitle {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Profil Kartı */
+        .auth-widget {
             padding: 20px;
             border-bottom: 1px solid var(--border);
         }
-        .guest-mode button {
+
+        .btn-glow {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
-            font-family: var(--font-tech);
+            font-family: var(--font-head);
+            font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
             position: relative;
             overflow: hidden;
         }
-        .guest-mode button:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
-        
-        .user-mode { display: none; }
-        .user-card { display: flex; align-items: center; gap: 15px; }
-        .avatar { width: 45px; height: 45px; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); }
-        .u-info h3 { margin: 0; font-size: 16px; color: #fff; }
-        .u-info span { font-size: 11px; color: var(--success); }
-        .logout-link { font-size: 10px; color: #666; cursor: pointer; text-decoration: underline; margin-top: 5px; display: block; text-align: right; }
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,140,0,0.5), transparent);
+            transition: 0.5s;
+        }
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(255,140,0,0.4);
+            color: #fff;
+            background: rgba(255,140,0,0.1);
+        }
 
-        .nav-menu { flex: 1; overflow-y: auto; padding-top: 10px; }
+        .user-profile {
+            display: none; /* JS ile açılacak */
+        }
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+            border-radius: 6px;
+        }
+        .profile-info h3 { margin: 0; font-size: 15px; color: #fff; }
+        .profile-info span { font-size: 10px; color: var(--success); text-transform: uppercase; }
+        .logout-text {
+            text-align: right;
+            margin-top: 8px;
+            font-size: 10px;
+            color: #666;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* Navigasyon Listesi */
+        .nav-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
         .nav-item {
-            padding: 15px 25px;
-            color: #888;
+            padding: 16px 30px;
+            color: var(--text-muted);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 15px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            transition: 0.2s;
+            transition: all 0.2s;
             border-left: 3px solid transparent;
+            text-decoration: none;
         }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: #fff; padding-left: 30px; }
-        .nav-item.active { background: linear-gradient(90deg, rgba(255,140,0,0.2), transparent); color: #fff; border-left-color: var(--primary); }
-        .nav-item i { width: 25px; text-align: center; color: var(--primary); }
-        .badge { background: var(--danger); color: white; padding: 2px 6px; font-size: 9px; border-radius: 4px; margin-left: auto; font-family: var(--font-tech); }
 
-        .sys-info { padding: 20px; font-size: 10px; color: #444; text-align: center; border-top: 1px solid var(--border); font-family: var(--font-code); }
+        .nav-item:hover {
+            background: rgba(255,255,255,0.03);
+            color: #fff;
+            padding-left: 35px;
+        }
 
-        /* --- MAIN CONTENT --- */
-        .main {
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(255,140,0,0.15), transparent);
+            color: #fff;
+            border-left-color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-family: var(--font-head);
+        }
+
+        .sys-status {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            font-family: var(--font-code);
+            font-size: 10px;
+            color: #444;
+            text-align: center;
+        }
+
+        /* * ==========================================================================
+         * 5. MAIN CONTENT AREA
+         * ==========================================================================
+         */
+        .main-wrapper {
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
-            overflow: hidden;
         }
 
-        .header-bar {
-            padding: 15px 30px;
+        .top-bar {
+            height: 60px;
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.5);
-            border-bottom: 1px solid var(--border);
-            z-index: 10;
+            padding: 0 40px;
+            backdrop-filter: blur(5px);
+            z-index: 50;
         }
-        .breadcrumbs { font-family: var(--font-code); font-size: 12px; color: var(--primary); }
-        .tools { display: flex; gap: 15px; }
-        .tool-btn { background: #111; border: 1px solid #333; color: #ccc; padding: 5px 15px; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
-        .tool-btn:hover { border-color: var(--primary); color: #fff; }
 
-        .content-wrapper {
+        .breadcrumb {
+            font-family: var(--font-code);
+            font-size: 12px;
+            color: var(--primary);
+            opacity: 0.8;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tool-icon {
+            width: 35px;
+            height: 35px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #111;
+        }
+        .tool-icon:hover {
+            border-color: var(--primary);
+            color: #fff;
+            background: rgba(255,140,0,0.1);
+        }
+
+        /* İçerik Gövdesi */
+        .content-body {
             flex: 1;
-            padding: 30px;
+            padding: 40px;
             overflow-y: auto;
             position: relative;
         }
 
-        .tab-content {
-            display: none;
+        .tab-view {
+            display: none; /* JS ile açılır */
             max-width: 1200px;
             margin: 0 auto;
-            animation: fadeIn 0.5s ease;
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .tab-content.active { display: block; }
+        .tab-view.active {
+            display: block;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* --- OYUN ARAYÜZLERİ GENEL --- */
-        .game-header { text-align: center; margin-bottom: 40px; }
-        .game-header h2 { font-family: var(--font-tech); font-size: 36px; color: #fff; text-transform: uppercase; margin: 0; text-shadow: 0 0 20px rgba(255,140,0,0.5); }
-        .game-header p { color: #888; margin-top: 10px; font-size: 14px; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-        .stats-deck { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card {
-            background: rgba(20,20,20,0.6);
-            border: 1px solid var(--border);
-            padding: 20px;
+        /* * ==========================================================================
+         * 6. GAME UI ELEMENTS (Cards, Stats, Headers)
+         * ==========================================================================
+         */
+        .section-header {
             text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header h2 {
+            font-family: var(--font-head);
+            font-size: 36px;
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255,140,0,0.3);
+        }
+        .section-header p {
+            font-size: 16px;
+            color: #888;
+            margin-top: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
         }
-        .stat-card::before { content:''; position: absolute; top:0; left:0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
-        .stat-val { font-family: var(--font-code); font-size: 32px; color: #fff; font-weight: bold; margin-top: 10px; }
-        .stat-lbl { font-size: 11px; color: var(--primary); letter-spacing: 1px; font-weight: 700; }
+        .stat-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
 
-        /* CPS GAME */
-        #click-zone {
-            height: 300px;
-            background: radial-gradient(circle, rgba(255,140,0,0.1) 0%, transparent 70%);
+        .stat-value {
+            font-family: var(--font-code);
+            font-size: 48px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* * ==========================================================================
+         * 7. SPECIFIC GAME AREAS
+         * ==========================================================================
+         */
+        
+        /* CPS TEST */
+        #cps-area {
+            height: 350px;
+            background: radial-gradient(circle, rgba(255,140,0,0.05) 0%, transparent 70%);
             border: 2px dashed #333;
             border-radius: 20px;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.1s;
             position: relative;
             overflow: hidden;
         }
-        #click-zone:hover { border-color: var(--primary); }
-        #click-zone:active { background: rgba(255,140,0,0.2); transform: scale(0.99); }
-        #click-zone h3 { font-family: var(--font-tech); font-size: 28px; pointer-events: none; }
-        .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.4); transform: scale(0); animation: rippleEffect 0.6s linear; pointer-events: none; }
-        @keyframes rippleEffect { to { transform: scale(4); opacity: 0; } }
+        #cps-area:hover { border-color: var(--primary); box-shadow: 0 0 30px rgba(255,140,0,0.1); }
+        #cps-area:active { transform: scale(0.99); background: rgba(255,140,0,0.2); }
+        
+        .click-text { font-family: var(--font-head); font-size: 28px; color: #555; pointer-events: none; }
+        .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.8); transform: scale(0); animation: rippleAnim 0.6s linear; pointer-events: none; }
+        @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
         /* AIM TRAINER */
-        #aim-canvas-container {
-            height: 450px;
+        #aim-field {
+            height: 500px;
             background: #000;
             border: 1px solid #333;
+            border-radius: 15px;
             position: relative;
-            border-radius: 10px;
             cursor: crosshair;
             overflow: hidden;
         }
         .target {
-            width: 40px; height: 40px;
-            background: radial-gradient(circle, #fff 10%, var(--primary) 60%, transparent 70%);
-            position: absolute; border-radius: 50%;
-            animation: targetPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+            width: 50px; height: 50px;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--primary));
+            border-radius: 50%;
             box-shadow: 0 0 15px var(--primary);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
         }
-        @keyframes targetPop { from { transform: scale(0); } to { transform: scale(1); } }
+        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
 
-        /* VISUAL MEMORY (YENİ) */
-        .memory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 400px; margin: 0 auto; }
-        .mem-tile {
-            height: 100px; background: #222; border-radius: 8px; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;
+        /* REACTION TEST */
+        #react-field {
+            height: 400px;
+            background: #222;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
         }
-        .mem-tile:hover { background: #333; }
-        .mem-tile.active { background: #fff; box-shadow: 0 0 20px #fff; }
-        .mem-tile.correct { background: var(--success); }
-        .mem-tile.wrong { background: var(--danger); }
+        #react-field.waiting { background: #ce2029; } /* Kırmızı */
+        #react-field.go { background: #4caf50; box-shadow: 0 0 100px #4caf50; } /* Yeşil */
+        #react-field h3 { font-size: 40px; margin: 0; color: white; font-family: var(--font-head); pointer-events: none; }
+        #react-field p { color: rgba(255,255,255,0.7); pointer-events: none; }
 
-        /* BLOG & HABERLER */
-        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .blog-card { background: #111; border: 1px solid #222; padding: 25px; transition: 0.3s; }
-        .blog-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .blog-date { font-size: 10px; color: var(--primary); font-family: var(--font-code); }
-        .blog-card h3 { color: #fff; margin: 10px 0; font-family: var(--font-tech); }
-        .blog-card p { color: #888; font-size: 14px; line-height: 1.6; }
-        .read-more { color: #fff; font-size: 12px; text-decoration: underline; cursor: pointer; margin-top: 15px; display: block; }
+        /* TYPING TEST */
+        .typing-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #word-display {
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            font-size: 24px;
+            line-height: 1.6;
+            height: 120px;
+            overflow: hidden;
+            color: #555;
+            margin-bottom: 20px;
+            font-family: var(--font-ui);
+            user-select: none;
+        }
+        .word-span { margin-right: 10px; padding: 2px 5px; border-radius: 4px; }
+        .word-span.active { background: #333; color: #fff; }
+        .word-span.correct { color: var(--success); }
+        .word-span.wrong { color: var(--danger); text-decoration: line-through; }
 
-        /* STORE (MAĞAZA) */
-        .store-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product { background: #151515; border: 1px solid #333; padding: 15px; text-align: center; position: relative; transition: 0.3s; }
-        .product:hover { border-color: var(--secondary); }
-        .p-image { height: 140px; background: #0a0a0a; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #333; }
-        .p-name { display: block; font-weight: bold; margin-bottom: 5px; }
-        .p-price { font-family: var(--font-tech); color: var(--primary); font-size: 18px; display: block; margin-bottom: 15px; }
-        .add-cart { width: 100%; padding: 10px; background: #222; color: #fff; border: 1px solid #444; cursor: pointer; transition: 0.2s; }
-        .add-cart:hover { background: var(--primary); border-color: var(--primary); color: #000; font-weight: bold; }
+        #type-input {
+            width: 100%;
+            padding: 20px;
+            background: #000;
+            border: 2px solid #333;
+            color: white;
+            font-size: 24px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: var(--font-ui);
+        }
+        #type-input:focus { border-color: var(--primary); }
 
-        /* LİDERLİK TABLOSU */
-        .lb-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-        .lb-table th { text-align: left; padding: 15px; color: #666; font-size: 10px; letter-spacing: 1px; border-bottom: 1px solid #333; }
-        .lb-table td { padding: 15px; border-bottom: 1px solid #222; color: #ccc; }
-        .rank-badge { width: 25px; height: 25px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 12px; }
-        .r-1 { background: #ffd700; color: #000; box-shadow: 0 0 10px #ffd700; }
-        .r-2 { background: #c0c0c0; color: #000; }
-        .r-3 { background: #cd7f32; color: #000; }
+        /* * ==========================================================================
+         * 8. DONATE & SUPPORT SECTION
+         * ==========================================================================
+         */
+        .donate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
 
-        /* MODAL */
+        .donate-card {
+            background: #111;
+            border: 1px solid #333;
+            padding: 50px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .donate-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .d-icon { font-size: 60px; color: var(--primary); margin-bottom: 20px; display: block; }
+        .d-title { font-family: var(--font-head); font-size: 20px; color: #fff; margin-bottom: 10px; }
+        
+        .crypto-address {
+            background: #000;
+            border: 1px dashed #444;
+            color: #999;
+            padding: 15px;
+            font-family: var(--font-code);
+            font-size: 12px;
+            border-radius: 8px;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 800;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font-head);
+            font-size: 14px;
+        }
+        .copy-btn:hover { background: #fff; }
+
+        /* * ==========================================================================
+         * 9. MODALS & TOASTS
+         * ==========================================================================
+         */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 9999;
+            background: rgba(0,0,0,0.9); z-index: 10000;
             display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
         .modal-box {
-            background: #111; border: 1px solid var(--primary);
-            width: 400px; padding: 40px; text-align: center;
+            background: #0e0e0e; border: 1px solid var(--primary);
+            width: 450px; padding: 40px; text-align: center; border-radius: 10px;
+            box-shadow: 0 0 50px rgba(255,140,0,0.2);
             position: relative;
-            box-shadow: 0 0 50px rgba(255,140,0,0.15);
         }
-        .modal-box input { width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: #fff; text-align: center; font-family: var(--font-tech); margin: 15px 0; }
-        .modal-btn { width: 100%; padding: 15px; background: var(--primary); color: #000; font-weight: bold; border: none; cursor: pointer; font-family: var(--font-tech); }
+        .modal-title { font-family: var(--font-head); font-size: 24px; color: var(--primary); margin-bottom: 5px; }
+        .modal-desc { color: #666; font-size: 13px; margin-bottom: 25px; }
+        
+        .modal-input {
+            width: 100%; padding: 15px; background: #050505; border: 1px solid #333;
+            color: #fff; text-align: center; font-size: 18px; border-radius: 6px; margin-bottom: 20px;
+        }
+        .modal-input:focus { border-color: var(--primary); }
 
-        /* MOBİL RESPONSIVE */
-        @media (max-width: 900px) {
+        /* Toast Bildirimleri */
+        #toast-container {
+            position: fixed; bottom: 30px; right: 30px; z-index: 11000;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .toast {
+            background: #111; border-left: 4px solid var(--primary);
+            padding: 15px 25px; min-width: 250px;
+            color: #fff; font-family: var(--font-ui); font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideInRight 0.3s ease;
+            display: flex; align-items: center; gap: 10px;
+        }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* * ==========================================================================
+         * 10. RESPONSIVE MEDIA QUERIES
+         * ==========================================================================
+         */
+        @media (max-width: 1024px) {
             body { flex-direction: column; overflow: auto; height: auto; }
-            .sidebar { width: 100%; flex-direction: row; padding: 10px; justify-content: space-between; align-items: center; position: relative; }
-            .nav-menu { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: #000; z-index: 999; padding: 20px; border-bottom: 1px solid var(--primary); }
-            .sidebar.mobile-open .nav-menu { display: block; }
-            .user-panel { display: none; }
-            .main { min-height: 100vh; }
-            .stats-deck { grid-template-columns: 1fr; }
-            .header-bar { display: none; }
+            .sidebar { width: 100%; height: 70px; flex-direction: row; padding: 0 20px; align-items: center; justify-content: space-between; position: fixed; top: 0; }
+            .brand-section { padding: 0; border: none; background: none; display: flex; align-items: center; gap: 10px; }
+            .brand-logo { width: 40px; }
+            .brand-title { font-size: 18px; margin: 0; }
+            .brand-subtitle, .auth-widget, .nav-container, .sys-status { display: none; }
+            
+            /* Mobil Menü Tetikleyici (Basitleştirilmiş) */
+            .mobile-menu-btn { display: block; font-size: 24px; color: var(--primary); }
+            
+            .main-wrapper { margin-top: 70px; min-height: 100vh; }
+            .top-bar { display: none; }
+            
+            /* Mobilde Gridleri Tek Sütuna Düşür */
+            .stats-container, .donate-grid { grid-template-columns: 1fr; }
+            .tab-view { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <div id="boot-screen">
+        <img src="logo.png" style="width:100px; margin-bottom:20px;">
+        <div style="margin-bottom:10px;">SYSTEM INITIALIZING...</div>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
+        <div style="margin-top:20px; font-size:12px; color:#555;">POWERED BY MAMA JET</div>
+    </div>
+
     <canvas id="bg-canvas"></canvas>
     <div class="scanlines"></div>
+    <div class="vignette"></div>
 
-    <div class="modal-overlay" id="login-modal">
+    <div id="toast-container"></div>
+
+    <div class="modal-overlay" id="modal-login">
         <div class="modal-box">
-            <h2 style="color:var(--primary); font-family:var(--font-tech);">SİSTEM GİRİŞİ</h2>
-            <p style="font-size:12px; color:#666;">GAMER ID OLUŞTURUN</p>
-            <input type="text" id="username-inp" placeholder="KULLANICI ADI">
-            <button class="modal-btn" onclick="Auth.login()">BAĞLAN</button>
-            <p onclick="UI.toggleModal('login-modal', false)" style="margin-top:15px; font-size:11px; cursor:pointer; color:#444;">İPTAL</p>
+            <h3 class="modal-title">SİSTEME BAĞLAN</h3>
+            <p class="modal-desc">Skorlarınızı kaydetmek için Gamer Tag oluşturun.</p>
+            <input type="text" class="modal-input" id="inp-username" placeholder="Kullanıcı Adı">
+            <button class="btn-glow" onclick="App.Auth.login()">GİRİŞ YAP</button>
+            <div style="margin-top:20px; font-size:12px; color:#555; cursor:pointer;" onclick="App.UI.closeModals()">ZİYARETÇİ OLARAK DEVAM ET</div>
         </div>
     </div>
 
-    <div class="sidebar" id="sidebar">
-        <div class="brand">
-            <img src="logo.png" alt="Logo">
-            <h1>CPSJET</h1>
-            <p>OS v3.5 // MAMA JET</p>
-        </div>
-
-        <div class="user-panel">
-            <div class="guest-mode" id="guest-ui">
-                <button onclick="UI.toggleModal('login-modal', true)">GİRİŞ YAP</button>
-            </div>
-            <div class="user-mode" id="user-ui">
-                <div class="user-card">
-                    <div class="avatar" id="u-avatar">?</div>
-                    <div class="u-info">
-                        <h3 id="u-name">PLAYER</h3>
-                        <span>ONLINE</span>
-                    </div>
+    <div class="modal-overlay" id="modal-settings">
+        <div class="modal-box">
+            <h3 class="modal-title">AYARLAR</h3>
+            <div style="text-align:left; margin:20px 0;">
+                <div style="margin-bottom:15px; display:flex; justify-content:space-between;">
+                    <span>Ses Efektleri</span>
+                    <span id="set-sound-stat" style="color:var(--primary)">AÇIK</span>
                 </div>
-                <div class="logout-link" onclick="Auth.logout()">OTURUMU KAPAT</div>
+                <div style="margin-bottom:15px; display:flex; justify-content:space-between;">
+                    <span>Zorluk Seviyesi</span>
+                    <span style="color:var(--secondary)">NORMAL</span>
+                </div>
+                <div style="margin-bottom:15px; display:flex; justify-content:space-between;">
+                    <span>Tema</span>
+                    <span style="color:var(--primary)">DARK CYBER</span>
+                </div>
             </div>
-        </div>
-
-        <div class="nav-menu">
-            <div class="nav-item active" onclick="Router.go('cps', this)"><i class="fas fa-mouse"></i> CPS Testi</div>
-            <div class="nav-item" onclick="Router.go('aim', this)"><i class="fas fa-crosshairs"></i> Aim Trainer</div>
-            <div class="nav-item" onclick="Router.go('memory', this)"><i class="fas fa-brain"></i> Hafıza Testi <span class="badge">YENİ</span></div>
-            <div class="nav-item" onclick="Router.go('chimp', this)"><i class="fas fa-sort-numeric-down"></i> Chimp Test</div>
-            <div class="nav-item" onclick="Router.go('store', this)"><i class="fas fa-shopping-bag"></i> Mağaza</div>
-            <div class="nav-item" onclick="Router.go('blog', this)"><i class="fas fa-newspaper"></i> Haberler</div>
-            <div class="nav-item" onclick="Router.go('leaderboard', this)"><i class="fas fa-trophy"></i> Sıralama</div>
-            <div class="nav-item" onclick="Router.go('about', this)"><i class="fas fa-info-circle"></i> Hakkımızda</div>
-        </div>
-
-        <div class="sys-info">
-            SERVER: TR-ISTANBUL<br>
-            PING: 14ms<br>
-            FPS: 144
+            <button class="btn-glow" onclick="App.UI.closeModals()">KAYDET VE KAPAT</button>
         </div>
     </div>
 
-    <div class="main">
-        <div class="header-bar">
-            <div class="breadcrumbs">> HOME > <span id="page-title" style="color:#fff;">DASHBOARD</span></div>
-            <div class="tools">
-                <div class="tool-btn" onclick="AudioEngine.toggle()"><i class="fas fa-volume-up"></i> <span id="sound-stat">ON</span></div>
-                <div class="tool-btn"><i class="fas fa-globe"></i> TR</div>
+    <aside class="sidebar">
+        <div class="brand-section">
+            <img src="logo.png" alt="Logo" class="brand-logo">
+            <h1 class="brand-title">CPSJET</h1>
+            <div class="brand-subtitle">OS v6.0 ULTIMATE</div>
+        </div>
+
+        <div class="auth-widget">
+            <div id="guest-panel">
+                <button class="btn-glow" onclick="App.UI.openModal('modal-login')">PROFIL OLUŞTUR</button>
+            </div>
+            <div id="user-panel" class="user-profile">
+                <div class="profile-card">
+                    <div class="profile-avatar" id="p-avatar">?</div>
+                    <div class="profile-info">
+                        <h3 id="p-name">PLAYER</h3>
+                        <span id="p-rank">NOOB</span>
+                    </div>
+                </div>
+                <div class="logout-text" onclick="App.Auth.logout()">ÇIKIŞ YAP</div>
             </div>
         </div>
 
-        <div class="content-wrapper">
-            
-            <div id="tab-cps" class="tab-content active">
-                <div class="game-header">
-                    <h2>Tıklama Hızı</h2>
-                    <p>Dünyanın en hızlı parmakları arasına gir. E-Sporcular için ısınma modu.</p>
-                </div>
-                <div class="stats-deck">
-                    <div class="stat-card"><div class="stat-val" id="cps-timer">5.00</div><div class="stat-lbl">SÜRE</div></div>
-                    <div class="stat-card"><div class="stat-val" id="cps-score">0.0</div><div class="stat-lbl">CPS</div></div>
-                    <div class="stat-card"><div class="stat-val" id="cps-clicks">0</div><div class="stat-lbl">TIKLAMA</div></div>
-                </div>
-                <div id="click-zone" onmousedown="GameCPS.click(event)">
-                    <h3>BAŞLAMAK İÇİN TIKLA</h3>
-                </div>
-            </div>
+        <nav class="nav-container">
+            <a class="nav-item active" onclick="App.Router.go('dashboard', this)"><i class="fas fa-home"></i> Dashboard</a>
+            <a class="nav-item" onclick="App.Router.go('cps', this)"><i class="fas fa-mouse"></i> CPS Testi</a>
+            <a class="nav-item" onclick="App.Router.go('aim', this)"><i class="fas fa-crosshairs"></i> Aim Trainer <span class="nav-badge">HOT</span></a>
+            <a class="nav-item" onclick="App.Router.go('reaction', this)"><i class="fas fa-bolt"></i> Refleks Testi</a>
+            <a class="nav-item" onclick="App.Router.go('typing', this)"><i class="fas fa-keyboard"></i> Klavye Testi <span class="nav-badge">NEW</span></a>
+            <a class="nav-item" onclick="App.Router.go('memory', this)"><i class="fas fa-brain"></i> Hafıza Testi</a>
+            <a class="nav-item" onclick="App.Router.go('chimp', this)"><i class="fas fa-sort-numeric-down"></i> Chimp Test</a>
+            <div style="height:1px; background:var(--border); margin:10px 20px;"></div>
+            <a class="nav-item" onclick="App.Router.go('donate', this)"><i class="fas fa-heart"></i> Bağış & Destek</a>
+            <a class="nav-item" onclick="App.Router.go('leaderboard', this)"><i class="fas fa-trophy"></i> Sıralama</a>
+            <a class="nav-item" onclick="App.Router.go('about', this)"><i class="fas fa-info-circle"></i> Hakkımızda</a>
+        </nav>
 
-            <div id="tab-aim" class="tab-content">
-                <div class="game-header">
-                    <h2>Aim Trainer</h2>
-                    <p>Reflekslerini ve kas hafızanı geliştir. Hedefler küçülmeden vur.</p>
-                </div>
-                <div class="stats-deck">
-                    <div class="stat-card"><div class="stat-val" id="aim-time">30</div><div class="stat-lbl">KALAN SÜRE</div></div>
-                    <div class="stat-card"><div class="stat-val" id="aim-hits">0</div><div class="stat-lbl">VURUŞ</div></div>
-                    <div class="stat-card"><div class="stat-val" id="aim-acc">100%</div><div class="stat-lbl">İSABET</div></div>
-                </div>
-                <div id="aim-canvas-container" onclick="GameAim.start()">
-                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#555; pointer-events:none;" id="aim-msg">ALANA TIKLA VE BAŞLA</div>
-                </div>
-            </div>
+        <div class="sys-status">
+            SERVER: TR-IST | PING: 14ms <br> FOUNDER: MUHAMMED HAMZA ÇELİK
+        </div>
+    </aside>
 
-            <div id="tab-memory" class="tab-content">
-                <div class="game-header">
-                    <h2>Sözel Hafıza</h2>
-                    <p>Ekrana gelen kelimeleri aklında tut. Bu kelimeyi daha önce gördün mü?</p>
+    <main class="main-wrapper">
+        <header class="top-bar">
+            <div class="breadcrumb">> MAMA_JET > SYSTEMS > <span id="page-name" style="color:var(--primary)">DASHBOARD</span></div>
+            <div class="toolbar">
+                <div class="tool-icon" onclick="App.Audio.toggle()"><i class="fas fa-volume-up" id="icon-sound"></i></div>
+                <div class="tool-icon" onclick="App.UI.openModal('modal-settings')"><i class="fas fa-cog"></i></div>
+                <div class="tool-icon"><i class="fas fa-globe"></i></div>
+            </div>
+        </header>
+
+        <div class="content-body">
+
+            <div id="tab-dashboard" class="tab-view active">
+                <div class="section-header">
+                    <h2>Hoş Geldiniz</h2>
+                    <p>Türkiye'nin en kapsamlı oyuncu test platformu. Reflekslerini ölç, geliştir ve liderlik tablosunda yüksel.</p>
                 </div>
-                <div style="text-align:center; padding:50px; background:#111; border:1px solid #333; border-radius:15px;">
-                    <h1 id="mem-word" style="font-size:40px; margin-bottom:30px;">HAZIR?</h1>
-                    <div style="display:flex; justify-content:center; gap:20px;">
-                        <button class="tool-btn" style="padding:15px 40px; border-color:var(--primary); color:var(--primary); font-weight:bold;" onclick="GameMemory.check(true)">GÖRDÜM</button>
-                        <button class="tool-btn" style="padding:15px 40px; border-color:#fff; color:#fff;" onclick="GameMemory.check(false)">YENİ KELİME</button>
+                <div class="donate-grid">
+                    <div class="donate-card" style="cursor:pointer;" onclick="App.Router.go('cps')">
+                        <i class="fas fa-mouse d-icon"></i>
+                        <h3 class="d-title">TIKLAMA HIZI</h3>
+                        <p style="color:#666;">CPS rekorunu kır.</p>
                     </div>
-                    <div style="margin-top:20px; color:#666;">SKOR: <span id="mem-score" style="color:#fff;">0</span> | CAN: <span id="mem-lives" style="color:var(--danger);">3</span></div>
-                    <button onclick="GameMemory.start()" style="margin-top:20px; padding:10px 30px; background:#222; color:#fff; border:none; cursor:pointer;">BAŞLAT</button>
-                </div>
-            </div>
-
-            <div id="tab-chimp" class="tab-content">
-                <div class="game-header">
-                    <h2>Chimp Test</h2>
-                    <p>Numaraların sırasını hafızana al, gizlendiklerinde sırayla tıkla.</p>
-                </div>
-                <div style="text-align:center;">
-                    <div style="margin-bottom:20px;">SEVİYE: <span id="chimp-lvl" style="color:var(--primary); font-weight:bold;">1</span></div>
-                    <div id="chimp-grid" style="height:400px; position:relative; background:#111; border:1px solid #333; border-radius:10px;">
-                        <button onclick="GameChimp.start()" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); padding:15px 30px; background:var(--primary); border:none; font-weight:bold; cursor:pointer;">TESTİ BAŞLAT</button>
+                    <div class="donate-card" style="cursor:pointer;" onclick="App.Router.go('aim')">
+                        <i class="fas fa-crosshairs d-icon" style="color:var(--secondary)"></i>
+                        <h3 class="d-title">NİŞAN ALMA</h3>
+                        <p style="color:#666;">Kas hafızanı geliştir.</p>
                     </div>
                 </div>
             </div>
 
-            <div id="tab-store" class="tab-content">
-                <div class="game-header">
-                    <h2>Mama Jet Store</h2>
-                    <p>Profesyonel oyuncu ekipmanları. Sepetine ekle, hayalini kur.</p>
+            <div id="tab-cps" class="tab-view">
+                <div class="section-header"><h2>CPS TEST</h2><p>5 Saniyede ne kadar hızlı tıklayabilirsin?</p></div>
+                <div class="stats-container">
+                    <div class="stat-box"><div class="stat-value" id="cps-timer">5.00</div><div class="stat-label">SÜRE</div></div>
+                    <div class="stat-box"><div class="stat-value" id="cps-score">0.0</div><div class="stat-label">CPS</div></div>
+                    <div class="stat-box"><div class="stat-value" id="cps-clicks">0</div><div class="stat-label">TIKLAMA</div></div>
                 </div>
-                <div style="margin-bottom:20px; padding:15px; background:#111; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
-                    <span>SEPETİM</span>
-                    <span style="color:var(--primary); font-weight:bold;" id="cart-total">₺0.00</span>
-                </div>
-                <div class="store-items">
-                    </div>
-            </div>
-
-            <div id="tab-blog" class="tab-content">
-                <div class="game-header">
-                    <h2>Haberler & Blog</h2>
-                    <p>Teknoloji, oyun dünyası ve Mama Jet güncellemeleri.</p>
-                </div>
-                <div class="blog-grid">
-                    <div class="blog-card">
-                        <div class="blog-date">25 OCAK 2026</div>
-                        <h3>DPI Nedir? Neden Önemli?</h3>
-                        <p>Mouse hassasiyetinin oyun performansına etkisini inceledik. Düşük DPI mı yoksa Yüksek DPI mı?</p>
-                        <span class="read-more">Devamını Oku -></span>
-                    </div>
-                    <div class="blog-card">
-                        <div class="blog-date">20 OCAK 2026</div>
-                        <h3>Mekanik Klavye Switch Rehberi</h3>
-                        <p>Mavi, Kırmızı, Kahverengi... Hangi switch tipi senin oyun tarzına uygun? Sessiz mi yoksa clicky mi?</p>
-                        <span class="read-more">Devamını Oku -></span>
-                    </div>
-                    <div class="blog-card">
-                        <div class="blog-date">15 OCAK 2026</div>
-                        <h3>Mama Jet Espor Takımı Kuruluyor</h3>
-                        <p>Türkiye'nin yeni espor devi olmaya geliyoruz. Başvurular çok yakında sitemizden alınacak.</p>
-                        <span class="read-more">Devamını Oku -></span>
-                    </div>
+                <div id="cps-area" onmousedown="App.Games.CPS.click(event)">
+                    <div class="click-text">BAŞLAMAK İÇİN TIKLA</div>
                 </div>
             </div>
 
-            <div id="tab-leaderboard" class="tab-content">
-                <div class="game-header">
-                    <h2>En İyiler</h2>
-                    <p>CPSJET efsaneleri. Bu listeye girmek her babayiğidin harcı değil.</p>
+            <div id="tab-aim" class="tab-view">
+                <div class="section-header"><h2>AIM TRAINER</h2><p>Hedefleri süre bitmeden vur.</p></div>
+                <div class="stats-container">
+                    <div class="stat-box"><div class="stat-value" id="aim-time">30.0</div><div class="stat-label">SÜRE</div></div>
+                    <div class="stat-box"><div class="stat-value" id="aim-hits">0</div><div class="stat-label">VURUŞ</div></div>
+                    <div class="stat-box"><div class="stat-value" id="aim-acc">100%</div><div class="stat-label">İSABET</div></div>
                 </div>
-                <table class="lb-table">
-                    <thead>
-                        <tr>
-                            <th width="10%">#</th>
-                            <th>OYUNCU</th>
-                            <th>RÜTBE</th>
-                            <th style="text-align:right;">SKOR (CPS)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lb-body">
-                        </tbody>
+                <div id="aim-field" onclick="App.Games.Aim.start()">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#555; font-size:24px;" id="aim-start-msg">TIKLA VE BAŞLA</div>
+                </div>
+            </div>
+
+            <div id="tab-reaction" class="tab-view">
+                <div class="section-header"><h2>REFLEKS TESTİ</h2><p>Ekran yeşil olduğunda tıkla.</p></div>
+                <div id="react-field" class="waiting" onmousedown="App.Games.React.click()">
+                    <h3>BEKLE...</h3>
+                    <p>Renk değişince tıkla.</p>
+                </div>
+                <div style="text-align:center; margin-top:20px; font-size:20px;">SON SKOR: <span id="react-score" style="color:var(--primary); font-weight:bold;">0 ms</span></div>
+            </div>
+
+            <div id="tab-typing" class="tab-view">
+                <div class="section-header"><h2>KLAVYE TESTİ</h2><p>Kelimeleri olabildiğince hızlı yaz.</p></div>
+                <div class="stats-container">
+                    <div class="stat-box"><div class="stat-value" id="type-wpm">0</div><div class="stat-label">WPM</div></div>
+                    <div class="stat-box"><div class="stat-value" id="type-acc">100%</div><div class="stat-label">DOĞRULUK</div></div>
+                    <div class="stat-box"><div class="stat-value" id="type-timer">60</div><div class="stat-label">SÜRE</div></div>
+                </div>
+                <div class="typing-container">
+                    <div id="word-display"></div>
+                    <input type="text" id="type-input" placeholder="Yazmaya başla..." autocomplete="off">
+                </div>
+            </div>
+
+            <div id="tab-donate" class="tab-view">
+                <div class="section-header"><h2>DESTEK & BAĞIŞ</h2><p>Projenin gelişimi için katkıda bulunabilirsiniz.</p></div>
+                <div class="donate-grid">
+                    <div class="donate-card">
+                        <i class="fas fa-university d-icon"></i>
+                        <h3 class="d-title">BANKA TRANSFER (IBAN)</h3>
+                        <div class="crypto-address" id="iban-txt">TR12 0000 0000 0000 0000 0000 00</div>
+                        <button class="copy-btn" onclick="App.Utils.copy('iban-txt')">IBAN KOPYALA</button>
+                    </div>
+                    <div class="donate-card">
+                        <i class="fab fa-bitcoin d-icon" style="color:#F7931A"></i>
+                        <h3 class="d-title">KRİPTO (USDT - TRC20)</h3>
+                        <div class="crypto-address" id="crypto-txt">TXO9...ExampleWalletAddress...X92</div>
+                        <button class="copy-btn" onclick="App.Utils.copy('crypto-txt')">ADRES KOPYALA</button>
+                    </div>
+                </div>
+                <div style="margin-top:40px; text-align:center; padding:30px; border:1px solid var(--border); border-radius:10px;">
+                    <h3 style="color:var(--primary); font-family:var(--font-head);">SPONSORLUK</h3>
+                    <p>Markanızı burada görmek için: <b>info@mamajet.net</b></p>
+                </div>
+            </div>
+
+            <div id="tab-leaderboard" class="tab-view">
+                <div class="section-header"><h2>LİDERLİK TABLOSU</h2></div>
+                <table style="width:100%; border-collapse:collapse;">
+                    <tr style="border-bottom:1px solid var(--border); color:#666; font-size:12px;"><th style="padding:15px; text-align:left;">SIRA</th><th style="text-align:left;">OYUNCU</th><th style="text-align:right;">SKOR</th></tr>
+                    <tr style="border-bottom:1px solid #222; color:#fff;"><td style="padding:15px;"><span style="color:#ffd700">#1</span></td><td><b>Muhammed Hamza</b> (Founder)</td><td style="text-align:right; color:var(--primary)">16.5 CPS</td></tr>
+                    <tr style="border-bottom:1px solid #222; color:#ccc;"><td style="padding:15px;">#2</td><td>MamaJet_Pro</td><td style="text-align:right;">14.2 CPS</td></tr>
+                    <tr style="border-bottom:1px solid #222; color:#ccc;"><td style="padding:15px;">#3</td><td>SpeedDemon</td><td style="text-align:right;">13.8 CPS</td></tr>
                 </table>
             </div>
 
-            <div id="tab-about" class="tab-content">
-                <div style="max-width:800px; margin:0 auto; padding:40px; background:#111; border:1px solid var(--primary); border-radius:20px; text-align:center;">
-                    <img src="logo.png" style="width:100px; margin-bottom:20px;">
-                    <h2 style="color:var(--primary); font-family:var(--font-tech);">HAKKIMIZDA</h2>
-                    <p style="color:#ccc; line-height:1.8;">
-                        CPSJET, 2026 yılında Halil İbrahim Çelik tarafından, Mama Jet teknoloji vizyonunun bir parçası olarak kurulmuştur. Amacımız, oyunculara kendilerini test edebilecekleri, geliştirebilecekleri ve donanım ihtiyaçlarını karşılayabilecekleri bütünleşik bir ekosistem sunmaktır.
+            <div id="tab-about" class="tab-view">
+                <div style="max-width:800px; margin:0 auto; text-align:center; padding:50px; background:rgba(255,255,255,0.02); border-radius:20px;">
+                    <img src="logo.png" width="100">
+                    <h2 style="color:var(--primary); font-family:var(--font-head); margin:20px 0;">CPSJET v6.0</h2>
+                    <p style="line-height:1.8; color:#aaa;">
+                        CPSJET, 2026 yılında <b>Muhammed Hamza Çelik</b> tarafından kurulmuş, Mama Jet teknoloji grubunun bir parçası olan yeni nesil bir esporcu geliştirme platformudur.
                     </p>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:40px; text-align:left;">
-                        <div style="padding:20px; background:#000; border-radius:10px;">
-                            <h4 style="color:var(--primary); margin:0;">MİSYON</h4>
-                            <p style="font-size:12px; color:#888;">Türkiye'nin en hızlı oyuncularını keşfetmek ve desteklemek.</p>
-                        </div>
-                        <div style="padding:20px; background:#000; border-radius:10px;">
-                            <h4 style="color:var(--primary); margin:0;">VİZYON</h4>
-                            <p style="font-size:12px; color:#888;">Global espor arenasında teknolojik tedarikçi olmak.</p>
-                        </div>
-                    </div>
+                    <p style="margin-top:20px; color:#666;">© 2026 MAMA JET INC. ALL RIGHTS RESERVED.</p>
                 </div>
             </div>
 
+            <div id="tab-memory" class="tab-view"><div class="section-header"><h2>HAFIZA TESTİ</h2><p>Yakında aktif...</p></div></div>
+            <div id="tab-chimp" class="tab-view"><div class="section-header"><h2>CHIMP TEST</h2><p>Yakında aktif...</p></div></div>
+
         </div>
-    </div>
+    </main>
 
     <script>
         /**
-         * CPSJET CORE SYSTEM v3.0
-         * -----------------------
-         * Bu Javascript kodu bir framework gibi çalışır.
-         * İçerisinde Ses Motoru, Oyun Mantıkları ve UI Yönetimi bulunur.
+         * ==========================================================================
+         * CPSJET CORE SYSTEM v6.0
+         * Author: Muhammed Hamza Çelik
+         * Description: Single Page Application Framework for Gaming Tests
+         * ==========================================================================
          */
 
-        /* --- 1. AUDIO ENGINE (SES MOTORU) --- */
-        const AudioEngine = {
-            enabled: true,
-            ctx: new (window.AudioContext || window.webkitAudioContext)(),
-            
-            toggle: function() {
-                this.enabled = !this.enabled;
-                document.getElementById('sound-stat').innerText = this.enabled ? 'ON' : 'OFF';
+        const App = {
+            state: {
+                user: null,
+                soundEnabled: true,
+                currentTab: 'dashboard'
             },
 
-            playTone: function(freq, type, duration) {
-                if(!this.enabled) return;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + duration);
-            },
-
-            click: function() { this.playTone(600, 'square', 0.1); },
-            success: function() { this.playTone(800, 'sine', 0.1); setTimeout(()=>this.playTone(1200, 'sine', 0.2), 100); },
-            error: function() { this.playTone(150, 'sawtooth', 0.3); },
-            start: function() { this.playTone(400, 'triangle', 0.5); }
-        };
-
-        /* --- 2. PARTICLE SYSTEM (ARKA PLAN) --- */
-        const Particles = {
-            canvas: document.getElementById('bg-canvas'),
-            ctx: document.getElementById('bg-canvas').getContext('2d'),
-            particles: [],
-            
+            // --- 1. INITIALIZATION ---
             init: function() {
-                this.resize();
-                window.addEventListener('resize', () => this.resize());
-                for(let i=0; i<50; i++) this.particles.push(this.create());
-                this.animate();
-            },
-
-            resize: function() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            },
-
-            create: function() {
-                return {
-                    x: Math.random() * this.canvas.width,
-                    y: Math.random() * this.canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    size: Math.random() * 2
-                };
-            },
-
-            animate: function() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                this.ctx.fillStyle = '#ff8c00';
-                this.ctx.strokeStyle = 'rgba(255, 140, 0, 0.1)';
+                this.BG.init();
+                this.Auth.check();
                 
-                this.particles.forEach((p, i) => {
-                    p.x += p.vx;
-                    p.y += p.vy;
+                // Boot Screen Animation
+                setTimeout(() => {
+                    document.getElementById('boot-screen').style.opacity = '0';
+                    setTimeout(() => { document.getElementById('boot-screen').style.display = 'none'; }, 500);
+                    this.UI.toast("Sistem Hazır. Hoş Geldiniz!", "success");
+                }, 2000);
+            },
 
-                    if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
-                    if(p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+            // --- 2. AUDIO ENGINE ---
+            Audio: {
+                ctx: new (window.AudioContext || window.webkitAudioContext)(),
+                toggle: function() {
+                    App.state.soundEnabled = !App.state.soundEnabled;
+                    const icon = document.getElementById('icon-sound');
+                    const stat = document.getElementById('set-sound-stat');
+                    if(App.state.soundEnabled) {
+                        icon.className = "fas fa-volume-up";
+                        stat.innerText = "AÇIK";
+                        stat.style.color = "var(--primary)";
+                        App.UI.toast("Ses Efektleri Açıldı");
+                    } else {
+                        icon.className = "fas fa-volume-mute";
+                        stat.innerText = "KAPALI";
+                        stat.style.color = "#666";
+                        App.UI.toast("Ses Efektleri Kapatıldı");
+                    }
+                },
+                play: function(freq, type = 'sine', duration = 0.1) {
+                    if(!App.state.soundEnabled) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                }
+            },
 
-                    this.ctx.beginPath();
-                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    this.ctx.fill();
+            // --- 3. UI CONTROLLER ---
+            UI: {
+                toast: function(msg, type = 'info') {
+                    const con = document.getElementById('toast-container');
+                    const t = document.createElement('div');
+                    t.className = 'toast';
+                    t.style.borderLeftColor = type === 'success' ? 'var(--success)' : (type === 'error' ? 'var(--danger)' : 'var(--primary)');
+                    t.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+                    con.appendChild(t);
+                    setTimeout(() => {
+                        t.style.opacity = '0';
+                        t.style.transform = 'translateX(100%)';
+                        setTimeout(() => t.remove(), 300);
+                    }, 3000);
+                },
+                openModal: function(id) { document.getElementById(id).style.display = 'flex'; },
+                closeModals: function() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); },
+            },
 
-                    // Bağlantı çizgileri
-                    for(let j=i+1; j<this.particles.length; j++) {
-                        let p2 = this.particles[j];
-                        let dist = Math.sqrt((p.x-p2.x)**2 + (p.y-p2.y)**2);
-                        if(dist < 100) {
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(p.x, p.y);
-                            this.ctx.lineTo(p2.x, p2.y);
-                            this.ctx.stroke();
+            // --- 4. ROUTER ---
+            Router: {
+                go: function(tabId, el) {
+                    // Tab değişimi
+                    document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+                    document.getElementById('tab-' + tabId).classList.add('active');
+                    
+                    // Menü aktifliği
+                    if(el) {
+                        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                        el.classList.add('active');
+                    }
+                    
+                    // Başlık güncelleme
+                    document.getElementById('page-name').innerText = tabId.toUpperCase();
+                    App.state.currentTab = tabId;
+                    
+                    // Oyunları sıfırla
+                    App.Games.CPS.reset();
+                    App.Games.Aim.end();
+                    
+                    App.Audio.play(600, 'sine', 0.05);
+                }
+            },
+
+            // --- 5. AUTH SYSTEM ---
+            Auth: {
+                check: function() {
+                    const saved = localStorage.getItem('cps_user_v6');
+                    if(saved) this.load(JSON.parse(saved));
+                },
+                login: function() {
+                    const name = document.getElementById('inp-username').value;
+                    if(name.length < 3) return App.UI.toast("İsim en az 3 karakter olmalı", "error");
+                    
+                    const user = { name: name, rank: 'Çaylak', joined: new Date() };
+                    localStorage.setItem('cps_user_v6', JSON.stringify(user));
+                    this.load(user);
+                    App.UI.closeModals();
+                    App.UI.toast(`Hoş Geldin, ${name}!`, "success");
+                    App.Audio.play(800, 'square', 0.2);
+                },
+                load: function(user) {
+                    App.state.user = user;
+                    document.getElementById('guest-panel').style.display = 'none';
+                    document.getElementById('user-panel').style.display = 'block';
+                    document.getElementById('p-name').innerText = user.name.toUpperCase();
+                    document.getElementById('p-avatar').innerText = user.name[0].toUpperCase();
+                },
+                logout: function() {
+                    localStorage.removeItem('cps_user_v6');
+                    location.reload();
+                }
+            },
+
+            // --- 6. UTILS ---
+            Utils: {
+                copy: function(id) {
+                    const txt = document.getElementById(id).innerText;
+                    navigator.clipboard.writeText(txt).then(() => {
+                        App.UI.toast("Panoya Kopyalandı!", "success");
+                        App.Audio.play(1000, 'sine', 0.1);
+                    });
+                }
+            },
+
+            // --- 7. GAMES ---
+            Games: {
+                
+                // CPS TEST
+                CPS: {
+                    active: false, score: 0, time: 5, int: null,
+                    click: function(e) {
+                        if(!this.active && this.time === 5) this.start();
+                        if(this.active) {
+                            this.score++;
+                            document.getElementById('cps-score').innerText = (this.score / (5 - this.time)).toFixed(1);
+                            document.getElementById('cps-clicks').innerText = this.score;
+                            this.ripple(e);
+                            App.Audio.play(200 + (this.score * 5), 'square', 0.05);
+                        }
+                    },
+                    start: function() {
+                        this.active = true;
+                        this.int = setInterval(() => {
+                            this.time -= 0.01;
+                            document.getElementById('cps-timer').innerText = this.time.toFixed(2);
+                            if(this.time <= 0) this.end();
+                        }, 10);
+                    },
+                    end: function() {
+                        clearInterval(this.int);
+                        this.active = false;
+                        App.UI.toast(`CPS Testi Bitti: ${(this.score / 5).toFixed(2)}`, "success");
+                        this.reset();
+                    },
+                    reset: function() {
+                        this.time = 5; this.score = 0;
+                        document.getElementById('cps-timer').innerText = "5.00";
+                        document.getElementById('cps-score').innerText = "0.0";
+                        document.getElementById('cps-clicks').innerText = "0";
+                    },
+                    ripple: function(e) {
+                        const el = document.getElementById('cps-area');
+                        const r = document.createElement('div');
+                        r.className = 'ripple';
+                        const rect = el.getBoundingClientRect();
+                        r.style.left = (e.clientX - rect.left) + 'px';
+                        r.style.top = (e.clientY - rect.top) + 'px';
+                        r.style.width = '50px'; r.style.height = '50px';
+                        el.appendChild(r);
+                        setTimeout(() => r.remove(), 600);
+                    }
+                },
+
+                // AIM TRAINER
+                Aim: {
+                    active: false, hits: 0, time: 30, int: null,
+                    start: function() {
+                        if(this.active) return;
+                        this.active = true; this.hits = 0; this.time = 30;
+                        document.getElementById('aim-start-msg').style.display = 'none';
+                        this.spawn();
+                        this.int = setInterval(() => {
+                            this.time -= 0.1;
+                            document.getElementById('aim-time').innerText = Math.max(0, this.time).toFixed(1);
+                            if(this.time <= 0) this.end();
+                        }, 100);
+                    },
+                    spawn: function() {
+                        if(!this.active) return;
+                        const f = document.getElementById('aim-field');
+                        const t = document.createElement('div');
+                        t.className = 'target';
+                        t.style.left = Math.random() * 90 + '%';
+                        t.style.top = Math.random() * 90 + '%';
+                        t.onmousedown = (e) => {
+                            e.stopPropagation();
+                            this.hits++;
+                            document.getElementById('aim-hits').innerText = this.hits;
+                            App.Audio.play(800, 'sine', 0.05);
+                            t.remove();
+                            this.spawn();
+                        };
+                        f.appendChild(t);
+                    },
+                    end: function() {
+                        clearInterval(this.int);
+                        this.active = false;
+                        document.getElementById('aim-field').querySelectorAll('.target').forEach(t => t.remove());
+                        document.getElementById('aim-start-msg').style.display = 'block';
+                        App.UI.toast(`Aim Testi Bitti! Vuruş: ${this.hits}`, "success");
+                    }
+                },
+
+                // REACTION TEST
+                React: {
+                    state: 'waiting', // waiting, ready, go
+                    timeout: null,
+                    startTime: 0,
+                    click: function() {
+                        const field = document.getElementById('react-field');
+                        const h3 = field.querySelector('h3');
+                        const p = field.querySelector('p');
+
+                        if(this.state === 'waiting') {
+                            this.state = 'ready';
+                            field.className = 'waiting';
+                            field.style.background = '#ce2029';
+                            h3.innerText = 'BEKLE...';
+                            p.innerText = 'Yeşil olunca tıkla.';
+                            
+                            const delay = 2000 + Math.random() * 3000;
+                            this.timeout = setTimeout(() => {
+                                this.state = 'go';
+                                field.className = 'go';
+                                field.style.background = '#4caf50';
+                                h3.innerText = 'TIKLA!';
+                                this.startTime = Date.now();
+                            }, delay);
+                        
+                        } else if(this.state === 'ready') {
+                            // Erken Bastı
+                            clearTimeout(this.timeout);
+                            this.state = 'waiting';
+                            h3.innerText = 'ÇOK ERKEN!';
+                            p.innerText = 'Tekrar denemek için tıkla.';
+                            field.style.background = '#222';
+                            App.Audio.play(150, 'sawtooth', 0.3);
+                        
+                        } else if(this.state === 'go') {
+                            // Başarılı
+                            const ms = Date.now() - this.startTime;
+                            this.state = 'waiting';
+                            field.className = '';
+                            field.style.background = '#222';
+                            h3.innerText = `${ms} ms`;
+                            p.innerText = 'Tekrar denemek için tıkla.';
+                            document.getElementById('react-score').innerText = ms + " ms";
+                            App.UI.toast(`Refleks: ${ms}ms`, "success");
+                            App.Audio.play(1000, 'sine', 0.2);
                         }
                     }
-                });
-                requestAnimationFrame(() => this.animate());
-            }
-        };
-
-        /* --- 3. UI & ROUTER --- */
-        const UI = {
-            toggleModal: function(id, show) {
-                document.getElementById(id).style.display = show ? 'flex' : 'none';
-            }
-        };
-
-        const Router = {
-            go: function(tabId, el) {
-                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-                document.getElementById('tab-' + tabId).classList.add('active');
+                },
                 
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                if(el) el.classList.add('active');
-
-                document.getElementById('page-title').innerText = tabId.toUpperCase();
-                AudioEngine.click();
-            }
-        };
-
-        /* --- 4. AUTH SYSTEM --- */
-        const Auth = {
-            user: null,
-            init: function() {
-                const saved = localStorage.getItem('cps_user_v3');
-                if(saved) this.setUser(JSON.parse(saved));
-            },
-            login: function() {
-                const name = document.getElementById('username-inp').value;
-                if(name) {
-                    const u = { name: name, joined: new Date() };
-                    localStorage.setItem('cps_user_v3', JSON.stringify(u));
-                    this.setUser(u);
-                    UI.toggleModal('login-modal', false);
-                    AudioEngine.success();
-                }
-            },
-            logout: function() {
-                localStorage.removeItem('cps_user_v3');
-                location.reload();
-            },
-            setUser: function(u) {
-                this.user = u;
-                document.getElementById('guest-ui').style.display = 'none';
-                document.getElementById('user-ui').style.display = 'block';
-                document.getElementById('u-name').innerText = u.name.toUpperCase();
-                document.getElementById('u-avatar').innerText = u.name[0].toUpperCase();
-            }
-        };
-
-        /* --- 5. GAME: CPS TEST --- */
-        const GameCPS = {
-            active: false,
-            score: 0,
-            time: 5,
-            interval: null,
-            
-            click: function(e) {
-                if(!this.active && this.time === 5) {
-                    this.start();
-                }
-                if(this.active) {
-                    this.score++;
-                    document.getElementById('cps-score').innerText = (this.score / (5 - this.time)).toFixed(1);
-                    document.getElementById('cps-clicks').innerText = this.score;
-                    this.createRipple(e);
-                    AudioEngine.click();
-                }
-            },
-
-            start: function() {
-                this.active = true;
-                AudioEngine.start();
-                this.interval = setInterval(() => {
-                    this.time -= 0.01;
-                    document.getElementById('cps-timer').innerText = this.time.toFixed(2);
-                    if(this.time <= 0) this.end();
-                }, 10);
-            },
-
-            end: function() {
-                clearInterval(this.interval);
-                this.active = false;
-                AudioEngine.success();
-                alert(`Süre Doldu! Skorun: ${(this.score/5).toFixed(2)} CPS`);
-                this.reset();
-            },
-
-            reset: function() {
-                this.time = 5;
-                this.score = 0;
-                document.getElementById('cps-timer').innerText = "5.00";
-                document.getElementById('cps-score').innerText = "0.0";
-                document.getElementById('cps-clicks').innerText = "0";
-            },
-
-            createRipple: function(e) {
-                const zone = document.getElementById('click-zone');
-                const rip = document.createElement('div');
-                rip.className = 'ripple';
-                rip.style.left = `${e.clientX - zone.getBoundingClientRect().left}px`;
-                rip.style.top = `${e.clientY - zone.getBoundingClientRect().top}px`;
-                rip.style.width = rip.style.height = '50px';
-                zone.appendChild(rip);
-                setTimeout(() => rip.remove(), 600);
-            }
-        };
-
-        /* --- 6. GAME: AIM TRAINER --- */
-        const GameAim = {
-            active: false,
-            hits: 0,
-            miss: 0,
-            time: 30,
-            interval: null,
-            
-            start: function() {
-                if(this.active) return;
-                this.active = true;
-                this.hits = 0;
-                this.time = 30;
-                document.getElementById('aim-msg').style.display = 'none';
-                AudioEngine.start();
-                this.spawnTarget();
-                
-                this.interval = setInterval(() => {
-                    this.time -= 0.1;
-                    document.getElementById('aim-time').innerText = Math.max(0, this.time).toFixed(1);
-                    if(this.time <= 0) this.end();
-                }, 100);
-            },
-
-            spawnTarget: function() {
-                if(!this.active) return;
-                const container = document.getElementById('aim-canvas-container');
-                
-                // Eski targetları temizle (isteğe bağlı, birden fazla olabilir)
-                container.querySelectorAll('.target').forEach(t => t.remove());
-
-                const t = document.createElement('div');
-                t.className = 'target';
-                t.style.left = Math.random() * 90 + '%';
-                t.style.top = Math.random() * 90 + '%';
-                
-                t.onmousedown = (e) => {
-                    e.stopPropagation();
-                    this.hits++;
-                    document.getElementById('aim-hits').innerText = this.hits;
-                    AudioEngine.click();
-                    t.remove();
-                    this.spawnTarget();
-                };
-
-                container.appendChild(t);
-            },
-
-            end: function() {
-                clearInterval(this.interval);
-                this.active = false;
-                AudioEngine.success();
-                alert(`Aim Test Bitti! Toplam Vuruş: ${this.hits}`);
-                document.getElementById('aim-msg').style.display = 'block';
-                document.getElementById('aim-canvas-container').querySelectorAll('.target').forEach(t => t.remove());
-            }
-        };
-
-        /* --- 7. GAME: MEMORY (SÖZEL HAFIZA) --- */
-        const GameMemory = {
-            words: ["Kasa", "Mouse", "Klavye", "Ekran", "RAM", "CPU", "GPU", "SSD", "Kablo", "Oyun", "Kod", "Jet", "Hız", "Ping", "FPS"],
-            seen: [],
-            currentWord: "",
-            score: 0,
-            lives: 3,
-
-            start: function() {
-                this.seen = [];
-                this.score = 0;
-                this.lives = 3;
-                this.updateUI();
-                this.nextTurn();
-                AudioEngine.start();
-            },
-
-            nextTurn: function() {
-                // %40 ihtimalle eski kelime, %60 yeni
-                const showOld = this.seen.length > 0 && Math.random() < 0.4;
-                
-                if(showOld) {
-                    this.currentWord = this.seen[Math.floor(Math.random() * this.seen.length)];
-                } else {
-                    this.currentWord = this.words[Math.floor(Math.random() * this.words.length)];
-                    // Eğer yeni seçtiğimiz kelime zaten seen listesindeyse, bunu yeni gibi davranmak için tekrar seçmeyelim, mantık basit kalsın.
-                    // Gerçek oyunda seen olmayanlardan pool oluşturulur.
-                }
-
-                document.getElementById('mem-word').innerText = this.currentWord;
-            },
-
-            check: function(saysSeen) {
-                const isSeen = this.seen.includes(this.currentWord);
-                
-                if (saysSeen === isSeen) {
-                    this.score++;
-                    if (!isSeen) this.seen.push(this.currentWord);
-                    AudioEngine.success();
-                } else {
-                    this.lives--;
-                    AudioEngine.error();
-                    if(this.lives <= 0) {
-                        alert("Oyun Bitti! Skor: " + this.score);
-                        return;
+                // TYPING TEST
+                Typing: {
+                    words: ["mama", "jet", "hız", "kod", "oyun", "test", "pro", "mouse", "klavye", "ekran", "kasa", "ram", "cpu", "gpu", "ping", "fps", "lag", "bug", "win", "lose"],
+                    currentWordIndex: 0,
+                    list: [],
+                    startTime: null,
+                    
+                    init: function() {
+                        // Basit başlatıcı, HTML'de entegrasyonu genişletilebilir.
+                        this.list = [];
+                        for(let i=0; i<30; i++) this.list.push(this.words[Math.floor(Math.random() * this.words.length)]);
+                        this.render();
+                        
+                        document.getElementById('type-input').addEventListener('input', (e) => {
+                            if(!this.startTime) this.startTime = Date.now();
+                            const val = e.target.value;
+                            if(val.endsWith(' ')) {
+                                const typed = val.trim();
+                                const target = this.list[this.currentWordIndex];
+                                const spans = document.getElementById('word-display').children;
+                                
+                                if(typed === target) {
+                                    spans[this.currentWordIndex].className = 'word-span correct';
+                                    App.Audio.play(800, 'sine', 0.05);
+                                } else {
+                                    spans[this.currentWordIndex].className = 'word-span wrong';
+                                    App.Audio.play(200, 'sawtooth', 0.1);
+                                }
+                                
+                                this.currentWordIndex++;
+                                e.target.value = '';
+                                if(this.currentWordIndex < this.list.length) {
+                                    spans[this.currentWordIndex].className = 'word-span active';
+                                } else {
+                                    const duration = (Date.now() - this.startTime) / 60000;
+                                    const wpm = Math.round(this.list.length / duration);
+                                    App.UI.toast(`WPM: ${wpm}`, 'success');
+                                    this.startTime = null;
+                                    this.currentWordIndex = 0;
+                                    this.init();
+                                }
+                            }
+                        });
+                    },
+                    render: function() {
+                        const con = document.getElementById('word-display');
+                        con.innerHTML = '';
+                        this.list.forEach((w, i) => {
+                            const s = document.createElement('span');
+                            s.innerText = w;
+                            s.className = i === 0 ? 'word-span active' : 'word-span';
+                            con.appendChild(s);
+                        });
                     }
                 }
-                this.updateUI();
-                this.nextTurn();
             },
 
-            updateUI: function() {
-                document.getElementById('mem-score').innerText = this.score;
-                document.getElementById('mem-lives').innerText = this.lives;
-            }
-        };
-
-        /* --- 8. GAME: CHIMP TEST --- */
-        const GameChimp = {
-            level: 1,
-            sequence: [],
-            userIdx: 0,
-            
-            start: function() {
-                this.level = 1;
-                this.playLevel();
-            },
-
-            playLevel: function() {
-                document.getElementById('chimp-lvl').innerText = this.level;
-                const grid = document.getElementById('chimp-grid');
-                grid.innerHTML = '';
-                this.sequence = [];
-                this.userIdx = 0;
-
-                // Numaraları yerleştir
-                for(let i=1; i<=this.level + 3; i++) {
-                    const btn = document.createElement('div');
-                    btn.className = 'mem-tile';
-                    btn.style.position = 'absolute';
-                    btn.style.width = '40px';
-                    btn.style.height = '40px';
-                    btn.style.left = Math.random() * 90 + '%';
-                    btn.style.top = Math.random() * 90 + '%';
-                    btn.innerText = i;
-                    btn.dataset.num = i;
-                    
-                    btn.onclick = (e) => this.clickNum(e.target);
-                    
-                    grid.appendChild(btn);
-                    this.sequence.push(i);
-                }
-            },
-
-            clickNum: function(el) {
-                const num = parseInt(el.dataset.num);
-                if(num === this.sequence[this.userIdx]) {
-                    // Doğru
-                    el.style.visibility = 'hidden';
-                    this.userIdx++;
-                    AudioEngine.click();
-                    
-                    // İlk tıklamada diğerlerini gizle
-                    if(this.userIdx === 1) {
-                        document.querySelectorAll('.mem-tile').forEach(t => t.style.color = 'transparent');
-                    }
-
-                    if(this.userIdx === this.sequence.length) {
-                        this.level++;
-                        AudioEngine.success();
-                        setTimeout(() => this.playLevel(), 1000);
-                    }
-                } else {
-                    AudioEngine.error();
-                    alert("Yanlış! Oyun Bitti. Seviye: " + this.level);
+            // --- 8. BACKGROUND PARTICLES ---
+            BG: {
+                canvas: document.getElementById('bg-canvas'),
+                ctx: document.getElementById('bg-canvas').getContext('2d'),
+                particles: [],
+                init: function() {
+                    this.resize();
+                    window.addEventListener('resize', () => this.resize());
+                    for(let i=0; i<50; i++) this.particles.push(this.create());
+                    this.animate();
+                },
+                resize: function() {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                },
+                create: function() {
+                    return {
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 2
+                    };
+                },
+                animate: function() {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.fillStyle = '#ff8c00';
+                    this.particles.forEach(p => {
+                        p.x += p.vx; p.y += p.vy;
+                        if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+                        if(p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    });
+                    requestAnimationFrame(() => this.animate());
                 }
             }
         };
 
-        /* --- 9. STORE LOGIC --- */
-        const Store = {
-            products: [
-                { name: "Jet Mouse V1", price: 2500, img: "fas fa-mouse" },
-                { name: "Mech Keyboard", price: 3200, img: "fas fa-keyboard" },
-                { name: "Pro Headset", price: 1800, img: "fas fa-headset" },
-                { name: "Jet Mousepad", price: 400, img: "fas fa-scroll" }
-            ],
-            cart: 0,
-
-            init: function() {
-                const con = document.querySelector('.store-items');
-                con.innerHTML = "";
-                this.products.forEach(p => {
-                    con.innerHTML += `
-                        <div class="product">
-                            <div class="p-image"><i class="${p.img}"></i></div>
-                            <span class="p-name">${p.name}</span>
-                            <span class="p-price">₺${p.price}</span>
-                            <button class="add-cart" onclick="Store.add(${p.price})">SEPETE EKLE</button>
-                        </div>
-                    `;
-                });
-            },
-
-            add: function(price) {
-                this.cart += price;
-                document.getElementById('cart-total').innerText = "₺" + this.cart;
-                AudioEngine.success();
-            }
-        };
-
-        /* --- 10. LEADERBOARD --- */
-        const Leaderboard = {
-            data: [
-                { n: "CPSJET", r: 1, s: 15.2 },
-                { n: "MamaJet_Pro", r: 2, s: 14.8 },
-                { n: "Burak Yılmaz offical", r: 3, s: 13.5 },
-                { n: "MamiV45", r: 4, s: 12.1 },
-                { n: "Matessa", r: 5, s: 11.9 }
-            ],
-            
-            render: function() {
-                const b = document.getElementById('lb-body');
-                b.innerHTML = "";
-                this.data.forEach(u => {
-                    let badge = u.r <= 3 ? `<span class="rank-badge r-${u.r}">${u.r}</span>` : `#${u.r}`;
-                    let rName = u.r === 1 ? "GODLIKE" : (u.r === 2 ? "GRANDMASTER" : "ELITE");
-                    b.innerHTML += `
-                        <tr>
-                            <td>${badge}</td>
-                            <td style="font-weight:bold; color:#fff;">${u.n}</td>
-                            <td style="color:var(--primary); font-size:10px;">${rName}</td>
-                            <td style="text-align:right; font-family:var(--font-code);">${u.s}</td>
-                        </tr>
-                    `;
-                });
-            }
-        };
-
-        /* --- INIT --- */
+        // --- GLOBAL BAŞLATICI ---
         window.onload = function() {
-            Particles.init();
-            Auth.init();
-            Store.init();
-            Leaderboard.render();
-            console.log("CPSJET OS v3.0 Loaded.");
+            App.init();
+            App.Games.Typing.init();
+            console.log("%c CPSJET OS v6.0 \n FOUNDER: MUHAMMED HAMZA ÇELİK ", "background: #ff8c00; color: #000; font-size: 14px; padding: 10px; border-radius: 5px;");
         };
 
     </script>
 </body>
 </html>
+
 
