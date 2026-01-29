@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mama Jet | Ultimate Click Test</title>
+    <title>Mama Jet | Pro Gamer Test</title>
     <style>
-        /* --- TASARIM (CSS) --- */
+        /* --- GENEL AYARLAR --- */
         :root {
             --bg-body: #111111;
-            --bg-sidebar: #181818;
+            --bg-panel: #181818;
             --color-orange: #ff8c00;
+            --color-orange-dark: #e67e00;
             --color-blue: #4a5af5;
             --color-green: #4caf50;
             --color-red: #e74c3c;
             --text-white: #ffffff;
-            --text-gray: #aaaaaa;
+            --text-gray: #b0b0b0;
         }
 
         body {
@@ -25,13 +26,12 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
-            user-select: none; /* Metin seçimini engelle */
         }
 
-        /* SIDEBAR */
+        /* --- SIDEBAR (SOL MENÜ) --- */
         .sidebar {
-            width: 260px;
-            background-color: var(--bg-sidebar);
+            width: 240px;
+            background-color: var(--bg-panel);
             display: flex;
             flex-direction: column;
             border-right: 1px solid #333;
@@ -41,7 +41,7 @@
 
         .logo-title {
             color: var(--color-orange);
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             padding: 0 20px 30px;
             display: flex;
@@ -72,201 +72,215 @@
         }
 
         .mama-jet-logo {
-            max-width: 100%;
-            border-radius: 8px;
+            max-width: 80%;
+            border-radius: 6px;
             background: white;
             padding: 5px;
-            box-shadow: 0 0 10px rgba(255,140,0,0.2);
         }
 
-        /* ANA İÇERİK */
+        /* --- ANA İÇERİK --- */
         .main-content {
             flex: 1;
-            padding: 20px 40px;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 15px;
             overflow-y: auto;
+        }
+
+        /* SPLIT SCREEN (İKİLİ EKRAN) */
+        .game-split-layout {
+            display: flex;
+            flex: 1;
+            height: 100%;
+        }
+
+        /* SOL PANEL: KLAVYE TESTİ */
+        .panel-left {
+            flex: 1;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+            border-right: 1px solid #333;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             position: relative;
         }
 
-        /* SAYFALAR ARASI GEÇİŞ */
-        .page { display: none; flex-direction: column; gap: 20px; height: 100%; }
-        .page.active { display: flex; }
-
-        /* HEADER & STATS */
-        .dash-header {
-            background: var(--bg-sidebar);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 26px;
-            font-weight: bold;
-            border: 1px solid #333;
-            color: var(--color-orange);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        /* SAĞ PANEL: MOUSE TESTİ */
+        .panel-right {
+            flex: 1;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-y: auto;
         }
 
-        .stats-grid {
+        h2.panel-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        /* --- MOUSE TESTİ BİLEŞENLERİ --- */
+        .click-stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
         }
-
-        .stat-card {
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
+        
+        .c-stat {
             background: #222;
-            border-bottom: 4px solid transparent;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 3px solid #444;
         }
+        .c-stat span { display: block; font-size: 24px; font-weight: bold; }
+        .c-stat label { font-size: 10px; text-transform: uppercase; color: #888; }
 
-        .stat-card span { display: block; font-size: 36px; font-weight: bold; }
-        .stat-card label { font-size: 13px; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; }
-
-        /* TIKLAMA ALANI */
         #click-area {
-            background-color: #050505;
-            border: 2px solid #333;
-            flex: 1; /* Kalan alanı doldur */
-            min-height: 250px;
-            border-radius: 15px;
+            width: 100%;
+            max-width: 350px;
+            height: 200px;
+            background: #111;
+            border: 2px dashed #444;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 20px;
             color: #555;
             cursor: pointer;
-            position: relative;
-            overflow: hidden; /* Taşmaları gizle */
-            transition: border-color 0.1s;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            transition: 0.1s;
+            user-select: none;
+            margin-bottom: 30px;
         }
+        #click-area:active { background: #161616; border-color: var(--color-orange); color: var(--color-orange); transform: scale(0.98); }
 
-        #click-area:active { border-color: var(--color-orange); background-color: #0a0a0a; }
-        
-        /* Parçacık Efekti (Particle) */
-        .particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: var(--color-orange);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: pop 0.5s ease-out forwards;
-        }
-
-        @keyframes pop {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        /* SÜRE SEÇİMİ (YENİ) */
-        .time-selector-container {
-            background: var(--bg-sidebar);
-            padding: 15px;
+        /* YENİ SÜRE SEÇİM MENÜSÜ (GÖRSELDEKİ GİBİ) */
+        .time-menu-container {
+            background-color: #181818;
+            padding: 20px;
             border-radius: 12px;
-            border: 1px solid #333;
+            width: 100%;
+            max-width: 350px;
         }
-        
-        .time-label { text-align: center; font-size: 14px; color: #888; margin-bottom: 10px; }
 
-        .time-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
+        .menu-title {
+            color: #b0b0b0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
         }
 
         .time-btn {
-            background: #2a2a2a;
-            color: white;
-            border: 1px solid #444;
-            padding: 8px 16px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 6px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: none;
             border-radius: 6px;
-            cursor: pointer;
             font-size: 13px;
             font-weight: bold;
-            transition: 0.2s;
-            min-width: 60px;
-        }
-
-        .time-btn:hover { background: #3a3a3a; }
-        .time-btn.active { background: var(--color-orange); color: black; border-color: var(--color-orange); box-shadow: 0 0 10px rgba(255,140,0,0.4); }
-        .time-btn.infinite { border-color: var(--color-blue); }
-        .time-btn.infinite.active { background: var(--color-blue); color: white; border-color: var(--color-blue); }
-
-        /* SONSUZ MOD BUTONU */
-        #stop-btn {
-            display: none;
-            margin-top: 10px;
-            background: var(--color-red);
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .time-btn:hover { background-color: #3a3a3a; }
+
+        .time-btn.active {
+            background: linear-gradient(90deg, #ff8c00, #ffba00);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
+            transform: scale(1.01);
+        }
+
+        /* --- KLAVYE TESTİ BİLEŞENLERİ --- */
+        .typing-container {
+            width: 100%;
+            max-width: 450px;
+            background: #151525;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid #4a5af5;
+        }
+
+        .wpm-display {
+            font-size: 48px;
             font-weight: bold;
-            width: 100%;
-        }
-
-        /* MODAL VE GRAFİK */
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-box {
-            background: #1e1e1e;
-            width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 3px solid var(--color-orange);
-            border-radius: 20px;
-            padding: 30px;
+            color: var(--color-blue);
             text-align: center;
-            position: relative;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(74, 90, 245, 0.3);
         }
 
-        /* Basit Canvas Grafik */
-        .chart-container {
-            width: 100%;
-            height: 150px;
-            background: #111;
-            margin: 20px 0;
-            border: 1px solid #333;
+        .word-box {
+            background: #0f0f15;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 20px;
+            line-height: 1.6;
+            height: 80px;
+            overflow: hidden;
+            color: #666;
+            margin-bottom: 15px;
             position: relative;
+            font-family: 'Courier New', monospace;
         }
-        canvas { width: 100%; height: 100%; }
 
-        .rank-display { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 20px; }
-        .rank-emoji { font-size: 80px; }
-        .rank-text { text-align: left; }
-        .try-btn { background: linear-gradient(90deg, #ff8c00, #ff4500); border: none; padding: 12px 40px; color: white; font-weight: bold; border-radius: 50px; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        
-        /* Leaderboard Tablosu */
-        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #222; border-radius: 8px; overflow: hidden; }
-        .leaderboard-table th, .leaderboard-table td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
-        .leaderboard-table th { background: #333; color: var(--color-orange); }
-        
-        input#username { background: #333; border: 1px solid #555; color: white; padding: 10px; border-radius: 5px; width: 60%; margin-right: 10px; }
+        .word-box span { margin-right: 8px; display: inline-block; }
+        .word-box span.current { background: #333; color: white; border-radius: 3px; padding: 0 4px; }
+        .word-box span.correct { color: var(--color-green); }
+        .word-box span.wrong { color: var(--color-red); text-decoration: line-through; }
+
+        #type-input {
+            width: 90%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            font-size: 18px;
+            border-radius: 6px;
+            outline: none;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #type-input:focus { border-color: var(--color-blue); }
+
+        /* MOBİL UYUM */
+        @media (max-width: 800px) {
+            .game-split-layout { flex-direction: column; }
+            .sidebar { display: none; } /* Mobilde sidebar gizle */
+            .panel-left, .panel-right { padding: 20px; border-bottom: 1px solid #333; }
+        }
+
+        /* MODAL */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: #222; padding: 30px; border-radius: 15px; text-align: center; border: 2px solid var(--color-orange); max-width: 400px; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="logo-title">⚡ CPSTEST.ORG</div>
-        <div class="nav-link active" onclick="switchPage('game')">🖱️ Hız Testi</div>
-        <div class="nav-link" onclick="switchPage('leaderboard')">🏆 Sıralama</div>
-        
+        <div class="logo-title">⚡ CPSJET</div>
+        <div class="nav-link active">🎮 Oyun Alanı</div>
+        <div class="nav-link">🏆 Sıralama (Yakında)</div>
         <div class="sidebar-footer">
             <img src="mama-jet-logo.png" alt="Mama Jet" class="mama-jet-logo">
             <p style="font-size: 11px; color: #666; margin-top:5px;">Powered by Mama Jet</p>
@@ -274,337 +288,247 @@
     </div>
 
     <div class="main-content">
-        
-        <div id="game-page" class="page active">
-            <div class="dash-header" id="header-title">1 Saniye Testi</div>
-
-            <div class="stats-grid">
-                <div class="stat-card" style="border-bottom-color: var(--color-blue);">
-                    <span id="timer">1.00</span>
-                    <label>Süre</label>
-                </div>
-                <div class="stat-card" style="border-bottom-color: var(--color-orange);">
-                    <span id="live-cps">0.0</span>
-                    <label>Hız (CPS)</label>
-                </div>
-                <div class="stat-card" style="border-bottom-color: var(--color-green);">
-                    <span id="score">0</span>
-                    <label>Skor</label>
-                </div>
-            </div>
-
-            <div id="click-area">
-                TIKLAMAYA BAŞLA
-            </div>
+        <div class="game-split-layout">
             
-            <button id="stop-btn" onclick="finishInfiniteMode()">TESTİ BİTİR VE SONUCU GÖR</button>
+            <div class="panel-left">
+                <h2 class="panel-title" style="color:var(--color-blue)">⌨️ Klavye Hızı</h2>
+                
+                <div class="typing-container">
+                    <div style="text-align:center; font-size:12px; color:#888; margin-bottom:5px;">DAKİKADAKİ KELİME (WPM)</div>
+                    <div class="wpm-display" id="wpm-val">0</div>
+                    
+                    <div class="word-box" id="word-display">
+                        </div>
 
-            <div class="time-selector-container">
-                <div class="time-label">⏱️ Test Süresi Seçin</div>
-                <div class="time-grid">
-                    <button class="time-btn active" onclick="setTime(1, this)">1 Sn</button>
-                    <button class="time-btn" onclick="setTime(5, this)">5 Sn</button>
-                    <button class="time-btn" onclick="setTime(10, this)">10 Sn</button>
-                    <button class="time-btn" onclick="setTime(15, this)">15 Sn</button>
-                    <button class="time-btn" onclick="setTime(30, this)">30 Sn</button>
-                    <button class="time-btn" onclick="setTime(60, this)">60 Sn</button>
-                    <button class="time-btn" onclick="setTime(120, this)">120 Sn</button>
-                    <button class="time-btn" onclick="setTime(180, this)">180 Sn</button>
-                    <button class="time-btn infinite" onclick="setTime('infinite', this)">♾️ Sonsuz</button>
+                    <input type="text" id="type-input" placeholder="Yazmaya başla..." autocomplete="off">
+                    
+                    <div style="text-align:center; margin-top:15px; color:#555; font-size:12px;">
+                        Kelimeleri yaz ve <b>SPACE</b> tuşuna bas.
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="leaderboard-page" class="page">
-            <div class="dash-header">🏆 En İyi Skorlar</div>
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>İsim</th>
-                        <th>Hız (CPS)</th>
-                        <th>Mod</th>
-                        <th>Tarih</th>
-                    </tr>
-                </thead>
-                <tbody id="lb-body"></tbody>
-            </table>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="time-btn" onclick="clearLeaderboard()" style="background: var(--color-red); border:none;">Listeyi Temizle</button>
+            <div class="panel-right">
+                <h2 class="panel-title" style="color:var(--color-orange)">🖱️ Mouse Hızı</h2>
+
+                <div class="click-stats">
+                    <div class="c-stat" style="border-color:var(--color-blue)">
+                        <span id="timer">5.00</span><label>Süre</label>
+                    </div>
+                    <div class="c-stat" style="border-color:var(--color-orange)">
+                        <span id="cps">0.0</span><label>CPS</label>
+                    </div>
+                    <div class="c-stat" style="border-color:var(--color-green)">
+                        <span id="score">0</span><label>Skor</label>
+                    </div>
+                </div>
+
+                <div id="click-area">
+                    TIKLAMAYA BAŞLA
+                </div>
+
+                <div class="time-menu-container">
+                    <h3 class="menu-title">SELECT TIME</h3>
+                    
+                    <div class="time-buttons">
+                        <button class="time-btn" onclick="setMode(1, this)">1 SECOND TEST</button>
+                        <button class="time-btn" onclick="setMode(2, this)">2 SECOND TEST</button>
+                        <button class="time-btn active" onclick="setMode(5, this)">5 SECOND TEST</button>
+                        <button class="time-btn" onclick="setMode(10, this)">10 SECOND TEST</button>
+                        <button class="time-btn" onclick="setMode(15, this)">15 SECOND TEST</button>
+                        <button class="time-btn" onclick="setMode(30, this)">30 SECOND TEST</button>
+                        <button class="time-btn" onclick="setMode(60, this)">60 SECOND TEST</button>
+                        <button class="time-btn" onclick="setMode(100, this)">100 SECOND TEST</button>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 
     <div id="modal">
-        <div class="modal-box">
-            <h2 style="color:var(--color-orange); margin:0 0 20px 0;">Test Tamamlandı!</h2>
-            
-            <div class="rank-display">
-                <div class="rank-emoji" id="rank-emoji">🐼</div>
-                <div class="rank-text">
-                    <div style="color:var(--color-orange)">Rütbeniz</div>
-                    <div id="rank-name" style="font-size:40px; font-weight:bold;">Panda!</div>
-                    <div id="stars" style="color:#f1c40f; font-size:24px;">★☆☆☆☆</div>
-                    <div style="font-size:20px;">Ortalama: <b id="final-cps">0.0</b> CPS</div>
-                </div>
-            </div>
-
-            <div style="text-align:left; font-size:12px; color:#888;">Performans Grafiği:</div>
-            <div class="chart-container">
-                <canvas id="resultChart"></canvas>
-            </div>
-
-            <div style="margin-top:20px;">
-                <input type="text" id="username" placeholder="İsminizi yazın..." maxlength="15">
-                <button class="try-btn" onclick="saveScore()">KAYDET</button>
-            </div>
-            
-            <button style="background:none; border:none; color:#666; text-decoration:underline; cursor:pointer; margin-top:10px;" onclick="closeModal()">Kaydetmeden Kapat</button>
+        <div class="modal-content">
+            <h2 id="modal-title" style="color:var(--color-orange)">Sonuçlar</h2>
+            <div style="font-size:40px; font-weight:bold; margin:20px 0;" id="modal-score">0</div>
+            <p id="modal-desc" style="color:#aaa;">Fena Değil!</p>
+            <button onclick="document.getElementById('modal').style.display='none'" class="time-btn active" style="margin-top:20px;">TEKRAR DENE</button>
         </div>
     </div>
 
     <script>
-        /* --- SES & AUDIO CONTEXT --- */
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playClickSound() {
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.1);
-        }
+        /* ============================
+           MOUSE (CPS) TEST LOGIC
+           ============================ */
+        let cpsScore = 0;
+        let cpsTime = 5; // Varsayılan
+        let cpsTimeLeft = 5;
+        let cpsActive = false;
+        let cpsInterval;
 
-        /* --- DEĞİŞKENLER --- */
-        let score = 0, selectedTime = 1, timeLeft = 1, isStarted = false, timerInterval, chartInterval;
-        let isInfinite = false;
-        let clickHistory = []; // Grafik için veri
-        let startTime = 0;
-
-        const clickArea = document.getElementById('click-area');
-        const scoreEl = document.getElementById('score');
         const timerEl = document.getElementById('timer');
-        const cpsEl = document.getElementById('live-cps');
-        const modal = document.getElementById('modal');
-        const stopBtn = document.getElementById('stop-btn');
-        const canvas = document.getElementById('resultChart');
-        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const cpsEl = document.getElementById('cps');
+        const clickArea = document.getElementById('click-area');
 
-        /* --- AYARLAR --- */
-        function setTime(val, btn) {
-            if(isStarted) return;
-            isInfinite = (val === 'infinite');
-            selectedTime = isInfinite ? 0 : val;
-            timeLeft = isInfinite ? 0 : val;
+        // Süre Seçimi
+        function setMode(seconds, btn) {
+            if(cpsActive) return;
+            cpsTime = seconds;
+            cpsTimeLeft = seconds;
+            timerEl.textContent = seconds.toFixed(2);
             
-            timerEl.textContent = isInfinite ? "0.00" : val.toFixed(2);
-            document.getElementById('header-title').textContent = isInfinite ? "Sonsuz Mod" : val + " Saniye Testi";
-            
+            // Buton rengini güncelle
             document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            stopBtn.style.display = isInfinite ? 'block' : 'none';
         }
 
-        /* --- OYUN MANTIĞI --- */
-        clickArea.addEventListener('mousedown', (e) => {
-            if(!isStarted) startGame();
-            
-            // Anti-Cheat: Çok hızlı tıklama kontrolü (Basit)
-            // Gerçekçi bir insan 20 CPS'i zor geçer.
-            
-            score++;
-            scoreEl.textContent = score;
-            clickArea.textContent = score;
-            playClickSound();
-            createParticle(e.clientX, e.clientY);
-
-            // Canlı CPS
-            let elapsed = isInfinite ? (Date.now() - startTime) / 1000 : (selectedTime - timeLeft);
-            if(isInfinite) elapsed = timeLeft; // Sonsuz modda timeLeft artıyor
-            else elapsed = selectedTime - timeLeft;
-
-            if(elapsed > 0.1) {
-                let currentCps = score / elapsed;
-                cpsEl.textContent = currentCps.toFixed(1);
+        // Tıklama Olayı
+        clickArea.addEventListener('mousedown', () => {
+            if(!cpsActive && cpsTimeLeft > 0) {
+                startCpsGame();
+            }
+            if(cpsActive) {
+                cpsScore++;
+                scoreEl.textContent = cpsScore;
+                
+                // Efekt
+                clickArea.style.transform = "scale(0.95)";
+                setTimeout(() => clickArea.style.transform = "scale(1)", 50);
             }
         });
 
-        function startGame() {
-            isStarted = true;
-            score = 0;
-            clickHistory = [];
-            startTime = Date.now();
+        function startCpsGame() {
+            cpsActive = true;
+            cpsScore = 0;
+            scoreEl.textContent = "0";
+            clickArea.textContent = "HIZLI OL!";
+            clickArea.style.borderColor = "#ff8c00";
+            clickArea.style.color = "white";
+
+            cpsInterval = setInterval(() => {
+                cpsTimeLeft -= 0.01;
+                timerEl.textContent = Math.max(0, cpsTimeLeft).toFixed(2);
+                
+                // Canlı CPS
+                let elapsed = cpsTime - cpsTimeLeft;
+                if(elapsed > 0.1) cpsEl.textContent = (cpsScore / elapsed).toFixed(1);
+
+                if(cpsTimeLeft <= 0) {
+                    endCpsGame();
+                }
+            }, 10);
+        }
+
+        function endCpsGame() {
+            clearInterval(cpsInterval);
+            cpsActive = false;
+            cpsTimeLeft = cpsTime; // Resetle
+            timerEl.textContent = cpsTime.toFixed(2);
+            clickArea.textContent = "TEKRAR";
+            clickArea.style.borderColor = "#444";
+            clickArea.style.color = "#555";
             
-            if(isInfinite) {
-                timeLeft = 0;
-                timerInterval = setInterval(() => {
-                    timeLeft += 0.01;
-                    timerEl.textContent = timeLeft.toFixed(2);
-                }, 10);
-            } else {
-                timeLeft = selectedTime;
-                timerInterval = setInterval(() => {
-                    timeLeft -= 0.01;
-                    timerEl.textContent = Math.max(0, timeLeft).toFixed(2);
-                    if(timeLeft <= 0) endGame();
-                }, 10);
+            showModal("CPS Testi Bitti!", `${(cpsScore / cpsTime).toFixed(2)} CPS`, "Parmakların motor gibi çalışıyor!");
+        }
+
+        /* ============================
+           KEYBOARD (WPM) TEST LOGIC
+           ============================ */
+        const words = [
+            "mama", "jet", "hız", "test", "kedi", "köpek", "ticaret", "online", 
+            "başarı", "kod", "oyun", "sistem", "güçlü", "klavye", "mouse", 
+            "ekran", "internet", "proje", "marka", "grafik", "yazılım", "dünya",
+            "pilot", "uçak", "hızlı", "süper", "harika", "rekor", "lider"
+        ];
+        
+        let wordList = [];
+        let currentWordIndex = 0;
+        let correctChars = 0;
+        let wpmStartTime = null;
+        let wpmInterval;
+
+        const wpmDisplay = document.getElementById('wpm-val');
+        const wordBox = document.getElementById('word-display');
+        const input = document.getElementById('type-input');
+
+        function initTyping() {
+            // Rastgele 50 kelime seç
+            wordList = [];
+            for(let i=0; i<50; i++) {
+                wordList.push(words[Math.floor(Math.random() * words.length)]);
+            }
+            renderWords();
+        }
+
+        function renderWords() {
+            wordBox.innerHTML = '';
+            wordList.forEach((word, index) => {
+                const span = document.createElement('span');
+                span.textContent = word;
+                if(index === currentWordIndex) span.className = 'current';
+                wordBox.appendChild(span);
+            });
+            // Aktif kelimeyi görünür yap (scroll)
+            const activeSpan = wordBox.children[currentWordIndex];
+            if(activeSpan) {
+                wordBox.scrollTop = activeSpan.offsetTop - 20;
+            }
+        }
+
+        input.addEventListener('input', (e) => {
+            if(!wpmStartTime) {
+                wpmStartTime = Date.now();
+                startWpmTimer();
             }
 
-            // Grafik verisi topla (Her 1 saniyede bir)
-            chartInterval = setInterval(() => {
-                let t = isInfinite ? timeLeft : (selectedTime - timeLeft);
-                if(t > 0) clickHistory.push(score / t);
+            const val = input.value;
+            const currentWord = wordList[currentWordIndex];
+
+            // Space tuşu kontrolü (Kelime bitti mi?)
+            if(val.endsWith(' ')) {
+                const typedWord = val.trim();
+                const span = wordBox.children[currentWordIndex];
+                
+                if(typedWord === currentWord) {
+                    span.className = 'correct';
+                    correctChars += currentWord.length + 1; // +1 boşluk için
+                } else {
+                    span.className = 'wrong';
+                }
+
+                currentWordIndex++;
+                input.value = '';
+                renderWords();
+            }
+        });
+
+        function startWpmTimer() {
+            wpmInterval = setInterval(() => {
+                const timeInMinutes = (Date.now() - wpmStartTime) / 60000;
+                if(timeInMinutes > 0) {
+                    const wpm = Math.round((correctChars / 5) / timeInMinutes);
+                    wpmDisplay.textContent = wpm;
+                }
+                // 60 Saniye sonra durdur (Örnek limit)
+                if(timeInMinutes >= 1) {
+                    clearInterval(wpmInterval);
+                    input.disabled = true;
+                    showModal("Klavye Testi Bitti!", wpmDisplay.textContent + " WPM", "Gerçek bir yazar mısın?");
+                }
             }, 500);
         }
 
-        function finishInfiniteMode() {
-            if(isStarted) endGame();
+        /* ORTAK FONKSİYONLAR */
+        function showModal(title, score, desc) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-score').textContent = score;
+            document.getElementById('modal-desc').textContent = desc;
+            document.getElementById('modal').style.display = 'flex';
         }
 
-        function endGame() {
-            clearInterval(timerInterval);
-            clearInterval(chartInterval);
-            isStarted = false;
-            
-            let finalTime = isInfinite ? timeLeft : selectedTime;
-            let finalCps = (score / finalTime) || 0;
-            
-            clickHistory.push(finalCps); // Son veriyi ekle
-            showResult(finalCps);
-        }
+        // Başlat
+        initTyping();
 
-        /* --- EFEKTLER --- */
-        function createParticle(x, y) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.left = (x - 4) + 'px';
-            p.style.top = (y - 4) + 'px';
-            // Rastgele renk
-            const colors = ['#ff8c00', '#4a5af5', '#4caf50', '#fff'];
-            p.style.background = colors[Math.floor(Math.random() * colors.length)];
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 500);
-        }
-
-        /* --- SONUÇ VE GRAFİK --- */
-        function showResult(cps) {
-            document.getElementById('final-cps').textContent = cps.toFixed(2);
-            
-            let rank = "Kaplumbağa", emoji = "🐢", star = "★☆☆☆☆";
-            if(cps >= 5) { rank = "Panda"; emoji = "🐼"; star = "★★☆☆☆"; }
-            if(cps >= 8) { rank = "Aslan"; emoji = "🦁"; star = "★★★☆☆"; }
-            if(cps >= 12) { rank = "Çita"; emoji = "🐆"; star = "★★★★☆"; }
-            if(cps >= 15) { rank = "Hacker"; emoji = "🤖"; star = "★★★★★"; }
-
-            document.getElementById('rank-name').textContent = rank;
-            document.getElementById('rank-emoji').textContent = emoji;
-            document.getElementById('stars').textContent = star;
-
-            drawChart();
-            modal.style.display = 'flex';
-        }
-
-        function drawChart() {
-            // Basit Canvas Çizimi
-            const w = canvas.width = canvas.offsetWidth;
-            const h = canvas.height = canvas.offsetHeight;
-            ctx.clearRect(0, 0, w, h);
-            
-            if(clickHistory.length < 2) return;
-
-            ctx.beginPath();
-            ctx.strokeStyle = '#ff8c00';
-            ctx.lineWidth = 2;
-            
-            let maxVal = Math.max(...clickHistory, 10);
-            let stepX = w / (clickHistory.length - 1);
-
-            clickHistory.forEach((val, i) => {
-                let x = i * stepX;
-                let y = h - (val / maxVal) * (h - 20) - 10; // Padding
-                if(i===0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-            
-            // Altına opak dolgu
-            ctx.lineTo(w, h);
-            ctx.lineTo(0, h);
-            ctx.fillStyle = 'rgba(255, 140, 0, 0.2)';
-            ctx.fill();
-        }
-
-        /* --- KAYIT VE SIRALAMA --- */
-        function saveScore() {
-            let name = document.getElementById('username').value || "Anonim";
-            let cps = parseFloat(document.getElementById('final-cps').textContent);
-            let mode = isInfinite ? "Sonsuz" : selectedTime + "sn";
-            let date = new Date().toLocaleDateString();
-
-            let lb = JSON.parse(localStorage.getItem('mamaJetLB')) || [];
-            lb.push({ name, cps, mode, date });
-            lb.sort((a,b) => b.cps - a.cps);
-            lb = lb.slice(0, 20); // İlk 20
-            localStorage.setItem('mamaJetLB', JSON.stringify(lb));
-            
-            closeModal();
-            switchPage('leaderboard');
-        }
-
-        function updateLeaderboard() {
-            let lb = JSON.parse(localStorage.getItem('mamaJetLB')) || [];
-            const tbody = document.getElementById('lb-body');
-            tbody.innerHTML = "";
-            lb.forEach((item, i) => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td style="color:${i===0?'gold':'#aaa'}">${i+1}</td>
-                        <td>${item.name}</td>
-                        <td style="font-weight:bold; color:var(--color-orange)">${item.cps}</td>
-                        <td>${item.mode}</td>
-                        <td style="font-size:12px; color:#666">${item.date}</td>
-                    </tr>
-                `;
-            });
-        }
-
-        function clearLeaderboard() {
-            if(confirm("Emin misin?")) {
-                localStorage.removeItem('mamaJetLB');
-                updateLeaderboard();
-            }
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-            score = 0; 
-            scoreEl.textContent = "0";
-            clickArea.textContent = "TEKRAR DENE";
-            cpsEl.textContent = "0.0";
-            if(!isInfinite) timerEl.textContent = selectedTime.toFixed(2);
-            else timerEl.textContent = "0.00";
-        }
-
-        function switchPage(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            
-            if(page === 'game') {
-                document.getElementById('game-page').classList.add('active');
-                document.querySelectorAll('.nav-link')[0].classList.add('active');
-            } else {
-                document.getElementById('leaderboard-page').classList.add('active');
-                document.querySelectorAll('.nav-link')[1].classList.add('active');
-                updateLeaderboard();
-            }
-        }
     </script>
 </body>
 </html>
