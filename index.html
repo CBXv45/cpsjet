@@ -749,4 +749,18 @@
 
     </script>
 </body>
+    <div class="modal-overlay" id="modal-login">
+    <div class="modal-content">
+        <span class="close-modal" onclick="Core.UI.closeModal('modal-login')">&times;</span>
+        <h2 style="color:var(--primary); font-family:var(--font-head); margin:0;">GAMER LOGIN</h2>
+        <p style="color:#666; margin-top:10px;">Skorlarını kaydetmek için giriş yap.</p>
+        
+        <input type="text" class="modal-input" id="inp-username" placeholder="KULLANICI ADI">
+        
+        <input type="password" class="modal-input" id="inp-password" placeholder="ŞİFRE">
+        
+        <button class="btn-submit" onclick="Core.Auth.login()">SİSTEME GİRİŞ YAP</button>
+    </div>
+</div>
 </html>
+
