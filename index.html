@@ -38,7 +38,7 @@
             z-index: 10;
         }
 
-        /* LOGO ALANI DÜZENLEMESİ */
+        /* LOGO ALANI */
         .logo-title {
             display: flex;
             flex-direction: column;
@@ -89,13 +89,6 @@
             padding: 20px;
             border-top: 1px solid #333;
             text-align: center;
-        }
-
-        .mama-jet-logo {
-            max-width: 80%;
-            border-radius: 6px;
-            background: white;
-            padding: 5px;
         }
 
         /* --- ANA İÇERİK --- */
@@ -282,15 +275,29 @@
         }
         #type-input:focus { border-color: var(--color-blue); background: #1a1a2e; }
 
+        /* --- HAKKIMIZDA SAYFASI STİLLERİ --- */
+        .about-card {
+            background: #181818;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 100%;
+            text-align: left;
+            border-left: 5px solid var(--color-orange);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .about-title { font-size: 28px; color: white; margin-bottom: 15px; }
+        .about-text { color: #ccc; line-height: 1.6; margin-bottom: 20px; font-size: 16px; }
+        .about-highlight { color: var(--color-orange); font-weight: bold; }
+
         /* MOBİL UYUM */
         @media (max-width: 800px) {
             .sidebar { width: 70px; }
             .logo-title span, .sidebar-footer p, .nav-link span { display: none; }
             .logo-title img { width: 50px; }
             .nav-link { justify-content: center; padding: 20px 0; }
-            .mama-jet-logo { display: none; }
             .time-buttons { grid-template-columns: 1fr; }
-            .typing-container { padding: 20px; }
+            .typing-container, .about-card { padding: 20px; width: 90%; }
             .word-box { font-size: 18px; }
             .wpm-display, .error-display { font-size: 40px; }
         }
@@ -314,8 +321,8 @@
         <div class="nav-link" onclick="switchTab('keyboard', this)">
             <i>⌨️</i> <span>Klavye Testi</span>
         </div>
-        <div class="nav-link">
-            <i>🏆</i> <span>Sıralama (Yakında)</span>
+        <div class="nav-link" onclick="switchTab('about', this)">
+            <i>ℹ️</i> <span>Hakkımızda</span>
         </div>
 
         <div class="sidebar-footer">
@@ -382,6 +389,28 @@
                 <div style="text-align:center; margin-top:20px; color:#555; font-size:14px;">
                     Kelimeyi yaz ve <b>BOŞLUK (SPACE)</b> tuşuna bas.
                     <br>Yanlış kelimeler puan kazandırmaz!
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-about" class="tab-content">
+            <div class="about-card">
+                <h2 class="about-title">⚡ CPSJET Hakkında</h2>
+                <p class="about-text">
+                    CPSJET, oyuncuların (gamer) ve dijital profesyonellerin <span class="about-highlight">refleks limitlerini zorlaması</span> için tasarlanmış profesyonel bir test platformudur.
+                </p>
+                <p class="about-text">
+                    Bu proje, Türkiye'nin hızla büyüyen e-ticaret markası <b>Mama Jet</b>'in kurucusu <span class="about-highlight">Halil İbrahim Çelik</span> tarafından hayata geçirilmiştir.
+                </p>
+                
+                <h3 style="color:white; margin-top:30px;">🎯 Vizyonumuz</h3>
+                <p class="about-text">
+                    E-Spor dünyasında milisaniyeler bile önemlidir. Amacımız, oyunculara tıklama hızı (CPS) ve klavye yazma hızı (WPM) konusunda en doğru analizleri sunarak gelişimlerine katkı sağlamaktır.
+                </p>
+                
+                <div style="margin-top:30px; border-top:1px solid #333; padding-top:20px; font-size:14px; color:#888;">
+                    © 2026 CPSJET | Powered by <b>Mama Jet</b> <br>
+                    İletişim: info@mamajet.net
                 </div>
             </div>
         </div>
@@ -476,7 +505,6 @@
         /* ============================
            KEYBOARD (WPM) TEST LOGIC
            ============================ */
-        // GENİŞLETİLMİŞ 150+ KELİME LİSTESİ
         const words = [
             "mama", "jet", "hız", "test", "kedi", "köpek", "ticaret", "online", 
             "başarı", "kod", "oyun", "sistem", "güçlü", "klavye", "mouse", 
@@ -591,6 +619,7 @@
     </script>
 </body>
 </html>
+
 
 
 
