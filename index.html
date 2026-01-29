@@ -38,14 +38,27 @@
             z-index: 10;
         }
 
+        /* LOGO ALANI DÜZENLEMESİ */
         .logo-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px 30px;
+            text-align: center;
+        }
+        
+        .logo-title img {
+            width: 80px; 
+            height: auto; 
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.3));
+        }
+
+        .logo-title span {
             color: var(--color-orange);
             font-size: 20px;
             font-weight: bold;
-            padding: 0 20px 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: 2px;
         }
 
         .nav-link {
@@ -176,7 +189,7 @@
         
         .time-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Yan yana iki buton */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
@@ -211,7 +224,7 @@
         /* --- KLAVYE TESTİ STİLLERİ --- */
         .typing-container {
             width: 100%;
-            max-width: 700px; /* Daha geniş alan */
+            max-width: 700px;
             background: #151525;
             padding: 40px;
             border-radius: 20px;
@@ -271,8 +284,9 @@
 
         /* MOBİL UYUM */
         @media (max-width: 800px) {
-            .sidebar { width: 70px; } /* Mobilde dar menü */
-            .logo-title, .sidebar-footer p, .nav-link span { display: none; } /* Yazıları gizle */
+            .sidebar { width: 70px; }
+            .logo-title span, .sidebar-footer p, .nav-link span { display: none; }
+            .logo-title img { width: 50px; }
             .nav-link { justify-content: center; padding: 20px 0; }
             .mama-jet-logo { display: none; }
             .time-buttons { grid-template-columns: 1fr; }
@@ -289,7 +303,10 @@
 <body>
 
     <div class="sidebar">
-        <div class="logo-title">⚡ CPSJET</div>
+        <div class="logo-title">
+            <img src="logo.png" alt="CPSJET Logo">
+            <span>CPSJET</span>
+        </div>
         
         <div class="nav-link active" onclick="switchTab('cps', this)">
             <i>🖱️</i> <span>CPS Testi</span>
@@ -302,7 +319,6 @@
         </div>
 
         <div class="sidebar-footer">
-            <img src="mama-jet-logo.png" alt="Mama Jet" class="mama-jet-logo">
             <p style="font-size: 11px; color: #666; margin-top:5px;">Powered by Mama Jet</p>
         </div>
     </div>
@@ -386,15 +402,10 @@
            SEKME GEÇİŞ SİSTEMİ (TAB SWITCHER)
            ============================ */
         function switchTab(tabName, linkElement) {
-            // 1. Tüm sekmeleri gizle
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-
-            // 2. Seçilen sekmeyi göster
             document.getElementById('tab-' + tabName).classList.add('active');
-
-            // 3. Menüdeki aktiflik rengini değiştir
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
@@ -465,7 +476,8 @@
         /* ============================
            KEYBOARD (WPM) TEST LOGIC
            ============================ */
-       const words = [
+        // GENİŞLETİLMİŞ 150+ KELİME LİSTESİ
+        const words = [
             "mama", "jet", "hız", "test", "kedi", "köpek", "ticaret", "online", 
             "başarı", "kod", "oyun", "sistem", "güçlü", "klavye", "mouse", 
             "ekran", "internet", "proje", "marka", "grafik", "yazılım", "dünya",
@@ -578,9 +590,6 @@
 
     </script>
 </body>
-    <div class="logo-title">
-    <img src="logo.png" alt="CPSJET Logo" style="width: 100px; height: auto;">
-</div>
 </html>
 
 
