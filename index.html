@@ -166,7 +166,7 @@
         }
         #click-area:active { background: #161616; border-color: var(--color-orange); color: var(--color-orange); transform: scale(0.98); }
 
-        /* YENİ SÜRE SEÇİM MENÜSÜ (GÖRSELDEKİ GİBİ) */
+        /* YENİ SÜRE SEÇİM MENÜSÜ */
         .time-menu-container {
             background-color: #181818;
             padding: 20px;
@@ -218,6 +218,14 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 1px solid #4a5af5;
+            text-align: center;
+        }
+
+        .wpm-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
         }
 
         .wpm-display {
@@ -225,8 +233,16 @@
             font-weight: bold;
             color: var(--color-blue);
             text-align: center;
-            margin-bottom: 10px;
             text-shadow: 0 0 15px rgba(74, 90, 245, 0.3);
+        }
+        
+        .error-display {
+            font-size: 20px;
+            color: var(--color-red);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .word-box {
@@ -241,6 +257,7 @@
             margin-bottom: 15px;
             position: relative;
             font-family: 'Courier New', monospace;
+            text-align: left;
         }
 
         .word-box span { margin-right: 8px; display: inline-block; }
@@ -294,8 +311,16 @@
                 <h2 class="panel-title" style="color:var(--color-blue)">⌨️ Klavye Hızı</h2>
                 
                 <div class="typing-container">
-                    <div style="text-align:center; font-size:12px; color:#888; margin-bottom:5px;">DAKİKADAKİ KELİME (WPM)</div>
-                    <div class="wpm-display" id="wpm-val">0</div>
+                    <div class="wpm-stats">
+                        <div>
+                            <div style="font-size:10px; color:#888;">WPM (PUAN)</div>
+                            <div class="wpm-display" id="wpm-val">0</div>
+                        </div>
+                        <div>
+                            <div style="font-size:10px; color:#888;">HATA</div>
+                            <div class="error-display" id="error-val">0</div>
+                        </div>
+                    </div>
                     
                     <div class="word-box" id="word-display">
                         </div>
@@ -360,7 +385,7 @@
            MOUSE (CPS) TEST LOGIC
            ============================ */
         let cpsScore = 0;
-        let cpsTime = 5; // Varsayılan
+        let cpsTime = 5; 
         let cpsTimeLeft = 5;
         let cpsActive = false;
         let cpsInterval;
@@ -370,28 +395,20 @@
         const cpsEl = document.getElementById('cps');
         const clickArea = document.getElementById('click-area');
 
-        // Süre Seçimi
         function setMode(seconds, btn) {
             if(cpsActive) return;
             cpsTime = seconds;
             cpsTimeLeft = seconds;
             timerEl.textContent = seconds.toFixed(2);
-            
-            // Buton rengini güncelle
             document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
 
-        // Tıklama Olayı
         clickArea.addEventListener('mousedown', () => {
-            if(!cpsActive && cpsTimeLeft > 0) {
-                startCpsGame();
-            }
+            if(!cpsActive && cpsTimeLeft > 0) startCpsGame();
             if(cpsActive) {
                 cpsScore++;
                 scoreEl.textContent = cpsScore;
-                
-                // Efekt
                 clickArea.style.transform = "scale(0.95)";
                 setTimeout(() => clickArea.style.transform = "scale(1)", 50);
             }
@@ -408,26 +425,20 @@
             cpsInterval = setInterval(() => {
                 cpsTimeLeft -= 0.01;
                 timerEl.textContent = Math.max(0, cpsTimeLeft).toFixed(2);
-                
-                // Canlı CPS
                 let elapsed = cpsTime - cpsTimeLeft;
                 if(elapsed > 0.1) cpsEl.textContent = (cpsScore / elapsed).toFixed(1);
-
-                if(cpsTimeLeft <= 0) {
-                    endCpsGame();
-                }
+                if(cpsTimeLeft <= 0) endCpsGame();
             }, 10);
         }
 
         function endCpsGame() {
             clearInterval(cpsInterval);
             cpsActive = false;
-            cpsTimeLeft = cpsTime; // Resetle
+            cpsTimeLeft = cpsTime; 
             timerEl.textContent = cpsTime.toFixed(2);
             clickArea.textContent = "TEKRAR";
             clickArea.style.borderColor = "#444";
             clickArea.style.color = "#555";
-            
             showModal("CPS Testi Bitti!", `${(cpsScore / cpsTime).toFixed(2)} CPS`, "Parmakların motor gibi çalışıyor!");
         }
 
@@ -444,15 +455,16 @@
         let wordList = [];
         let currentWordIndex = 0;
         let correctChars = 0;
+        let errorCount = 0; // Hata sayacı
         let wpmStartTime = null;
         let wpmInterval;
 
         const wpmDisplay = document.getElementById('wpm-val');
+        const errorDisplay = document.getElementById('error-val');
         const wordBox = document.getElementById('word-display');
         const input = document.getElementById('type-input');
 
         function initTyping() {
-            // Rastgele 50 kelime seç
             wordList = [];
             for(let i=0; i<50; i++) {
                 wordList.push(words[Math.floor(Math.random() * words.length)]);
@@ -468,11 +480,8 @@
                 if(index === currentWordIndex) span.className = 'current';
                 wordBox.appendChild(span);
             });
-            // Aktif kelimeyi görünür yap (scroll)
             const activeSpan = wordBox.children[currentWordIndex];
-            if(activeSpan) {
-                wordBox.scrollTop = activeSpan.offsetTop - 20;
-            }
+            if(activeSpan) wordBox.scrollTop = activeSpan.offsetTop - 20;
         }
 
         input.addEventListener('input', (e) => {
@@ -484,16 +493,20 @@
             const val = input.value;
             const currentWord = wordList[currentWordIndex];
 
-            // Space tuşu kontrolü (Kelime bitti mi?)
+            // Space'e basıldı mı?
             if(val.endsWith(' ')) {
                 const typedWord = val.trim();
                 const span = wordBox.children[currentWordIndex];
                 
                 if(typedWord === currentWord) {
+                    // DOĞRU İSE PUAN VER
                     span.className = 'correct';
-                    correctChars += currentWord.length + 1; // +1 boşluk için
+                    correctChars += currentWord.length + 1; 
                 } else {
+                    // YANLIŞ İSE PUAN VERME, HATA SAYISINI ARTIR
                     span.className = 'wrong';
+                    errorCount++;
+                    errorDisplay.textContent = errorCount; // Ekrana yaz
                 }
 
                 currentWordIndex++;
@@ -506,14 +519,14 @@
             wpmInterval = setInterval(() => {
                 const timeInMinutes = (Date.now() - wpmStartTime) / 60000;
                 if(timeInMinutes > 0) {
+                    // Sadece doğru karakterler hesaba katılır
                     const wpm = Math.round((correctChars / 5) / timeInMinutes);
                     wpmDisplay.textContent = wpm;
                 }
-                // 60 Saniye sonra durdur (Örnek limit)
                 if(timeInMinutes >= 1) {
                     clearInterval(wpmInterval);
                     input.disabled = true;
-                    showModal("Klavye Testi Bitti!", wpmDisplay.textContent + " WPM", "Gerçek bir yazar mısın?");
+                    showModal("Klavye Testi Bitti!", wpmDisplay.textContent + " WPM", `Toplam ${errorCount} hata yaptın.`);
                 }
             }, 500);
         }
@@ -526,7 +539,6 @@
             document.getElementById('modal').style.display = 'flex';
         }
 
-        // Başlat
         initTyping();
 
     </script>
