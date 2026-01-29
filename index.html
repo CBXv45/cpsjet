@@ -278,7 +278,7 @@
         /* --- HAKKIMIZDA SAYFASI STİLLERİ --- */
         .about-card {
             background: #181818;
-            padding: 30px;
+            padding: 40px;
             border-radius: 15px;
             max-width: 700px;
             width: 100%;
@@ -286,10 +286,10 @@
             border-left: 5px solid var(--color-orange);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .about-title { font-size: 28px; color: white; margin-bottom: 15px; }
-        .about-text { color: #ccc; line-height: 1.6; margin-bottom: 20px; font-size: 16px; }
+        .about-title { font-size: 32px; color: white; margin-bottom: 20px; font-weight: bold; }
+        .about-text { color: #ccc; line-height: 1.8; margin-bottom: 20px; font-size: 16px; }
         .about-highlight { color: var(--color-orange); font-weight: bold; }
-
+        
         /* MOBİL UYUM */
         @media (max-width: 800px) {
             .sidebar { width: 70px; }
@@ -395,22 +395,25 @@
 
         <div id="tab-about" class="tab-content">
             <div class="about-card">
-                <h2 class="about-title">⚡ CPSJET Hakkında</h2>
+                <h2 class="about-title">⚡ CPSJET Kimdir?</h2>
                 <p class="about-text">
-                    CPSJET, oyuncuların (gamer) ve dijital profesyonellerin <span class="about-highlight">refleks limitlerini zorlaması</span> için tasarlanmış profesyonel bir test platformudur.
+                    CPSJET, dijital dünyanın hızına ayak uydurmak isteyenler için <span class="about-highlight">2026 yılının Ocak ayında</span> yayın hayatına başlamış yeni nesil bir test platformudur.
                 </p>
                 <p class="about-text">
-                    Bu proje, Türkiye'nin hızla büyüyen e-ticaret markası <b>Mama Jet</b>'in kurucusu <span class="about-highlight">Halil İbrahim Çelik</span> tarafından hayata geçirilmiştir.
+                    Bu proje, Türkiye'nin yenilikçi markası <b>Mama Jet</b> bünyesinde geliştirilmiş bir teknoloji girişimidir. Şu an için oyunculara (gamer) ve profesyonellere en doğru hız testi araçlarını sunmayı hedeflerken, arka planda çok daha büyük bir vizyona hazırlanmaktadır.
                 </p>
                 
-                <h3 style="color:white; margin-top:30px;">🎯 Vizyonumuz</h3>
+                <h3 style="color:white; margin-top:30px; border-bottom:1px solid #444; padding-bottom:10px;">🚀 Vizyonumuz & Gelecek</h3>
                 <p class="about-text">
-                    E-Spor dünyasında milisaniyeler bile önemlidir. Amacımız, oyunculara tıklama hızı (CPS) ve klavye yazma hızı (WPM) konusunda en doğru analizleri sunarak gelişimlerine katkı sağlamaktır.
+                    CPSJET, şu an bir performans ölçüm aracı olarak hizmet verse de nihai hedefi; e-ticaret ve teknoloji dünyasında söz sahibi, geniş kapsamlı bir <span class="about-highlight">dijital ekosistem</span> olmaktır. 
+                </p>
+                <p class="about-text">
+                    Mama Jet güvencesiyle çıktığımız bu yolda, hem oyuncu ekipmanları hem de dijital çözümler sunarak sektörde fark yaratmayı amaçlıyoruz.
                 </p>
                 
                 <div style="margin-top:30px; border-top:1px solid #333; padding-top:20px; font-size:14px; color:#888;">
-                    © 2026 CPSJET | Powered by <b>Mama Jet</b> <br>
-                    İletişim: info@mamajet.net
+                    © 2026 CPSJET | Founder: <b>Halil İbrahim Çelik</b> <br>
+                    Powered by <b>Mama Jet</b>
                 </div>
             </div>
         </div>
@@ -428,7 +431,7 @@
 
     <script>
         /* ============================
-           SEKME GEÇİŞ SİSTEMİ (TAB SWITCHER)
+           SEKME GEÇİŞ SİSTEMİ
            ============================ */
         function switchTab(tabName, linkElement) {
             document.querySelectorAll('.tab-content').forEach(tab => {
@@ -619,7 +622,3 @@
     </script>
 </body>
 </html>
-
-
-
-
