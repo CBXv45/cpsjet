@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="HeYiv_G5RkJl8aBzCff4TWIIejDdBZrsMXCVLacUt64" />
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='%23ff8c00' d='M381.6 62c-20.8-36-59.3-58.5-100.9-59C168.1-.4 104.3 90.7 96 102.3L27.6 195.9C5.5 226.1-2.9 264.4 3.7 301.6L22.9 409c3.9 21.9 25.1 36.9 46.8 33.1l63-11.1c20.3-3.6 34.6-21.9 33.1-42.5l-6-83 238.1-137.9c12.2-7.1 12.5-24.7 .5-32.2L381.6 62zm232.7 76.7L426.9 246.3l-2.6 148.6c-.4 20.3-17.3 36.5-37.6 36.1l-63.5-1.1c-21.8-.4-38.3-19.5-35.8-41.2l14.6-126.3-112.9 65.4 9 124.7c1.5 20.6 19.5 35.8 40.1 33.9l127.3-11.9c26.7-2.5 45.9-26.7 42.4-53.4l-11.6-88.1 43.1-24.9c12.2-7.1 12.5-24.7 .5-32.2l-16.6-67.1c-3.1-12.6-18.7-16.7-28-7.3z'/%3E%3C/svg%3E">
+
     <title>CPSJET - Jitter Click & CPS Hız Testi</title>
     <meta name="description" content="CPSJET ile Jitter Click Testi, Butterfly Click ve CPS hızınızı ölçün.">
     <meta name="keywords" content="Jitter Click Test, CPS Testi, Tıklama Hızı Testi, Gamer Test, Mama Jet">
@@ -80,7 +83,7 @@
         @media (max-width: 900px) {
             body { flex-direction: column; height: auto; overflow: auto; }
             .sidebar { width: 100%; height: auto; }
-            .nav { display: none; } /* Mobilde menüyü gizle (basitlik için) */
+            .nav { display: none; }
             .main { height: 100vh; }
         }
     </style>
@@ -278,67 +281,73 @@
             },
 
             Auth: {
+                check() {
+                    const u = localStorage.getItem('cps_active_user');
+                    if(u) this.load(JSON.parse(u));
+                },
                 open(mode) {
-                    Core.state.mode = mode;
-                    const isLogin = mode === 'login';
-                    document.getElementById('modal-title').innerText = isLogin ? "GİRİŞ YAP" : "KAYIT OL";
-                    document.getElementById('modal-msg').innerText = isLogin ? "Hesabına giriş yap." : "Yeni hesap oluştur.";
-                    document.getElementById('switch-text').innerText = isLogin ? "Hesabın yok mu?" : "Zaten üye misin?";
+                    this.state.mode = mode;
+                    const title = document.getElementById('modal-title');
+                    const btn = document.querySelector('#modal-auth .btn');
+                    const msg = document.getElementById('modal-msg');
+                    const swTxt = document.getElementById('switch-text');
+                    const link = document.querySelector('#modal-auth a');
+
+                    if(mode === 'login') {
+                        title.innerText = "GİRİŞ YAP";
+                        btn.innerText = "GİRİŞ YAP";
+                        msg.innerText = "Hesabına giriş yap.";
+                        swTxt.innerText = "Hesabın yok mu?";
+                        link.innerText = "Kayıt Ol";
+                    } else {
+                        title.innerText = "KAYIT OL";
+                        btn.innerText = "HESAP OLUŞTUR";
+                        msg.innerText = "Yeni hesap oluştur.";
+                        swTxt.innerText = "Zaten üye misin?";
+                        link.innerText = "Giriş Yap";
+                    }
                     
-                    // Temizle
                     document.getElementById('auth-user').value = "";
                     document.getElementById('auth-pass').value = "";
-                    
                     document.getElementById('modal-auth').style.display = 'flex';
                 },
-                
                 toggleMode() {
-                    this.open(Core.state.mode === 'login' ? 'register' : 'login');
+                    this.open(this.state.mode === 'login' ? 'register' : 'login');
                 },
-
                 process() {
                     const u = document.getElementById('auth-user').value.trim();
                     const p = document.getElementById('auth-pass').value.trim();
+                    
+                    if(!u || !p) { alert("Lütfen kullanıcı adı ve şifre girin."); return; }
 
-                    if(!u || !p) { alert("Lütfen boş alan bırakmayın!"); return; }
-
-                    // LocalStorage Veritabanı
                     let db = JSON.parse(localStorage.getItem('cpsjet_db') || '{}');
 
-                    if(Core.state.mode === 'register') {
+                    if(this.state.mode === 'register') {
                         if(db[u]) { alert("Bu kullanıcı adı dolu!"); return; }
-                        db[u] = p; // Kaydet
+                        db[u] = p; 
                         localStorage.setItem('cpsjet_db', JSON.stringify(db));
-                        alert("Kayıt Başarılı! Giriş yapabilirsiniz.");
+                        alert("Kayıt Başarılı! Şimdi giriş yapabilirsiniz.");
                         this.open('login');
                     } else {
-                        // Giriş Kontrolü
                         if(db[u] && db[u] === p) {
-                            const session = { name: u };
-                            localStorage.setItem('cpsjet_session', JSON.stringify(session));
-                            this.loadSession(session);
+                            const userObj = {n: u, r: 'PRO'};
+                            localStorage.setItem('cps_active_user', JSON.stringify(userObj));
+                            this.load(userObj);
                             Core.UI.hideModal();
                         } else {
                             alert("Kullanıcı adı veya şifre yanlış!");
                         }
                     }
                 },
-
-                loadSession(s) {
+                load(u) {
                     document.getElementById('panel-guest').style.display = 'none';
                     document.getElementById('panel-user').style.display = 'block';
-                    document.getElementById('u-name').innerText = s.name.toUpperCase();
-                    document.getElementById('u-avatar').innerText = s.name[0].toUpperCase();
+                    document.getElementById('u-name').innerText = u.n.toUpperCase();
+                    document.getElementById('u-avatar').innerText = u.n[0].toUpperCase();
                 },
-
-                check() {
-                    const s = localStorage.getItem('cpsjet_session');
-                    if(s) this.loadSession(JSON.parse(s));
-                },
-
-                logout() {
-                    localStorage.removeItem('cpsjet_session');
-                    location.reload();
+                logout() { 
+                    localStorage.removeItem('cps_active_user'); 
+                    location.reload(); 
                 }
             },
 
@@ -408,7 +417,6 @@
                 spawn() {
                     if(!this.active) return;
                     const f = document.getElementById('aim-field');
-                    // Eski hedefi sil (varsa)
                     const old = f.querySelector('.target'); if(old) old.remove();
                     
                     const t = document.createElement('div');
@@ -421,7 +429,7 @@
                     t.onmousedown = (e) => { e.stopPropagation(); this.hits++; document.getElementById('aim-hits').innerText = this.hits; this.spawn(); };
                     f.appendChild(t);
                 },
-                miss() { if(this.active) { /* Boşa tıklama cezası eklenebilir */ } }
+                miss() { if(this.active) { /* Miss logic */ } }
             },
 
             Typing: {
@@ -439,7 +447,6 @@
                         this.words.shift();
                         document.getElementById('type-display').innerText = this.words.join(' ');
                         document.getElementById('type-input').value = "";
-                        // Basit WPM sayacı buraya eklenebilir
                     }
                 }
             },
