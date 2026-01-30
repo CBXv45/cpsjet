@@ -2,259 +2,561 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <meta name="google-site-verification" content="HeYiv_G5RkJl8aBzCff4TWIIejDdBZrsMXCVLacUt64" />
     
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='%23ff8c00' d='M381.6 62c-20.8-36-59.3-58.5-100.9-59C168.1-.4 104.3 90.7 96 102.3L27.6 195.9C5.5 226.1-2.9 264.4 3.7 301.6L22.9 409c3.9 21.9 25.1 36.9 46.8 33.1l63-11.1c20.3-3.6 34.6-21.9 33.1-42.5l-6-83 238.1-137.9c12.2-7.1 12.5-24.7 .5-32.2L381.6 62zm232.7 76.7L426.9 246.3l-2.6 148.6c-.4 20.3-17.3 36.5-37.6 36.1l-63.5-1.1c-21.8-.4-38.3-19.5-35.8-41.2l14.6-126.3-112.9 65.4 9 124.7c1.5 20.6 19.5 35.8 40.1 33.9l127.3-11.9c26.7-2.5 45.9-26.7 42.4-53.4l-11.6-88.1 43.1-24.9c12.2-7.1 12.5-24.7 .5-32.2l-16.6-67.1c-3.1-12.6-18.7-16.7-28-7.3z'/%3E%3C/svg%3E">
 
-    <title>CPSJET - Jitter Click & CPS Hız Testi</title>
-    <meta name="description" content="CPSJET ile Jitter Click Testi, Butterfly Click ve CPS hızınızı ölçün.">
-    <meta name="keywords" content="Jitter Click Test, CPS Testi, Tıklama Hızı Testi, Gamer Test, Mama Jet">
+    <title>CPSJET | Ultimate Gamer Platform</title>
+    <meta name="description" content="Profesyonel oyuncular için geliştirilmiş en kapsamlı test platformu. CPS, Aim, Hafıza ve Refleks testleri.">
     <meta name="author" content="Muhammed Hamza Çelik">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* * ==========================================================================
+         * 1. GLOBAL RESET & VARIABLES
+         * ==========================================================================
+         */
         :root {
-            --primary: #ff8c00; --primary-glow: rgba(255, 140, 0, 0.4);
-            --bg-deep: #050505; --bg-panel: rgba(15, 15, 18, 0.96);
+            /* Renk Paleti */
+            --primary: #ff8c00;
+            --primary-dark: #cc7000;
+            --primary-glow: rgba(255, 140, 0, 0.6);
+            
+            --bg-body: #050505;
+            --bg-panel: rgba(20, 20, 25, 0.95);
+            --bg-card: rgba(255, 255, 255, 0.03);
+            
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            
             --border: rgba(255, 255, 255, 0.1);
-            --font-head: 'Orbitron', sans-serif; --font-ui: 'Rajdhani', sans-serif;
-            --text-main: #e0e0e0;
+            --border-active: rgba(255, 140, 0, 0.5);
+
+            --success: #00ff9d;
+            --danger: #ff0055;
+            --info: #00ccff;
+            
+            /* Fontlar */
+            --font-head: 'Orbitron', sans-serif;
+            --font-ui: 'Rajdhani', sans-serif;
+            --font-code: 'Share Tech Mono', monospace;
         }
 
-        * { box-sizing: border-box; outline: none; user-select: none; }
-        body { margin: 0; padding: 0; background-color: var(--bg-deep); color: var(--text-main); font-family: var(--font-ui); overflow: hidden; display: flex; height: 100vh; }
+        * {
+            box-sizing: border-box;
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Scrollbar Özelleştirme */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* * ==========================================================================
+         * 2. BACKGROUND EFFECTS (MATRIX & PARTICLES)
+         * ==========================================================================
+         */
+        #bg-canvas-layer1 { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.1; }
+        #bg-canvas-layer2 { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; pointer-events: none; }
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            z-index: 90; pointer-events: none; opacity: 0.4;
+        }
+
+        /* * ==========================================================================
+         * 3. AUTH MODAL (GELİŞMİŞ GİRİŞ EKRANI)
+         * ==========================================================================
+         */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: none; /* JS ile flex yapılır */
+            align-items: center; justify-content: center;
+        }
+
+        .auth-card {
+            background: #0f0f12;
+            border: 1px solid var(--primary);
+            width: 90%; max-width: 450px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        .auth-logo { width: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--primary)); }
+        .auth-title { font-family: var(--font-head); font-size: 32px; color: #fff; margin-bottom: 10px; }
+        .auth-subtitle { color: #888; margin-bottom: 30px; font-size: 14px; }
+
+        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
+        .input-group label { font-size: 12px; color: var(--primary); font-weight: bold; margin-bottom: 5px; display: block; letter-spacing: 1px; }
+        .auth-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: #08080a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 8px;
+            font-family: var(--font-ui);
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .auth-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255,140,0,0.2); }
+        .input-icon { position: absolute; left: 15px; top: 42px; color: #555; }
+
+        .btn-large {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+            border: none;
+            color: #fff;
+            font-family: var(--font-head);
+            font-weight: 900;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-large:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,140,0,0.4); }
+        .btn-large:active { transform: translateY(1px); }
+
+        .auth-toggle { margin-top: 25px; font-size: 14px; color: #666; }
+        .auth-toggle span { color: var(--primary); cursor: pointer; font-weight: bold; text-decoration: underline; }
+
+        /* * ==========================================================================
+         * 4. SIDEBAR & NAVIGATION
+         * ==========================================================================
+         */
+        .sidebar {
+            width: 300px;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-section { padding: 30px; text-align: center; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .brand-section h1 { margin: 0; font-family: var(--font-head); font-size: 32px; color: var(--primary); text-shadow: 0 0 20px rgba(255,140,0,0.3); letter-spacing: 3px; }
         
-        /* MATRIX BACKGROUND */
-        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; }
-        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%); background-size: 100% 4px; pointer-events: none; z-index: 99; opacity: 0.3; }
+        .user-panel { padding: 20px; border-bottom: 1px solid var(--border); }
+        .guest-view button { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: var(--font-head); }
+        .btn-login { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-login:hover { background: var(--primary); color: #000; }
+        .btn-register { background: #222; border: 1px solid #444; color: #ccc; }
+        .btn-register:hover { background: #333; color: #fff; }
 
-        /* SIDEBAR */
-        .sidebar { width: 300px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; }
-        .brand { padding: 30px; text-align: center; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .brand h1 { margin: 0; color: var(--primary); font-family: var(--font-head); font-size: 28px; letter-spacing: 2px; }
+        .user-view { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .avatar {
+            width: 50px; height: 50px;
+            background: var(--primary);
+            color: #000;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-head); font-weight: 900; font-size: 24px;
+        }
+        .user-info h3 { margin: 0; font-size: 16px; color: #fff; }
+        .user-level { font-size: 11px; color: var(--primary); font-weight: bold; margin-top: 4px; display: block; }
         
-        .auth-box { padding: 20px; border-bottom: 1px solid var(--border); }
-        .btn { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-head); cursor: pointer; transition: 0.3s; margin-bottom: 10px; border-radius: 4px; font-weight: bold; }
-        .btn:hover { background: var(--primary); color: #000; }
-        .btn-sec { border-color: #555; color: #888; }
-        .btn-sec:hover { background: #333; color: #fff; }
+        .xp-bar { width: 100%; height: 4px; background: #333; margin-top: 10px; border-radius: 2px; overflow: hidden; }
+        .xp-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.5s; box-shadow: 0 0 5px var(--success); }
 
-        .user-card { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; }
-        .avatar { width: 40px; height: 40px; background: var(--primary); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+        .nav-menu { flex: 1; overflow-y: auto; padding: 20px 0; }
+        .nav-item {
+            padding: 15px 30px;
+            display: flex; align-items: center; gap: 15px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.2s;
+            border-left: 3px solid transparent;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(90deg, rgba(255,140,0,0.1), transparent);
+            color: #fff;
+            border-left-color: var(--primary);
+            padding-left: 35px;
+        }
+        .nav-item i { width: 24px; text-align: center; }
+        .nav-badge { margin-left: auto; font-size: 9px; background: var(--primary); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: 800; }
 
-        .nav { flex: 1; overflow-y: auto; padding: 20px; }
-        .nav a { display: block; padding: 12px; color: #888; text-decoration: none; transition: 0.2s; font-size: 16px; margin-bottom: 5px; }
-        .nav a:hover, .nav a.active { color: #fff; background: rgba(255,140,0,0.1); border-left: 3px solid var(--primary); padding-left: 15px; }
-        .nav i { width: 25px; text-align: center; margin-right: 10px; }
+        .sidebar-footer { padding: 20px; font-size: 10px; color: #444; text-align: center; border-top: 1px solid var(--border); }
 
-        /* MAIN */
-        .main { flex: 1; display: flex; flex-direction: column; position: relative; }
-        .header { height: 60px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 30px; justify-content: space-between; background: rgba(0,0,0,0.5); }
-        .content { flex: 1; padding: 40px; overflow-y: auto; }
+        /* * ==========================================================================
+         * 5. MAIN CONTENT AREA
+         * ==========================================================================
+         */
+        .main-wrapper { flex: 1; display: flex; flex-direction: column; position: relative; }
         
-        .tab { display: none; animation: fade 0.3s; }
-        .tab.active { display: block; }
-        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .top-bar {
+            height: 70px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(0,0,0,0.3);
+        }
+        .breadcrumb { color: #666; font-size: 14px; font-family: var(--font-code); }
+        .breadcrumb span { color: var(--primary); font-weight: bold; }
+        
+        .content-area { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
 
-        /* GAME UI */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: #111; border: 1px solid #333; padding: 25px; border-radius: 10px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px; }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .stats { display: flex; gap: 20px; margin-bottom: 30px; }
-        .stat-box { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid #333; padding: 20px; text-align: center; border-radius: 8px; }
-        .stat-val { font-size: 32px; font-weight: bold; color: #fff; font-family: 'Share Tech Mono'; }
-        #click-area { height: 300px; border: 2px dashed #444; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; transition: 0.1s; }
-        #click-area:active { background: rgba(255,140,0,0.1); transform: scale(0.99); }
+        .tab-section { display: none; animation: fadeIn 0.4s ease-out; }
+        .tab-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* MODAL */
-        .modal-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal { background: #151515; border: 1px solid var(--primary); width: 90%; max-width: 400px; padding: 40px; border-radius: 10px; text-align: center; position: relative; box-shadow: 0 0 50px rgba(255,140,0,0.2); }
-        .inp { width: 100%; padding: 15px; background: #080808; border: 1px solid #333; color: #fff; margin-bottom: 15px; border-radius: 5px; text-align: center; }
-        .inp:focus { border-color: var(--primary); }
-        .close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666; }
-        .close:hover { color: #fff; }
+        /* * ==========================================================================
+         * 6. GAME CARDS & DASHBOARD
+         * ==========================================================================
+         */
+        .hero-section { text-align: center; margin-bottom: 50px; padding: 40px; background: radial-gradient(circle, rgba(255,140,0,0.05), transparent 70%); border-radius: 20px; border: 1px solid var(--border); }
+        .hero-title { font-size: 48px; font-family: var(--font-head); color: #fff; margin: 0; }
+        .hero-sub { color: #888; font-size: 18px; margin-top: 10px; }
 
-        /* Responsive */
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .game-card {
+            background: #0f0f12;
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .game-card i { font-size: 32px; color: var(--primary); transition: 0.3s; }
+        .game-card:hover i { transform: scale(1.2) rotate(-10deg); text-shadow: 0 0 15px var(--primary); }
+        
+        /* * ==========================================================================
+         * 7. GAME ENGINES CSS
+         * ==========================================================================
+         */
+        
+        /* Stats Display */
+        .game-hud { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .hud-box { background: rgba(255,255,255,0.03); border: 1px solid #333; padding: 20px; border-radius: 10px; text-align: center; }
+        .hud-val { font-size: 36px; font-family: var(--font-code); color: #fff; font-weight: bold; }
+        .hud-label { color: var(--primary); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; display: block; }
+
+        /* CPS */
+        #cps-area { height: 350px; border: 2px dashed #444; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; transition: 0.1s; user-select: none; background: rgba(0,0,0,0.2); }
+        #cps-area:active { background: rgba(255,140,0,0.1); border-color: var(--primary); transform: scale(0.99); }
+        .click-particle { position: absolute; pointer-events: none; animation: pop 0.5s ease-out forwards; font-weight: bold; color: #fff; }
+        @keyframes pop { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-50px) scale(1.5); } }
+
+        /* AIM */
+        #aim-field { height: 500px; background: #080808; border: 1px solid #333; border-radius: 15px; position: relative; overflow: hidden; cursor: crosshair; }
+        .target { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fff 20%, var(--primary) 60%, #000 100%); box-shadow: 0 0 15px var(--primary); cursor: pointer; animation: spawnPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes spawnPop { from { transform: scale(0); } to { transform: scale(1); } }
+
+        /* MEMORY (SIMON) */
+        .simon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; max-width: 400px; margin: 0 auto; }
+        .simon-btn { height: 150px; border-radius: 15px; cursor: pointer; opacity: 0.3; transition: 0.2s; border: 2px solid transparent; }
+        .simon-btn:hover { opacity: 0.5; }
+        .simon-btn.active { opacity: 1; box-shadow: 0 0 30px currentColor; transform: scale(0.95); }
+        .s-green { background-color: #00ff00; color: #00ff00; }
+        .s-red { background-color: #ff0000; color: #ff0000; }
+        .s-yellow { background-color: #ffff00; color: #ffff00; }
+        .s-blue { background-color: #0000ff; color: #0000ff; }
+
+        /* TYPING */
+        #type-text { font-size: 24px; line-height: 1.6; color: #555; background: #111; padding: 30px; border-radius: 15px; min-height: 150px; font-family: var(--font-ui); margin-bottom: 20px; }
+        .char-correct { color: var(--success); text-shadow: 0 0 5px var(--success); }
+        .char-wrong { color: var(--danger); text-decoration: underline; background: rgba(255,0,0,0.1); }
+        .char-current { background: #333; color: #fff; border-bottom: 2px solid var(--primary); }
+
+        /* MATH */
+        #math-display { font-size: 64px; font-family: var(--font-code); color: #fff; margin: 40px 0; text-align: center; font-weight: bold; letter-spacing: 5px; }
+
+        /* TOAST NOTIFICATION */
+        #toast-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 10000; }
+        .toast { background: #1a1a1a; color: #fff; padding: 15px 25px; border-left: 4px solid var(--primary); border-radius: 4px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); animation: slideInRight 0.3s ease; display: flex; align-items: center; gap: 10px; min-width: 300px; font-size: 14px; }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* Responsive Mobile */
         @media (max-width: 900px) {
-            body { flex-direction: column; height: auto; overflow: auto; }
-            .sidebar { width: 100%; height: auto; }
-            .nav { display: none; }
-            .main { height: 100vh; }
+            body { flex-direction: column; height: auto; overflow-y: auto; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .nav-menu { display: none; } /* Basitlik için mobilde menü gizli */
+            .main-wrapper { min-height: 100vh; }
+            .auth-card { width: 95%; padding: 20px; }
+            .game-hud { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix-canvas"></canvas>
+    <canvas id="bg-canvas-layer1"></canvas>
     <div class="scanlines"></div>
+    <div id="toast-container"></div>
 
-    <div class="modal-wrap" id="modal-auth">
-        <div class="modal">
-            <span class="close" onclick="Core.UI.hideModal()">&times;</span>
-            <h2 id="modal-title" style="color:var(--primary); font-family:var(--font-head); margin-bottom:10px;">GİRİŞ</h2>
-            <p id="modal-msg" style="color:#666; font-size:13px; margin-bottom:20px;">Devam etmek için işlem yapın.</p>
-            
-            <input type="text" class="inp" id="auth-user" placeholder="Kullanıcı Adı">
-            <input type="password" class="inp" id="auth-pass" placeholder="Şifre">
-            
-            <button class="btn" onclick="Core.Auth.process()">ONAYLA</button>
-            
-            <div style="margin-top:20px; font-size:13px; color:#888;">
-                <span id="switch-text">Hesabın yok mu?</span>
-                <a href="#" onclick="Core.Auth.toggleMode()" style="color:var(--primary); font-weight:bold;">Tıkla</a>
+    <div class="modal-overlay" id="modal-auth">
+        <div class="auth-card">
+            <img src="logo.png" alt="Jet" class="auth-logo"> <h2 class="auth-title" id="auth-header">GİRİŞ YAP</h2>
+            <p class="auth-subtitle" id="auth-sub">Skorlarını kaydetmek ve rütbe atlamak için.</p>
+
+            <form onsubmit="return false;">
+                <div class="input-group">
+                    <label>KULLANICI ADI</label>
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" class="auth-input" id="inp-user" placeholder="GamerTag..." autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>ŞİFRE</label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" class="auth-input" id="inp-pass" placeholder="Güvenli Şifre...">
+                </div>
+
+                <button class="btn-large" onclick="App.Auth.process()" id="btn-auth-action">SİSTEME GİRİŞ</button>
+            </form>
+
+            <div class="auth-toggle">
+                <span id="auth-switch-msg">Hesabın yok mu?</span>
+                <span onclick="App.Auth.toggle()" id="auth-switch-btn">HEMEN KAYIT OL</span>
             </div>
+            
+            <div style="margin-top:20px; font-size:11px; color:#444;">CPSJET SECURE SYSTEM v7.2</div>
         </div>
     </div>
 
     <aside class="sidebar">
-        <div class="brand" onclick="Core.Nav.go('dashboard')">
+        <div class="brand-section" onclick="App.Nav.go('dashboard')">
             <h1>CPSJET</h1>
-            <small style="color:#666; letter-spacing:2px; font-size:10px;">OS v7.0 // MAMA JET</small>
+            <div style="font-size:10px; color:#666; letter-spacing:4px; margin-top:5px;">ULTIMATE EDITION</div>
         </div>
 
-        <div class="auth-box">
-            <div id="panel-guest">
-                <button class="btn" onclick="Core.Auth.open('login')">GİRİŞ YAP</button>
-                <button class="btn btn-sec" onclick="Core.Auth.open('register')">KAYIT OL</button>
+        <div class="user-panel">
+            <div id="panel-guest" class="guest-view">
+                <button class="btn-login" onclick="App.Auth.open('login')"><i class="fas fa-sign-in-alt"></i> GİRİŞ YAP</button>
+                <button class="btn-register" onclick="App.Auth.open('register')"><i class="fas fa-user-plus"></i> KAYIT OL</button>
             </div>
-            <div id="panel-user" style="display:none;">
-                <div class="user-card">
-                    <div class="avatar" id="u-avatar">U</div>
-                    <div>
-                        <div id="u-name" style="font-weight:bold; color:#fff;">USER</div>
-                        <div style="font-size:10px; color:var(--primary);">ONLINE</div>
+            <div id="panel-user" class="user-view" style="display:none;">
+                <div class="avatar" id="u-avatar">H</div>
+                <div class="user-info" style="width:100%;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <h3 id="u-name">HAMZA</h3>
+                        <span id="u-rank" class="nav-badge" style="background:#00ff9d;">ROOKIE</span>
                     </div>
+                    <span class="user-level" id="u-level-txt">Level 1</span>
+                    <div class="xp-bar"><div class="xp-fill" id="u-xp" style="width:10%;"></div></div>
                 </div>
-                <button class="btn btn-sec" style="margin-top:10px; font-size:11px; padding:8px;" onclick="Core.Auth.logout()">ÇIKIŞ YAP</button>
+            </div>
+            <div id="logout-btn" style="display:none; text-align:center; margin-top:10px;">
+                <a href="#" onclick="App.Auth.logout()" style="color:#666; font-size:11px; text-decoration:none;">GÜVENLİ ÇIKIŞ</a>
             </div>
         </div>
 
-        <div class="nav">
-            <div style="font-size:10px; color:#555; font-weight:bold; padding:10px 0;">OYUNLAR</div>
-            <a href="#" class="active" onclick="Core.Nav.go('dashboard', this)"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="#" onclick="Core.Nav.go('cps', this)"><i class="fas fa-mouse"></i> CPS Testi</a>
-            <a href="#" onclick="Core.Nav.go('aim', this)"><i class="fas fa-crosshairs"></i> Aim Trainer</a>
-            <a href="#" onclick="Core.Nav.go('typing', this)"><i class="fas fa-keyboard"></i> Klavye Hızı</a>
-            <a href="#" onclick="Core.Nav.go('reaction', this)"><i class="fas fa-bolt"></i> Refleks</a>
-            <a href="#" onclick="Core.Nav.go('memory', this)"><i class="fas fa-brain"></i> Hafıza</a>
-            <a href="#" onclick="Core.Nav.go('chimp', this)"><i class="fas fa-sort-numeric-down"></i> Chimp Test</a>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active" onclick="App.Nav.go('dashboard', this)"><i class="fas fa-home"></i> Dashboard</a>
             
-            <div style="font-size:10px; color:#555; font-weight:bold; padding:20px 0 10px;">DİĞER</div>
-            <a href="#" onclick="Core.Nav.go('leaderboard', this)"><i class="fas fa-trophy"></i> Sıralama</a>
-            <a href="#" onclick="Core.Nav.go('about', this)"><i class="fas fa-info-circle"></i> Hakkımızda</a>
+            <div style="padding:15px 30px 5px; font-size:10px; color:#444; font-weight:bold;">OYUNLAR</div>
+            <a href="#" class="nav-item" onclick="App.Nav.go('cps', this)"><i class="fas fa-mouse"></i> CPS Testi <span class="nav-badge">HOT</span></a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('aim', this)"><i class="fas fa-crosshairs"></i> Aim Trainer</a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('simon', this)"><i class="fas fa-th-large"></i> Simon Says <span class="nav-badge" style="background:var(--info)">NEW</span></a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('typing', this)"><i class="fas fa-keyboard"></i> Klavye Hızı</a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('math', this)"><i class="fas fa-calculator"></i> Math Speed</a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('reaction', this)"><i class="fas fa-bolt"></i> Refleks</a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('chimp', this)"><i class="fas fa-sort-numeric-down"></i> Chimp Test</a>
+
+            <div style="padding:15px 30px 5px; font-size:10px; color:#444; font-weight:bold;">TOPLULUK</div>
+            <a href="#" class="nav-item" onclick="App.Nav.go('leaderboard', this)"><i class="fas fa-trophy"></i> Sıralama</a>
+            <a href="#" class="nav-item" onclick="App.Nav.go('about', this)"><i class="fas fa-info-circle"></i> Hakkımızda</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            MAMA JET TECHNOLOGY INC.<br>
+            TÜM HAKLARI SAKLIDIR © 2026
         </div>
     </aside>
 
-    <main class="main">
-        <header class="header">
-            <div style="color:#666; font-size:12px;"><i class="fas fa-terminal"></i> SYSTEM_READY</div>
-            <div style="color:var(--primary); font-size:18px;"><i class="fab fa-github"></i></div>
+    <main class="main-wrapper">
+        <header class="top-bar">
+            <div class="breadcrumb">SYSTEM <i class="fas fa-chevron-right" style="font-size:10px; margin:0 5px;"></i> <span id="bread-active">DASHBOARD</span></div>
+            <div style="display:flex; gap:15px;">
+                <i class="fas fa-volume-up" style="color:#666; cursor:pointer;" onclick="App.Audio.toggle()" id="sound-icon"></i>
+                <i class="fas fa-wifi" style="color:var(--success);"></i>
+            </div>
         </header>
 
-        <div class="content">
-            
-            <div id="page-dashboard" class="tab active">
-                <div style="text-align:center; padding:40px 0;">
-                    <h1 style="font-family:var(--font-head); font-size:40px; color:#fff;">GAMER HUB</h1>
-                    <p style="color:#888;">Testlerini yap, skorlarını kaydet, zirveye çık.</p>
-                </div>
-                <div class="grid">
-                    <div class="card" onclick="Core.Nav.go('cps')"><i class="fas fa-mouse fa-2x" style="color:var(--primary)"></i> <div><h3>CPS Testi</h3><small>Tıklama Hızı</small></div></div>
-                    <div class="card" onclick="Core.Nav.go('aim')"><i class="fas fa-crosshairs fa-2x" style="color:var(--primary)"></i> <div><h3>Aim Trainer</h3><small>İsabet</small></div></div>
-                    <div class="card" onclick="Core.Nav.go('typing')"><i class="fas fa-keyboard fa-2x" style="color:var(--primary)"></i> <div><h3>Klavye</h3><small>Yazma Hızı</small></div></div>
-                    <div class="card" onclick="Core.Nav.go('reaction')"><i class="fas fa-bolt fa-2x" style="color:var(--primary)"></i> <div><h3>Refleks</h3><small>Tepki Süresi</small></div></div>
-                </div>
-            </div>
+        <div class="content-area">
 
-            <div id="page-cps" class="tab">
-                <h2 style="text-align:center; margin-bottom:30px;">CPS TEST</h2>
-                <div class="stats">
-                    <div class="stat-box"><span class="stat-val" id="cps-time">5.00</span><br>SÜRE</div>
-                    <div class="stat-box"><span class="stat-val" id="cps-score">0.0</span><br>CPS</div>
+            <div id="tab-dashboard" class="tab-section active">
+                <div class="hero-section">
+                    <h1 class="hero-title">GAMER HUB</h1>
+                    <p class="hero-sub">Sınırlarını zorla. Rütbeni yükselt. Efsane ol.</p>
                 </div>
-                <div id="click-area" onmousedown="Games.CPS.click()">TIKLA VE BAŞLA</div>
-            </div>
-
-            <div id="page-aim" class="tab">
-                <h2 style="text-align:center;">AIM TRAINER</h2>
-                <div class="stats">
-                    <div class="stat-box"><span class="stat-val" id="aim-time">30.0</span><br>ZAMAN</div>
-                    <div class="stat-box"><span class="stat-val" id="aim-hits">0</span><br>VURUŞ</div>
-                </div>
-                <div id="aim-field" style="height:400px; background:#080808; border:1px solid #333; position:relative; overflow:hidden; cursor:crosshair;" onclick="Games.Aim.miss()">
-                    <button class="btn" style="width:150px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Aim.start(event)">BAŞLAT</button>
-                </div>
-            </div>
-
-            <div id="page-memory" class="tab">
-                <h2 style="text-align:center;">SÖZEL HAFIZA</h2>
-                <div style="text-align:center; padding:50px; background:#111; border:1px solid #333; border-radius:10px;">
-                    <div style="margin-bottom:20px;">CAN: <span id="mem-lives" style="color:var(--danger)">3</span> | SKOR: <span id="mem-score">0</span></div>
-                    <h1 id="mem-word" style="font-size:40px; color:#fff; margin:30px 0;">HAZIR?</h1>
-                    <div style="display:flex; justify-content:center; gap:20px;">
-                        <button class="btn" style="width:120px;" onclick="Games.Memory.check(true)">GÖRDÜM</button>
-                        <button class="btn btn-sec" style="width:120px;" onclick="Games.Memory.check(false)">YENİ</button>
+                
+                <h3 style="margin-bottom:20px; color:#fff; border-left:4px solid var(--primary); padding-left:15px;">TÜM OYUNLAR</h3>
+                <div class="games-grid">
+                    <div class="game-card" onclick="App.Nav.go('cps')">
+                        <i class="fas fa-mouse"></i>
+                        <div><h4>CPS Testi</h4><span style="font-size:12px; color:#666;">Tıklama Hızı</span></div>
                     </div>
-                    <button class="btn" style="margin-top:30px; width:100px; font-size:12px;" onclick="Games.Memory.start()">BAŞLAT</button>
+                    <div class="game-card" onclick="App.Nav.go('aim')">
+                        <i class="fas fa-crosshairs"></i>
+                        <div><h4>Aim Trainer</h4><span style="font-size:12px; color:#666;">Nişan Kabiliyeti</span></div>
+                    </div>
+                    <div class="game-card" onclick="App.Nav.go('simon')">
+                        <i class="fas fa-th-large"></i>
+                        <div><h4>Simon Says</h4><span style="font-size:12px; color:#666;">Renk Hafızası</span></div>
+                    </div>
+                    <div class="game-card" onclick="App.Nav.go('typing')">
+                        <i class="fas fa-keyboard"></i>
+                        <div><h4>Klavye Hızı</h4><span style="font-size:12px; color:#666;">WPM Ölçümü</span></div>
+                    </div>
+                    <div class="game-card" onclick="App.Nav.go('math')">
+                        <i class="fas fa-calculator"></i>
+                        <div><h4>Math Speed</h4><span style="font-size:12px; color:#666;">Hızlı İşlem</span></div>
+                    </div>
+                    <div class="game-card" onclick="App.Nav.go('reaction')">
+                        <i class="fas fa-bolt"></i>
+                        <div><h4>Refleks</h4><span style="font-size:12px; color:#666;">Tepki Süresi</span></div>
+                    </div>
                 </div>
             </div>
 
-            <div id="page-chimp" class="tab">
-                <h2 style="text-align:center;">CHIMP TEST</h2>
-                <div style="text-align:center; margin-bottom:20px;">SEVİYE: <span id="chimp-lvl" style="color:var(--primary)">1</span></div>
-                <div id="chimp-area" style="height:400px; position:relative; background:#111; border:1px solid #333; border-radius:10px;">
-                    <button class="btn" style="width:150px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Chimp.start()">BAŞLAT</button>
+            <div id="tab-cps" class="tab-section">
+                <h2 style="text-align:center;">CPS SPEED TEST</h2>
+                <div class="game-hud">
+                    <div class="hud-box"><span class="hud-val" id="cps-time">5.00</span><span class="hud-label">SÜRE</span></div>
+                    <div class="hud-box"><span class="hud-val" id="cps-score">0.0</span><span class="hud-label">CPS</span></div>
+                    <div class="hud-box"><span class="hud-val" id="cps-clicks">0</span><span class="hud-label">TIKLA</span></div>
+                </div>
+                <div id="cps-area" onmousedown="Games.CPS.click(event)">
+                    TIKLA VE BAŞLA
                 </div>
             </div>
 
-            <div id="page-typing" class="tab">
+            <div id="tab-aim" class="tab-section">
+                <h2 style="text-align:center;">AIM TRAINER</h2>
+                <div class="game-hud">
+                    <div class="hud-box"><span class="hud-val" id="aim-time">30.0</span><span class="hud-label">ZAMAN</span></div>
+                    <div class="hud-box"><span class="hud-val" id="aim-hits">0</span><span class="hud-label">VURUŞ</span></div>
+                    <div class="hud-box"><span class="hud-val" id="aim-acc">100%</span><span class="hud-label">İSABET</span></div>
+                </div>
+                <div id="aim-field" onclick="Games.Aim.miss(event)">
+                    <button class="btn-large" style="width:200px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Aim.start(event)">BAŞLAT</button>
+                </div>
+            </div>
+
+            <div id="tab-simon" class="tab-section">
+                <h2 style="text-align:center;">SIMON SAYS</h2>
+                <p style="text-align:center; color:#888; margin-bottom:30px;">Yanan renkleri sırasıyla tekrar et.</p>
+                <div style="text-align:center; margin-bottom:20px; font-size:24px;">SKOR: <span id="simon-score" style="color:var(--primary)">0</span></div>
+                <div class="simon-grid">
+                    <div class="simon-btn s-green" id="s-0" onclick="Games.Simon.input(0)"></div>
+                    <div class="simon-btn s-red" id="s-1" onclick="Games.Simon.input(1)"></div>
+                    <div class="simon-btn s-yellow" id="s-2" onclick="Games.Simon.input(2)"></div>
+                    <div class="simon-btn s-blue" id="s-3" onclick="Games.Simon.input(3)"></div>
+                </div>
+                <div style="text-align:center; margin-top:30px;">
+                    <button class="btn-large" style="width:200px;" onclick="Games.Simon.start()">OYUNU BAŞLAT</button>
+                </div>
+            </div>
+
+            <div id="tab-typing" class="tab-section">
                 <h2 style="text-align:center;">KLAVYE HIZI</h2>
-                <div class="stats">
-                    <div class="stat-box"><span class="stat-val" id="type-wpm">0</span><br>WPM</div>
-                    <div class="stat-box"><span class="stat-val" id="type-time">60</span><br>SÜRE</div>
+                <div class="game-hud">
+                    <div class="hud-box"><span class="hud-val" id="type-wpm">0</span><span class="hud-label">WPM</span></div>
+                    <div class="hud-box"><span class="hud-val" id="type-time">60</span><span class="hud-label">SÜRE</span></div>
                 </div>
-                <div id="type-display" style="background:#111; padding:20px; border-radius:8px; font-size:20px; line-height:1.6; color:#666; margin-bottom:20px; height:100px; overflow:hidden;"></div>
-                <input type="text" id="type-input" class="inp" placeholder="Yazmaya başla..." oninput="Games.Typing.check()" autocomplete="off">
-                <button class="btn" onclick="Games.Typing.init()">YENİLE</button>
+                <div id="type-text">Yazılar buraya gelecek...</div>
+                <input type="text" id="type-input" class="auth-input" style="font-size:20px; text-align:center;" placeholder="Yazmaya başla..." oninput="Games.Typing.process()" autocomplete="off">
+                <button class="btn-large" style="margin-top:20px;" onclick="Games.Typing.init()">YENİ METİN</button>
             </div>
 
-            <div id="page-reaction" class="tab">
+            <div id="tab-math" class="tab-section">
+                <h2 style="text-align:center;">MATH SPEED</h2>
+                <div class="game-hud">
+                    <div class="hud-box"><span class="hud-val" id="math-score">0</span><span class="hud-label">DOĞRU</span></div>
+                    <div class="hud-box"><span class="hud-val" id="math-time">30</span><span class="hud-label">SÜRE</span></div>
+                </div>
+                <div id="math-display">2 + 2 = ?</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:400px; margin:0 auto;">
+                    <input type="number" id="math-input" class="auth-input" style="text-align:center; font-size:30px;" placeholder="Sonuç">
+                    <button class="btn-large" onclick="Games.Math.check()">GÖNDER</button>
+                </div>
+                <div style="text-align:center; margin-top:30px;">
+                    <button class="btn-large" style="width:200px; background:#333;" onclick="Games.Math.start()">BAŞLAT</button>
+                </div>
+            </div>
+
+            <div id="tab-reaction" class="tab-section">
                 <h2 style="text-align:center;">REFLEKS TESTİ</h2>
-                <div id="react-box" style="height:400px; background:#ce2029; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:10px;" onmousedown="Games.Reaction.click()">
+                <div id="react-box" style="height:400px; background:#ce2029; display:flex; align-items:center; justify-content:center; cursor:pointer; border-radius:15px; margin-top:30px;" onmousedown="Games.Reaction.click()">
                     <h1 style="font-size:40px; color:#fff;" id="react-msg">TIKLA VE BEKLE</h1>
                 </div>
                 <div style="text-align:center; margin-top:20px; font-size:24px;">SONUÇ: <span id="react-res" style="color:var(--primary)">0 ms</span></div>
             </div>
 
-            <div id="page-leaderboard" class="tab">
-                <h2 style="text-align:center;">LİDERLİK TABLOSU</h2>
-                <table style="width:100%; border-collapse:collapse; margin-top:30px;">
-                    <tr style="border-bottom:1px solid #333; color:#666; text-align:left;"><th style="padding:15px;">#</th><th>OYUNCU</th><th style="text-align:right;">SKOR</th></tr>
-                    <tr style="border-bottom:1px solid #222; color:#fff;"><td style="padding:15px; color:gold;">1</td><td>Muhammed Hamza Çelik</td><td style="text-align:right; color:var(--primary)">18.5 CPS</td></tr>
-                    <tr style="border-bottom:1px solid #222; color:#ccc;"><td style="padding:15px;">2</td><td>ProGamerTR</td><td style="text-align:right;">14.2 CPS</td></tr>
-                    <tr style="border-bottom:1px solid #222; color:#ccc;"><td style="padding:15px;">3</td><td>SpeedyGonzales</td><td style="text-align:right;">13.5 CPS</td></tr>
-                </table>
+            <div id="tab-chimp" class="tab-section">
+                <h2 style="text-align:center;">CHIMP TEST</h2>
+                <div style="text-align:center; margin-bottom:20px;">SEVİYE: <span id="chimp-lvl" style="color:var(--primary)">1</span></div>
+                <div id="chimp-field" style="height:450px; position:relative; background:#111; border:1px solid #333; border-radius:15px;">
+                    <button class="btn-large" style="width:200px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Chimp.start()">BAŞLAT</button>
+                </div>
             </div>
 
-            <div id="page-about" class="tab">
-                <div style="max-width:600px; margin:0 auto; padding:40px; background:rgba(255,255,255,0.02); text-align:center; border-radius:15px;">
-                    <img src="logo.png" width="80" style="margin-bottom:20px;">
-                    <h2 style="color:var(--primary);">HAKKIMIZDA</h2>
-                    <p style="line-height:1.6; color:#aaa;">CPSJET, 2026 yılında Muhammed Hamza Çelik tarafından kurulmuştur. Amacımız profesyonel oyunculara en iyi analiz araçlarını sunmaktır.</p>
-                    
-                    <div style="margin-top:40px; border-top:1px solid #333; padding-top:20px;">
-                        <h3 style="color:var(--primary); font-size:16px;">İLETİŞİM & SPONSORLUK</h3>
-                        <p style="color:#fff; font-size:14px;">
-                            Mail: <b>muhammedhamzacelik87@gmail.com</b><br>
-                            Tel: <b>+90 (505) 937 61 29</b>
+            <div id="tab-leaderboard" class="tab-section">
+                <h2>LİDERLİK TABLOSU</h2>
+                <div style="background:rgba(255,255,255,0.03); border:1px solid #333; border-radius:10px; overflow:hidden;">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr style="background:#111; color:#888;"><th style="padding:15px; text-align:left;">SIRA</th><th style="text-align:left;">OYUNCU</th><th style="text-align:right; padding:15px;">RÜTBE</th></tr>
+                        <tr style="border-bottom:1px solid #222;"><td style="padding:15px; color:gold;"><i class="fas fa-crown"></i> 1</td><td>Muhammed Hamza Çelik</td><td style="text-align:right; padding:15px; color:var(--primary);">FOUNDER</td></tr>
+                        <tr style="border-bottom:1px solid #222;"><td style="padding:15px;">2</td><td>ProPlayerTR</td><td style="text-align:right; padding:15px;">ELITE</td></tr>
+                        <tr style="border-bottom:1px solid #222;"><td style="padding:15px;">3</td><td>AimGod</td><td style="text-align:right; padding:15px;">PRO</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-about" class="tab-section">
+                <div style="max-width:700px; margin:0 auto; text-align:center; background:rgba(255,255,255,0.02); padding:50px; border-radius:20px;">
+                    <h1 style="color:var(--primary); font-family:var(--font-head);">CPSJET INC.</h1>
+                    <p style="line-height:1.8; color:#aaa;">
+                        CPSJET, 2026 yılında Muhammed Hamza Çelik tarafından kurulmuş, Türkiye'nin en gelişmiş e-sporcu analiz platformudur.
+                        Amacımız, oyuncuların refleks, hız ve zeka becerilerini bilimsel verilerle ölçmek ve geliştirmektir.
+                    </p>
+                    <div style="margin-top:40px; padding-top:30px; border-top:1px solid #333;">
+                        <h3>İLETİŞİM & SPONSORLUK</h3>
+                        <p style="color:#fff;">
+                            <i class="fas fa-envelope"></i> muhammedhamzacelik87@gmail.com<br>
+                            <i class="fas fa-phone"></i> +90 (505) 937 61 29<br>
+                            <i class="fas fa-map-marker-alt"></i> Haznedar Mah. Bağcılar Cad. Güngören / İSTANBUL
                         </p>
                     </div>
-                    <div style="margin-top:30px; font-size:10px; color:#666;">© 2026 CPSJET INC.</div>
                 </div>
             </div>
 
@@ -262,155 +564,274 @@
     </main>
 
     <script>
-        const Core = {
-            state: { mode: 'login' },
+        /* CORE APPLICATION */
+        const App = {
+            state: { sound: true, user: null, mode: 'login' },
             
+            /* AUDIO SYSTEM (SYNTHESIZED SOUNDS) */
+            Audio: {
+                ctx: new (window.AudioContext || window.webkitAudioContext)(),
+                toggle() {
+                    App.state.sound = !App.state.sound;
+                    const el = document.getElementById('sound-icon');
+                    el.className = App.state.sound ? "fas fa-volume-up" : "fas fa-volume-mute";
+                    el.style.color = App.state.sound ? "#666" : "#444";
+                    App.UI.toast(App.state.sound ? "Ses Efektleri Açık" : "Ses Efektleri Kapalı");
+                },
+                play(type) {
+                    if(!App.state.sound) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    
+                    const now = this.ctx.currentTime;
+                    if(type === 'click') {
+                        osc.frequency.setValueAtTime(600, now);
+                        osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+                        gain.gain.setValueAtTime(0.1, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        osc.start(now); osc.stop(now + 0.1);
+                    } else if(type === 'success') {
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(400, now);
+                        osc.frequency.linearRampToValueAtTime(800, now + 0.1);
+                        gain.gain.setValueAtTime(0.1, now);
+                        gain.gain.linearRampToValueAtTime(0, now + 0.3);
+                        osc.start(now); osc.stop(now + 0.3);
+                    } else if(type === 'error') {
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(150, now);
+                        osc.frequency.linearRampToValueAtTime(100, now + 0.2);
+                        gain.gain.setValueAtTime(0.1, now);
+                        gain.gain.linearRampToValueAtTime(0, now + 0.2);
+                        osc.start(now); osc.stop(now + 0.2);
+                    }
+                }
+            },
+
+            /* NAVIGATION & ROUTER */
             Nav: {
                 go(id, el) {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    document.getElementById('page-' + id).classList.add('active');
+                    // Sayfa Geçişi
+                    document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
+                    document.getElementById('tab-' + id).classList.add('active');
+                    
+                    // Menü Aktifliği
                     if(el) {
-                        document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+                        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
                         el.classList.add('active');
                     }
+                    
+                    // Breadcrumb Güncelle
+                    document.getElementById('bread-active').innerText = id.toUpperCase();
+                    App.Audio.play('click');
                 }
             },
 
+            /* UI UTILITIES */
             UI: {
-                hideModal() { document.getElementById('modal-auth').style.display = 'none'; }
+                toast(msg, type='info') {
+                    const c = document.getElementById('toast-container');
+                    const t = document.createElement('div');
+                    t.className = 'toast';
+                    t.style.borderLeftColor = type === 'error' ? 'var(--danger)' : 'var(--primary)';
+                    t.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+                    c.appendChild(t);
+                    setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(), 300); }, 3000);
+                }
             },
 
+            /* AUTHENTICATION SYSTEM */
             Auth: {
-                check() {
+                init() {
                     const u = localStorage.getItem('cps_active_user');
-                    if(u) this.load(JSON.parse(u));
+                    if(u) this.loginUser(JSON.parse(u));
+                    else this.open('login'); // Otomatik açılış
                 },
                 open(mode) {
-                    this.state.mode = mode;
-                    const title = document.getElementById('modal-title');
-                    const btn = document.querySelector('#modal-auth .btn');
-                    const msg = document.getElementById('modal-msg');
-                    const swTxt = document.getElementById('switch-text');
-                    const link = document.querySelector('#modal-auth a');
-
-                    if(mode === 'login') {
-                        title.innerText = "GİRİŞ YAP";
-                        btn.innerText = "GİRİŞ YAP";
-                        msg.innerText = "Hesabına giriş yap.";
-                        swTxt.innerText = "Hesabın yok mu?";
-                        link.innerText = "Kayıt Ol";
-                    } else {
-                        title.innerText = "KAYIT OL";
-                        btn.innerText = "HESAP OLUŞTUR";
-                        msg.innerText = "Yeni hesap oluştur.";
-                        swTxt.innerText = "Zaten üye misin?";
-                        link.innerText = "Giriş Yap";
-                    }
+                    App.state.mode = mode;
+                    const isLogin = mode === 'login';
+                    document.getElementById('auth-header').innerText = isLogin ? "GİRİŞ YAP" : "KAYIT OL";
+                    document.getElementById('btn-auth-action').innerText = isLogin ? "SİSTEME GİRİŞ" : "HESAP OLUŞTUR";
+                    document.getElementById('auth-switch-msg').innerText = isLogin ? "Hesabın yok mu?" : "Zaten üye misin?";
+                    document.getElementById('auth-switch-btn').innerText = isLogin ? "HEMEN KAYIT OL" : "GİRİŞ YAP";
                     
-                    document.getElementById('auth-user').value = "";
-                    document.getElementById('auth-pass').value = "";
+                    // Inputları temizle
+                    document.getElementById('inp-user').value = "";
+                    document.getElementById('inp-pass').value = "";
+                    
                     document.getElementById('modal-auth').style.display = 'flex';
                 },
-                toggleMode() {
-                    this.open(this.state.mode === 'login' ? 'register' : 'login');
+                toggle() {
+                    this.open(App.state.mode === 'login' ? 'register' : 'login');
                 },
                 process() {
-                    const u = document.getElementById('auth-user').value.trim();
-                    const p = document.getElementById('auth-pass').value.trim();
-                    
-                    if(!u || !p) { alert("Lütfen kullanıcı adı ve şifre girin."); return; }
+                    const u = document.getElementById('inp-user').value.trim();
+                    const p = document.getElementById('inp-pass').value.trim();
 
-                    let db = JSON.parse(localStorage.getItem('cpsjet_db') || '{}');
+                    if(u.length < 3 || p.length < 4) {
+                        App.UI.toast("Kullanıcı adı veya şifre çok kısa!", "error");
+                        App.Audio.play('error');
+                        return;
+                    }
 
-                    if(this.state.mode === 'register') {
-                        if(db[u]) { alert("Bu kullanıcı adı dolu!"); return; }
-                        db[u] = p; 
-                        localStorage.setItem('cpsjet_db', JSON.stringify(db));
-                        alert("Kayıt Başarılı! Şimdi giriş yapabilirsiniz.");
-                        this.open('login');
-                    } else {
-                        if(db[u] && db[u] === p) {
-                            const userObj = {n: u, r: 'PRO'};
-                            localStorage.setItem('cps_active_user', JSON.stringify(userObj));
-                            this.load(userObj);
-                            Core.UI.hideModal();
+                    let db = JSON.parse(localStorage.getItem('cps_db') || '{}');
+
+                    if(App.state.mode === 'register') {
+                        if(db[u]) {
+                            App.UI.toast("Bu kullanıcı adı zaten alınmış.", "error");
                         } else {
-                            alert("Kullanıcı adı veya şifre yanlış!");
+                            db[u] = { pass: p, xp: 0, lvl: 1, rank: 'ROOKIE' };
+                            localStorage.setItem('cps_db', JSON.stringify(db));
+                            App.UI.toast("Kayıt Başarılı! Giriş yapılıyor...", "success");
+                            this.loginSuccess({name: u, ...db[u]});
+                        }
+                    } else {
+                        if(db[u] && db[u].pass === p) {
+                            this.loginSuccess({name: u, ...db[u]});
+                        } else {
+                            App.UI.toast("Hatalı kullanıcı adı veya şifre.", "error");
+                            App.Audio.play('error');
                         }
                     }
                 },
-                load(u) {
-                    document.getElementById('panel-guest').style.display = 'none';
-                    document.getElementById('panel-user').style.display = 'block';
-                    document.getElementById('u-name').innerText = u.n.toUpperCase();
-                    document.getElementById('u-avatar').innerText = u.n[0].toUpperCase();
+                loginSuccess(user) {
+                    localStorage.setItem('cps_active_user', JSON.stringify(user));
+                    this.loginUser(user);
+                    document.getElementById('modal-auth').style.display = 'none';
+                    App.Audio.play('success');
                 },
-                logout() { 
-                    localStorage.removeItem('cps_active_user'); 
-                    location.reload(); 
+                loginUser(u) {
+                    App.state.user = u;
+                    document.getElementById('panel-guest').style.display = 'none';
+                    document.getElementById('panel-user').style.display = 'flex';
+                    document.getElementById('logout-btn').style.display = 'block';
+                    
+                    document.getElementById('u-name').innerText = u.name.toUpperCase();
+                    document.getElementById('u-avatar').innerText = u.name[0].toUpperCase();
+                    document.getElementById('u-rank').innerText = u.rank;
+                    document.getElementById('u-level-txt').innerText = "Level " + u.lvl;
+                    
+                    // XP Bar Logic
+                    let xpPerc = (u.xp % 1000) / 10; 
+                    document.getElementById('u-xp').style.width = xpPerc + "%";
+                },
+                logout() {
+                    localStorage.removeItem('cps_active_user');
+                    location.reload();
+                },
+                addXP(amount) {
+                    if(!App.state.user) return;
+                    let u = App.state.user;
+                    u.xp += amount;
+                    
+                    // Level Up Logic
+                    if(Math.floor(u.xp / 1000) + 1 > u.lvl) {
+                        u.lvl++;
+                        App.UI.toast(`TEBRİKLER! LEVEL ${u.lvl} OLDUN!`, "success");
+                        App.Audio.play('success');
+                    }
+                    
+                    // Save
+                    let db = JSON.parse(localStorage.getItem('cps_db') || '{}');
+                    if(db[u.name]) {
+                        db[u.name].xp = u.xp;
+                        db[u.name].lvl = u.lvl;
+                        localStorage.setItem('cps_db', JSON.stringify(db));
+                        localStorage.setItem('cps_active_user', JSON.stringify(u));
+                    }
+                    this.loginUser(u);
                 }
             },
 
+            /* MATRIX BACKGROUND ENGINE */
             Matrix: {
                 init() {
-                    const c = document.getElementById('matrix-canvas');
+                    const c = document.getElementById('bg-canvas-layer1');
                     const ctx = c.getContext('2d');
-                    c.width = window.innerWidth; c.height = window.innerHeight;
-                    const font = 14;
+                    
+                    const resize = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
+                    window.addEventListener('resize', resize);
+                    resize();
+
+                    const font = 16;
                     const cols = c.width / font;
                     const drops = Array(Math.floor(cols)).fill(1);
-                    
-                    setInterval(() => {
+
+                    const draw = () => {
                         ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
                         ctx.fillRect(0, 0, c.width, c.height);
-                        ctx.fillStyle = "#ff8c00";
+                        ctx.fillStyle = "#ff8c00"; // Mama Jet Orange
                         ctx.font = font + "px monospace";
+
                         for(let i=0; i<drops.length; i++) {
-                            const txt = String.fromCharCode(Math.random() > 0.5 ? 48 : 49);
+                            const txt = String.fromCharCode(Math.random() > 0.5 ? 48 : 49); // 0 or 1
                             ctx.fillText(txt, i*font, drops[i]*font);
-                            if(drops[i]*font > c.height && Math.random() > 0.975) drops[i] = 0;
+                            if(drops[i]*font > c.height && Math.random() > 0.98) drops[i] = 0;
                             drops[i]++;
                         }
-                    }, 35);
+                    };
+                    setInterval(draw, 50);
                 }
             }
         };
 
+        /* * ==========================================================================
+         * 9. GAME LOGIC IMPLEMENTATIONS
+         * ==========================================================================
+         */
         const Games = {
+            
+            /* CPS TEST */
             CPS: {
                 active: false, score: 0, time: 5,
-                click() {
+                click(e) {
                     if(!this.active) {
                         this.active = true; this.score = 0; this.time = 5;
                         const int = setInterval(() => {
                             this.time -= 0.01;
                             document.getElementById('cps-time').innerText = Math.max(0, this.time).toFixed(2);
                             if(this.time <= 0) {
-                                clearInterval(int); this.active = false; 
-                                alert("Süre Bitti! Skor: " + (this.score/5).toFixed(2) + " CPS");
+                                clearInterval(int); this.active = false;
+                                let finalCps = (this.score/5).toFixed(2);
+                                alert("Süre Doldu! Skorun: " + finalCps + " CPS");
+                                App.Auth.addXP(Math.floor(this.score)); // XP Ver
                             }
                         }, 10);
                     }
                     this.score++;
+                    document.getElementById('cps-clicks').innerText = this.score;
                     document.getElementById('cps-score').innerText = (this.score / (5 - this.time + 0.01)).toFixed(1);
+                    App.Audio.play('click');
+                    
+                    // Görsel Efekt
+                    const rect = e.target.getBoundingClientRect();
+                    const p = document.createElement('div');
+                    p.className = 'click-particle';
+                    p.innerText = "+1";
+                    p.style.left = (e.clientX - rect.left) + 'px';
+                    p.style.top = (e.clientY - rect.top) + 'px';
+                    e.target.appendChild(p);
+                    setTimeout(() => p.remove(), 500);
                 }
             },
-            
+
+            /* AIM TRAINER */
             Aim: {
-                active: false, hits: 0, time: 30,
+                active: false, hits: 0, total: 0, time: 30,
                 start(e) {
                     if(e) e.stopPropagation();
-                    if(this.active) return;
-                    this.active = true; this.hits = 0; this.time = 30;
+                    this.active = true; this.hits = 0; this.total = 0; this.time = 30;
                     document.querySelector('#aim-field button').style.display = 'none';
                     this.spawn();
-                    const int = setInterval(()=>{
+                    const int = setInterval(() => {
                         this.time -= 0.1;
                         document.getElementById('aim-time').innerText = Math.max(0, this.time).toFixed(1);
                         if(this.time <= 0) {
                             clearInterval(int); this.active = false;
-                            document.getElementById('aim-field').innerHTML = '<button class="btn" style="width:150px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Aim.start(event)">TEKRAR</button>';
-                            alert("Vuruş: " + this.hits);
+                            document.getElementById('aim-field').innerHTML = `<button class="btn-large" style="width:200px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);" onclick="Games.Aim.start(event)">TEKRAR OYNA</button>`;
+                            App.Auth.addXP(this.hits * 5);
+                            alert("Oyun Bitti! Vuruş: " + this.hits);
                         }
                     }, 100);
                 },
@@ -421,108 +842,268 @@
                     
                     const t = document.createElement('div');
                     t.className = 'target';
-                    t.style.width = '40px'; t.style.height = '40px';
-                    t.style.background = 'radial-gradient(circle, #fff 20%, var(--primary) 60%)';
-                    t.style.borderRadius = '50%'; t.style.position = 'absolute';
-                    t.style.left = Math.random() * (f.clientWidth - 40) + 'px';
-                    t.style.top = Math.random() * (f.clientHeight - 40) + 'px';
-                    t.onmousedown = (e) => { e.stopPropagation(); this.hits++; document.getElementById('aim-hits').innerText = this.hits; this.spawn(); };
+                    let size = Math.max(20, Math.random() * 50);
+                    t.style.width = size + 'px'; t.style.height = size + 'px';
+                    t.style.left = Math.random() * (f.clientWidth - size) + 'px';
+                    t.style.top = Math.random() * (f.clientHeight - size) + 'px';
+                    
+                    t.onmousedown = (e) => {
+                        e.stopPropagation();
+                        this.hits++; this.total++;
+                        document.getElementById('aim-hits').innerText = this.hits;
+                        this.updateAcc();
+                        App.Audio.play('click');
+                        this.spawn();
+                    };
                     f.appendChild(t);
                 },
-                miss() { if(this.active) { /* Miss logic */ } }
+                miss(e) {
+                    if(this.active && e.target.id === 'aim-field') {
+                        this.total++; this.updateAcc();
+                        App.Audio.play('error');
+                    }
+                },
+                updateAcc() {
+                    let acc = this.total === 0 ? 0 : Math.round((this.hits / this.total) * 100);
+                    document.getElementById('aim-acc').innerText = acc + "%";
+                }
             },
 
-            Typing: {
-                txt: "oyun mouse klavye ekran kasa işlemci ram ekran kartı fps ping lag drop ban kick report takım win lose gg wp gl hf",
-                words: [],
-                init() {
-                    this.words = this.txt.split(' ').sort(()=>Math.random()-0.5);
-                    document.getElementById('type-display').innerText = this.words.join(' ');
-                    document.getElementById('type-input').value = "";
-                    document.getElementById('type-input').focus();
+            /* SIMON SAYS (MEMORY) */
+            Simon: {
+                seq: [], userSeq: [], active: false,
+                start() {
+                    this.seq = []; this.active = true;
+                    this.nextLevel();
                 },
-                check() {
-                    const v = document.getElementById('type-input').value;
-                    if(v.trim() === this.words[0]) {
-                        this.words.shift();
-                        document.getElementById('type-display').innerText = this.words.join(' ');
-                        document.getElementById('type-input').value = "";
+                nextLevel() {
+                    this.userSeq = [];
+                    this.seq.push(Math.floor(Math.random()*4));
+                    document.getElementById('simon-score').innerText = this.seq.length - 1;
+                    this.playSeq();
+                },
+                playSeq() {
+                    let i = 0;
+                    const int = setInterval(() => {
+                        this.flash(this.seq[i]);
+                        i++;
+                        if(i >= this.seq.length) clearInterval(int);
+                    }, 800);
+                },
+                flash(id) {
+                    const el = document.getElementById('s-'+id);
+                    el.classList.add('active');
+                    App.Audio.play('click');
+                    setTimeout(() => el.classList.remove('active'), 400);
+                },
+                input(id) {
+                    if(!this.active) return;
+                    this.flash(id);
+                    this.userSeq.push(id);
+                    if(this.userSeq[this.userSeq.length-1] !== this.seq[this.userSeq.length-1]) {
+                        this.active = false;
+                        App.Audio.play('error');
+                        alert("Yanlış! Skorun: " + (this.seq.length-1));
+                        App.Auth.addXP((this.seq.length-1)*10);
+                        return;
+                    }
+                    if(this.userSeq.length === this.seq.length) {
+                        setTimeout(() => this.nextLevel(), 1000);
+                        App.Audio.play('success');
                     }
                 }
             },
 
+            /* MATH SPEED */
+            Math: {
+                active: false, score: 0, time: 30, q: {},
+                start() {
+                    this.active = true; this.score = 0; this.time = 30;
+                    document.getElementById('math-input').value = "";
+                    this.newQ();
+                    const int = setInterval(() => {
+                        this.time--;
+                        document.getElementById('math-time').innerText = this.time;
+                        if(this.time <= 0) {
+                            clearInterval(int); this.active = false;
+                            alert("Süre Bitti! Doğru Sayısı: " + this.score);
+                            App.Auth.addXP(this.score * 5);
+                        }
+                    }, 1000);
+                },
+                newQ() {
+                    const ops = ['+', '-', '*'];
+                    const op = ops[Math.floor(Math.random()*3)];
+                    const a = Math.floor(Math.random()*20) + 1;
+                    const b = Math.floor(Math.random()*20) + 1;
+                    this.q = { ans: eval(a + op + b), txt: `${a} ${op} ${b} = ?` };
+                    document.getElementById('math-display').innerText = this.q.txt;
+                },
+                check() {
+                    if(!this.active) return;
+                    const val = parseInt(document.getElementById('math-input').value);
+                    if(val === this.q.ans) {
+                        this.score++;
+                        document.getElementById('math-score').innerText = this.score;
+                        App.Audio.play('success');
+                        document.getElementById('math-input').value = "";
+                        this.newQ();
+                    } else {
+                        App.Audio.play('error');
+                        document.getElementById('math-input').value = "";
+                    }
+                }
+            },
+
+            /* REACTION */
             Reaction: {
                 state: 'wait', t: null, startT: 0,
                 click() {
                     const b = document.getElementById('react-box');
                     const m = document.getElementById('react-msg');
+                    
                     if(this.state === 'wait') {
-                        this.state = 'ready'; b.style.background = '#ce2029'; m.innerText = 'BEKLE...';
+                        this.state = 'ready';
+                        b.style.background = '#ce2029'; // Kırmızı
+                        m.innerText = 'BEKLE...';
+                        const delay = 2000 + Math.random() * 3000;
                         this.t = setTimeout(() => {
-                            this.state = 'go'; b.style.background = '#00ff9d'; m.innerText = 'TIKLA!';
+                            this.state = 'go';
+                            b.style.background = '#00ff9d'; // Yeşil
+                            m.innerText = 'ŞİMDİ TIKLA!';
                             this.startT = Date.now();
-                        }, 2000 + Math.random() * 3000);
+                        }, delay);
                     } else if(this.state === 'ready') {
-                        clearTimeout(this.t); this.state = 'wait'; m.innerText = 'ERKEN BASTIN!';
+                        clearTimeout(this.t);
+                        this.state = 'wait';
+                        m.innerText = 'ÇOK ERKEN! TEKRAR DENE';
+                        App.Audio.play('error');
                     } else if(this.state === 'go') {
-                        const score = Date.now() - this.startT;
-                        this.state = 'wait'; b.style.background = '#222'; m.innerText = score + ' ms';
-                        document.getElementById('react-res').innerText = score + ' ms';
+                        const diff = Date.now() - this.startT;
+                        this.state = 'wait';
+                        b.style.background = '#111';
+                        m.innerText = diff + ' ms';
+                        document.getElementById('react-res').innerText = diff + ' ms';
+                        App.Audio.play('success');
+                        App.Auth.addXP(10); // Küçük XP ödülü
                     }
                 }
             },
 
-            Memory: {
-                dict: ["Kasa", "Mouse", "Klavye", "Ekran", "FPS", "Ping", "Ram", "GPU", "CPU", "Oyun", "Ban", "Win", "Lose", "GG"],
-                seen: [], curr: "", score: 0, lives: 3,
-                start() { this.seen=[]; this.score=0; this.lives=3; this.next(); this.ui(); },
-                next() {
-                    const isSeen = this.seen.length > 0 && Math.random() < 0.4;
-                    this.curr = isSeen ? this.seen[Math.floor(Math.random()*this.seen.length)] : this.dict[Math.floor(Math.random()*this.dict.length)];
-                    document.getElementById('mem-word').innerText = this.curr;
-                },
-                check(userSaysSeen) {
-                    const actualSeen = this.seen.includes(this.curr);
-                    if(userSaysSeen === actualSeen) {
-                        this.score++; if(!actualSeen) this.seen.push(this.curr);
-                    } else {
-                        this.lives--; if(this.lives <= 0) { alert("Oyun Bitti! Skor: "+this.score); return; }
-                    }
-                    this.ui(); this.next();
-                },
-                ui() { document.getElementById('mem-score').innerText = this.score; document.getElementById('mem-lives').innerText = this.lives; }
-            },
-
+            /* CHIMP TEST */
             Chimp: {
                 lvl: 1, seq: [], idx: 0,
-                start() { this.lvl=1; this.play(); },
+                start() { this.lvl = 1; this.play(); },
                 play() {
                     document.getElementById('chimp-lvl').innerText = this.lvl;
-                    const a = document.getElementById('chimp-area'); a.innerHTML = "";
+                    const f = document.getElementById('chimp-field');
+                    f.innerHTML = "";
                     this.seq = []; this.idx = 0;
-                    for(let i=1; i<=this.lvl+4; i++) {
+                    
+                    for(let i=1; i <= this.lvl + 4; i++) {
                         const b = document.createElement('div');
                         b.innerText = i;
-                        b.style.cssText = "width:40px; height:40px; background:#fff; color:#000; display:flex; align-items:center; justify-content:center; position:absolute; border-radius:5px; font-weight:bold; cursor:pointer;";
-                        b.style.left = Math.random() * (a.clientWidth - 50) + "px";
-                        b.style.top = Math.random() * (a.clientHeight - 50) + "px";
+                        b.style.cssText = "width:50px; height:50px; background:#fff; color:#000; display:flex; align-items:center; justify-content:center; position:absolute; border-radius:8px; font-weight:bold; cursor:pointer; font-size:24px; box-shadow:0 5px 15px rgba(0,0,0,0.5);";
+                        
+                        // Rastgele Konum
+                        b.style.left = Math.random() * (f.clientWidth - 60) + "px";
+                        b.style.top = Math.random() * (f.clientHeight - 60) + "px";
+                        
                         b.onclick = (e) => {
                             const n = parseInt(e.target.innerText);
                             if(n === this.seq[this.idx]) {
-                                this.idx++; e.target.style.display = 'none';
-                                if(this.idx === 1) Array.from(a.children).forEach(c => { c.style.background='#fff'; c.style.color='transparent'; });
-                                if(this.idx === this.seq.length) { this.lvl++; setTimeout(()=>this.play(), 1000); }
+                                this.idx++;
+                                e.target.style.visibility = 'hidden'; // Gizle
+                                App.Audio.play('click');
+                                
+                                // İlk tıklamada diğerlerini gizle
+                                if(this.idx === 1) {
+                                    Array.from(f.children).forEach(c => {
+                                        if(c.style.visibility !== 'hidden') {
+                                            c.style.background = '#fff';
+                                            c.style.color = 'transparent';
+                                        }
+                                    });
+                                }
+                                
+                                if(this.idx === this.seq.length) {
+                                    this.lvl++;
+                                    App.Audio.play('success');
+                                    setTimeout(() => this.play(), 1000);
+                                }
                             } else {
-                                alert("Yanlış! Seviye: " + this.lvl); this.start();
+                                App.Audio.play('error');
+                                alert("Yanlış! Ulaştığın Seviye: " + this.lvl);
+                                App.Auth.addXP(this.lvl * 10);
+                                this.start();
                             }
                         };
-                        a.appendChild(b); this.seq.push(i);
+                        
+                        f.appendChild(b);
+                        this.seq.push(i);
+                    }
+                }
+            },
+            
+            /* TYPING TEST */
+            Typing: {
+                text: "oyun bilgisayar klavye fare ekran kartı işlemci ram anakart kasa soğutucu güç kaynağı monitör kulaklık mikrofon yayıncı e-spor turnuva şampiyon kupa madalya skor derece rekor hız refleks nişan yetenek strateji taktik takım kaptan koç antrenman",
+                words: [],
+                init() {
+                    this.words = this.text.split(' ').sort(() => Math.random() - 0.5);
+                    const el = document.getElementById('type-text');
+                    el.innerHTML = "";
+                    this.words.slice(0, 15).forEach(w => { // İlk 15 kelimeyi göster
+                        const s = document.createElement('span');
+                        s.innerText = w + " ";
+                        el.appendChild(s);
+                    });
+                    document.getElementById('type-input').value = "";
+                    document.getElementById('type-input').focus();
+                    
+                    // Highlight first word
+                    el.children[0].className = 'char-current';
+                },
+                process() {
+                    const inp = document.getElementById('type-input');
+                    const val = inp.value;
+                    const currentWord = document.querySelector('.char-current');
+                    
+                    if(val.endsWith(' ')) {
+                        const typed = val.trim();
+                        const target = currentWord.innerText.trim();
+                        
+                        if(typed === target) {
+                            currentWord.className = 'char-correct';
+                            App.Audio.play('click');
+                        } else {
+                            currentWord.className = 'char-wrong';
+                            App.Audio.play('error');
+                        }
+                        
+                        // Sonraki kelimeye geç
+                        if(currentWord.nextElementSibling) {
+                            currentWord.nextElementSibling.className = 'char-current';
+                        } else {
+                            alert("Test Bitti!");
+                            App.Auth.addXP(50);
+                            this.init();
+                        }
+                        inp.value = "";
                     }
                 }
             }
         };
 
-        window.onload = () => { Core.Matrix.init(); Core.Auth.check(); };
+        // UYGULAMAYI BAŞLAT
+        window.onload = () => {
+            App.Matrix.init();
+            App.Auth.init();
+            
+            // İlk açılış animasyonları
+            setTimeout(() => App.Nav.go('dashboard'), 100);
+        };
+
     </script>
 </body>
 </html>
